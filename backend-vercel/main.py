@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+﻿from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 app = FastAPI(title="PDF Master AI - Vercel API")
 
@@ -17,10 +18,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class LoginSchema(BaseModel):
+    email: str | None = None
+    username: str | None = None
+    password: str
+
 @app.get("/")
 def read_root():
     return {"status": "success", "message": "Backend FastAPI di Vercel Berhasil Aktif!"}
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+@app.post("/login")
+@app.post("/api/login")
+def login(data: LoginSchema):
+    # Endpoint dummy untuk verifikasi koneksi frontend-backend
+    return {
+        "status": "success",
+        "message": "Login berhasil!",
+        "access_token": "dummy-token-vercel-12345",
+        "user": {"email": data.email or data.username, "name": "User Master"}
+    }
