@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Files - PDF Master AI</title>
@@ -642,7 +643,7 @@
                     <span class="brand-subtitle">Smart PDF Workspace</span>
                 </div>
             </a>
-            <a href="dashboard.html" class="back" aria-label="Kembali ke Dashboard">← Dashboard</a>
+            <a href="dashboard.html" class="back" aria-label="Kembali ke Dashboard">â† Dashboard</a>
         </div>
     </header>
 
@@ -671,7 +672,7 @@
             <!-- TOOLBAR SEARCH & FILTER -->
             <div class="toolbar" role="search" aria-label="Pencarian dan Filter File">
                 <div class="search">
-                    <span class="search-icon" aria-hidden="true">🔍</span>
+                    <span class="search-icon" aria-hidden="true">ðŸ”</span>
                     <input type="search" id="searchInput" placeholder="Cari file berdasarkan nama..." autocomplete="off" aria-label="Cari nama file">
                 </div>
 
@@ -683,7 +684,7 @@
                     <option value="other">Lainnya</option>
                 </select>
 
-                <button class="refresh" id="refreshButton" title="Muat ulang daftar file" aria-label="Muat ulang daftar file">↻</button>
+                <button class="refresh" id="refreshButton" title="Muat ulang daftar file" aria-label="Muat ulang daftar file">â†»</button>
                 <button class="delete-all" id="deleteAllButton" type="button" title="Hapus seluruh file tersimpan" aria-label="Hapus semua file">Hapus Semua</button>
             </div>
 
@@ -698,7 +699,7 @@
                 <div class="file-list" id="fileList" role="region" aria-label="Daftar berkas tersimpan"></div>
                 
                 <div class="empty" id="empty" aria-live="polite">
-                    <div class="empty-icon" aria-hidden="true">📁</div>
+                    <div class="empty-icon" aria-hidden="true">ðŸ“</div>
                     <div class="empty-title">Belum ada file</div>
                     <div class="empty-text">File yang Anda upload atau olah akan muncul di sini.</div>
                 </div>
@@ -778,7 +779,7 @@
             <!-- Footer Bottom Bar -->
             <div class="footer-bottom">
                 <div>
-                    © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                    Â© <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
                 </div>
                 <div>
                     Smart PDF Workspace Powered by AI
@@ -827,7 +828,7 @@
 
         function formatSize(value) {
             const size = Number(value || 0);
-            if (size <= 0) return "—";
+            if (size <= 0) return "â€”";
 
             const units = ["B", "KB", "MB", "GB"];
             let number = size;
@@ -842,7 +843,7 @@
         }
 
         function formatDate(value) {
-            if (!value) return "—";
+            if (!value) return "â€”";
             const date = new Date(value);
             if (Number.isNaN(date.getTime())) return String(value);
 
@@ -998,8 +999,8 @@
                     <div class="file-meta date" aria-label="Tanggal diunggah">${formatDate(file.created)}</div>
                     <div class="file-meta type" aria-label="Tipe berkas">${file.category.toUpperCase()}</div>
                     <div class="file-actions">
-                        <button class="action" title="Unduh ${escapeHtml(file.name)}" aria-label="Unduh ${escapeHtml(file.name)}" data-action="download" data-id="${file.id}">↓</button>
-                        <button class="action delete" title="Hapus ${escapeHtml(file.name)}" aria-label="Hapus ${escapeHtml(file.name)}" data-action="delete" data-id="${file.id}">×</button>
+                        <button class="action" title="Unduh ${escapeHtml(file.name)}" aria-label="Unduh ${escapeHtml(file.name)}" data-action="download" data-id="${file.id}">â†“</button>
+                        <button class="action delete" title="Hapus ${escapeHtml(file.name)}" aria-label="Hapus ${escapeHtml(file.name)}" data-action="delete" data-id="${file.id}">Ã—</button>
                     </div>
                 `;
 

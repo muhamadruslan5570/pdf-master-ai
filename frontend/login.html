@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - PDF Master AI</title>
@@ -568,26 +569,26 @@
 
                 <div class="benefits">
                     <div class="benefit">
-                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        <div class="benefit-icon" aria-hidden="true">âœ“</div>
                         Kelola file PDF Anda secara terpusat
                     </div>
                     <div class="benefit">
-                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        <div class="benefit-icon" aria-hidden="true">âœ“</div>
                         Lihat riwayat aktivitas & alur berkas
                     </div>
                     <div class="benefit">
-                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        <div class="benefit-icon" aria-hidden="true">âœ“</div>
                         Akses dashboard pribadi yang intuitif
                     </div>
                     <div class="benefit">
-                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        <div class="benefit-icon" aria-hidden="true">âœ“</div>
                         Gunakan tools PDF cerdas kapan saja
                     </div>
                 </div>
             </div>
 
             <div class="copyright">
-                © <span id="currentYear">2026</span> PDF Master AI. All rights reserved.
+                Â© <span id="currentYear">2026</span> PDF Master AI. All rights reserved.
             </div>
         </section>
 
@@ -596,7 +597,7 @@
             <div class="login-card">
 
                 <!-- BACK LINK -->
-                <a href="index.html" class="back-home" aria-label="Kembali ke halaman utama">← Kembali ke Home</a>
+                <a href="index.html" class="back-home" aria-label="Kembali ke halaman utama">â† Kembali ke Home</a>
 
                 <!-- HEADER -->
                 <header class="login-header">
@@ -614,7 +615,7 @@
                     <div class="form-group">
                         <label for="email">Alamat Email</label>
                         <div class="input-wrapper">
-                            <span class="input-icon" aria-hidden="true">✉</span>
+                            <span class="input-icon" aria-hidden="true">âœ‰</span>
                             <input 
                                 id="email" 
                                 name="email" 
@@ -636,7 +637,7 @@
                     <div class="form-group">
                         <label for="password">Password</label>
                         <div class="input-wrapper">
-                            <span class="input-icon" aria-hidden="true">🔒</span>
+                            <span class="input-icon" aria-hidden="true">ðŸ”’</span>
                             <input 
                                 id="password" 
                                 name="password" 
@@ -649,7 +650,7 @@
                                 required
                                 aria-describedby="passwordError"
                             >
-                            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password">👁</button>
+                            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password">ðŸ‘</button>
                         </div>
                         <div id="passwordError" class="field-error" role="alert"></div>
                     </div>
@@ -682,12 +683,12 @@
                 <div class="guest-box">
                     Tidak ingin login? Anda tetap dapat menggunakan tools PDF dasar.
                     <br>
-                    <a href="index.html">← Gunakan PDF Master AI sebagai Guest</a>
+                    <a href="index.html">â† Gunakan PDF Master AI sebagai Guest</a>
                 </div>
 
                 <!-- SECURITY NOTE -->
                 <div class="security-note">
-                    🔒 Login terenkripsi dengan aman via API PDF Master AI
+                    ðŸ”’ Login terenkripsi dengan aman via API PDF Master AI
                 </div>
 
             </div>
@@ -717,7 +718,7 @@
         passwordToggle.addEventListener("click", function () {
             const isPassword = passwordInput.type === "password";
             passwordInput.type = isPassword ? "text" : "password";
-            passwordToggle.textContent = isPassword ? "🙈" : "👁";
+            passwordToggle.textContent = isPassword ? "ðŸ™ˆ" : "ðŸ‘";
             passwordToggle.setAttribute("aria-label", isPassword ? "Sembunyikan password" : "Tampilkan password");
         });
 

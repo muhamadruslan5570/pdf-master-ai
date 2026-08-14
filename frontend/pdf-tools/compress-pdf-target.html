@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
+    <script src="config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="compress_title">Perkecil Ukuran PDF | PDF Master AI</title>
@@ -490,7 +491,7 @@
         .info h3 { font-size: 15px; font-weight: 800; margin-bottom: 14px; color: var(--text); }
         .info ul { list-style: none; display: grid; gap: 12px; }
         .info li { font-size: 12px; color: #334155; padding-left: 22px; position: relative; line-height: 1.5; }
-        .info li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 900; }
+        .info li::before { content: "âœ“"; position: absolute; left: 0; color: var(--green); font-weight: 900; }
         .divider { height: 1px; background: var(--border); margin: 20px 0; }
         .info p { font-size: 11px; color: var(--muted); line-height: 1.6; }
 
@@ -697,11 +698,11 @@
     <!-- TOMBOL KELUAR & PEMILIH BAHASA -->
     <div class="actions">
       <select id="langSelect" class="lang-select" aria-label="Pilih Bahasa">
-        <option value="id">🇮🇩 ID</option>
-        <option value="en">🇬🇧 EN</option>
+        <option value="id">ðŸ‡®ðŸ‡© ID</option>
+        <option value="en">ðŸ‡¬ðŸ‡§ EN</option>
       </select>
       <button class="btn-logout" id="logoutTop" type="button" data-i18n="logout">Logout</button>
-      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">☰</button>
+      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">â˜°</button>
     </div>
   </nav>
 
@@ -732,12 +733,12 @@
         <!-- MAIN PROCESS CARD -->
         <div class="card" aria-label="Area Pengolahan Kompresi PDF">
           <div class="drop" id="drop">
-            <div class="icon" aria-hidden="true">PDF ↓</div>
+            <div class="icon" aria-hidden="true">PDF â†“</div>
             <h2 data-i18n="upload_pdf">Upload file PDF</h2>
             <p data-i18n="drag_drop">Tarik dan letakkan file PDF di sini, atau pilih file dari perangkat Anda.</p>
             <input id="input" class="file-input" type="file" accept="application/pdf,.pdf" aria-label="Pilih Berkas PDF">
             <button class="select" id="select" type="button" data-i18n="select_file">Pilih File PDF</button>
-            <div class="limit">Format: PDF · Maksimal 100 MB</div>
+            <div class="limit">Format: PDF Â· Maksimal 100 MB</div>
           </div>
 
           <div class="preview" id="preview" aria-live="polite">
@@ -746,7 +747,7 @@
               <div class="name" id="fileName">-</div>
               <div class="size" id="fileSize">-</div>
             </div>
-            <button class="remove" id="remove" type="button" aria-label="Hapus berkas dipilih">×</button>
+            <button class="remove" id="remove" type="button" aria-label="Hapus berkas dipilih">Ã—</button>
           </div>
 
           <div class="target">
@@ -802,7 +803,7 @@
           </div>
 
           <div class="result" id="result" role="region" aria-label="Hasil Kompresi PDF" aria-live="polite">
-            <div class="result-title" data-i18n="success_compress">✓ PDF berhasil diperkecil</div>
+            <div class="result-title" data-i18n="success_compress">âœ“ PDF berhasil diperkecil</div>
             <div class="stats">
               <div class="stat"><small data-i18n="initial_size">Ukuran awal</small><strong id="before">-</strong></div>
               <div class="stat"><small data-i18n="result_size">Ukuran hasil</small><strong id="after">-</strong></div>
@@ -910,7 +911,7 @@
         <!-- Footer Bottom Bar -->
         <div class="footer-bottom">
             <div>
-                © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                Â© <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
             </div>
             <div>
                 Smart PDF Workspace Powered by AI

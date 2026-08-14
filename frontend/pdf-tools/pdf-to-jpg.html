@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
+    <script src="config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDF ke JPG | PDF Master AI</title>
@@ -584,7 +585,7 @@ main { flex: 1; }
 }
 
 .info li::before {
-  content: "✓";
+  content: "âœ“";
   position: absolute;
   left: 0;
   color: var(--green);
@@ -789,7 +790,7 @@ main { flex: 1; }
     <!-- TOMBOL KELUAR -->
     <div class="actions">
       <button class="btn-logout" id="logoutTop" type="button">Logout</button>
-      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">☰</button>
+      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">â˜°</button>
     </div>
   </nav>
 
@@ -820,12 +821,12 @@ main { flex: 1; }
         <!-- MAIN PROCESS CARD -->
         <div class="card" aria-label="Area Pengolahan Konversi PDF ke JPG">
           <div class="drop" id="drop">
-            <div class="icon" aria-hidden="true">PDF → JPG</div>
+            <div class="icon" aria-hidden="true">PDF â†’ JPG</div>
             <h2>Upload file PDF</h2>
             <p>Tarik dan letakkan file PDF di sini, atau pilih file dari perangkat Anda.</p>
             <input id="input" class="file-input" type="file" accept="application/pdf,.pdf" aria-label="Pilih Berkas PDF">
             <button class="select" id="select" type="button">Pilih File PDF</button>
-            <div class="limit">Format: PDF · Maksimal 100 MB</div>
+            <div class="limit">Format: PDF Â· Maksimal 100 MB</div>
           </div>
 
           <div class="file-preview" id="preview" aria-live="polite">
@@ -834,7 +835,7 @@ main { flex: 1; }
               <div class="name" id="fileName">-</div>
               <div class="size" id="fileSize">-</div>
             </div>
-            <button class="remove" id="remove" type="button" aria-label="Hapus berkas dipilih">✕</button>
+            <button class="remove" id="remove" type="button" aria-label="Hapus berkas dipilih">âœ•</button>
           </div>
 
           <div class="options">
@@ -890,7 +891,7 @@ main { flex: 1; }
           </div>
 
           <div class="result" id="result" role="region" aria-label="Hasil Konversi JPG" aria-live="polite">
-            <div class="result-title">✓ PDF berhasil dikonversi</div>
+            <div class="result-title">âœ“ PDF berhasil dikonversi</div>
             <div class="stats">
               <div class="stat"><small>File sumber</small><strong id="rName">-</strong></div>
               <div class="stat"><small>Format</small><strong>JPG</strong></div>
@@ -1006,7 +1007,7 @@ main { flex: 1; }
 
         <div class="footer-bottom">
             <div>
-                © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                Â© <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
             </div>
             <div>
                 Smart PDF Workspace Powered by AI

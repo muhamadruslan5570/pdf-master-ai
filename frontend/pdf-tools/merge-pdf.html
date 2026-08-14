@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
+    <script src="config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gabung PDF (Merge) - PDF Master AI</title>
@@ -703,7 +704,7 @@ input[type="file"] { display: none; }
     <!-- TOMBOL KELUAR -->
     <div class="actions">
       <button class="btn-logout" id="logoutTop" type="button">Logout</button>
-      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">☰</button>
+      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">â˜°</button>
     </div>
   </nav>
 
@@ -773,11 +774,11 @@ input[type="file"] { display: none; }
 
         <!-- RESULT CARD -->
         <div class="card result" id="result" role="region" aria-label="Hasil Gabung PDF" aria-live="polite">
-          <div class="success-icon" aria-hidden="true">✓</div>
+          <div class="success-icon" aria-hidden="true">âœ“</div>
           <h2>PDF Berhasil Digabung</h2>
           <p id="resultText">File PDF berhasil dibuat dan siap diunduh.</p>
           <button type="button" class="btn btn-success" id="downloadButton">
-            ↓ Download PDF
+            â†“ Download PDF
           </button>
         </div>
 
@@ -854,7 +855,7 @@ input[type="file"] { display: none; }
         <!-- Footer Bottom Bar -->
         <div class="footer-bottom">
             <div>
-                © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                Â© <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
             </div>
             <div>
                 Smart PDF Workspace Powered by AI
@@ -1026,16 +1027,16 @@ function renderFiles() {
         row.setAttribute("role", "listitem");
 
         row.innerHTML = `
-            <div class="drag-handle" title="Geser untuk mengubah urutan" aria-label="Gagang geser">☰</div>
+            <div class="drag-handle" title="Geser untuk mengubah urutan" aria-label="Gagang geser">â˜°</div>
             <div class="file-number">${index + 1}</div>
             <div class="file-info">
                 <div class="file-name">${escapeHtml(item.file.name)}</div>
                 <div class="file-size">${formatBytes(item.file.size)}</div>
             </div>
             <div class="action-buttons">
-                <button type="button" class="action-btn" title="Naikkan" aria-label="Pindahkan file ke atas" onclick="moveFile('${item.id}', -1)">↑</button>
-                <button type="button" class="action-btn" title="Turunkan" aria-label="Pindahkan file ke bawah" onclick="moveFile('${item.id}', 1)">↓</button>
-                <button type="button" class="action-btn" title="Hapus" aria-label="Hapus file ini" onclick="removeFile('${item.id}')">✕</button>
+                <button type="button" class="action-btn" title="Naikkan" aria-label="Pindahkan file ke atas" onclick="moveFile('${item.id}', -1)">â†‘</button>
+                <button type="button" class="action-btn" title="Turunkan" aria-label="Pindahkan file ke bawah" onclick="moveFile('${item.id}', 1)">â†“</button>
+                <button type="button" class="action-btn" title="Hapus" aria-label="Hapus file ini" onclick="removeFile('${item.id}')">âœ•</button>
             </div>
         `;
 
