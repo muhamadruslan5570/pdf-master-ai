@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PDF Master AI</title>
+    <meta name="description" content="Dashboard PDF Master AI untuk mengelola file PDF, menggunakan PDF tools, melihat riwayat, profil, dan subscription.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#5b5cf0">
+    
+    <!-- FAVICON (GLOBAL BRANDING) -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        /* =========================================================
+           RESET & VARIABLES
+        ========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4849d8;
+            --primary-light: #eef0ff;
+            --purple: #7c3aed;
+            --text: #111827;
+            --text-soft: #4b5563;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f6f7fb;
+            --white: #ffffff;
+            --success: #16a34a;
+            --success-bg: #ecfdf3;
+            --warning: #d97706;
+            --warning-bg: #fff7ed;
+            --danger: #dc2626;
+            --sidebar-width: 250px;
+            --shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+        }
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* SVG Global Helper */
+        .icon-svg {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* =========================================================
+           GLOBAL LOGO STYLES
+        ========================================================= */
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            flex-shrink: 0;
+        }
+
+        .footer-logo-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        /* =========================================================
+           APP & SIDEBAR
+        ========================================================= */
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.25s ease;
+        }
+
+        .brand {
+            height: 72px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 2px;
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+        .nav {
+            flex: 1;
+            padding: 18px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin: 12px 10px 8px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #9ca3af;
+        }
+
+        .nav-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            width: 100%;
+            min-height: 42px;
+            padding: 9px 12px;
+            margin-bottom: 3px;
+            border-radius: 9px;
+            color: var(--text-soft);
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #f5f6ff;
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 750;
+        }
+
+        .nav-link .nav-icon {
+            font-size: 18px;
+            width: 28px;
+            min-width: 28px;
+            height: 19px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-link:nth-of-type(1) .nav-icon { color: #6366f1; }
+        .nav-link:nth-of-type(2) .nav-icon { color: #0ea5e9; }
+        .nav-link:nth-of-type(3) .nav-icon { color: #10b981; }
+        .nav-link:nth-of-type(4) .nav-icon { color: #f59e0b; }
+        .nav-link:nth-of-type(5) .nav-icon { color: #ec4899; }
+        .nav-link:nth-of-type(6) .nav-icon { color: #8b5cf6; }
+
+        .nav-badge {
+            margin-left: auto;
+            padding: 2px 6px;
+            border-radius: 20px;
+            background: var(--primary);
+            color: white;
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .sidebar-bottom {
+            padding: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-button {
+            width: 100%;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .logout-button:hover {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, 0.45);
+            z-index: 90;
+        }
+
+        /* =========================================================
+           MAIN & TOPBAR
+        ========================================================= */
+        .main {
+            min-width: 0;
+            width: 100%;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            height: 72px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 clamp(18px, 3vw, 36px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 9px;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--text-soft);
+        }
+
+        .page-title {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            margin-top: 1px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 16px;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            top: 7px;
+            right: 7px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+
+        .user-mini {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 4px 8px 4px 4px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: white;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-mini-info {
+            max-width: 130px;
+            overflow: hidden;
+        }
+
+        .user-mini-name {
+            font-size: 10px;
+            font-weight: 750;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-mini-plan {
+            font-size: 8px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           CONTENT & SECTIONS
+        ========================================================= */
+        .content {
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: clamp(20px, 3vw, 36px);
+            flex: 1;
+        }
+
+        .welcome {
+            margin-bottom: 22px;
+        }
+
+        .welcome h1 {
+            font-size: clamp(22px, 3vw, 30px);
+            line-height: 1.2;
+            letter-spacing: -0.6px;
+        }
+
+        .welcome p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* PLAN CARD */
+        .plan-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 170px;
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            background: linear-gradient(120deg, #4f46e5, #6366f1 55%, #7c3aed);
+            box-shadow: 0 12px 35px rgba(91, 92, 240, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 22px;
+        }
+
+        .plan-card::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            right: -90px;
+            top: -120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .plan-card::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            right: 170px;
+            bottom: -100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .plan-content {
+            position: relative;
+            z-index: 2;
+            min-width: 0;
+        }
+
+        .plan-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .plan-title {
+            margin-top: 9px;
+            font-size: 23px;
+            font-weight: 850;
+        }
+
+        .plan-description {
+            margin-top: 4px;
+            max-width: 550px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 11px;
+        }
+
+        .plan-progress {
+            margin-top: 17px;
+            max-width: 430px;
+        }
+
+        .plan-progress-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.80);
+            font-size: 9px;
+        }
+
+        .progress {
+            height: 5px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 25%;
+            background: white;
+            border-radius: inherit;
+        }
+
+        .upgrade-button {
+            position: relative;
+            z-index: 3;
+            flex-shrink: 0;
+            border: none;
+            padding: 11px 19px;
+            border-radius: 9px;
+            background: white;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 850;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .upgrade-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            min-width: 0;
+            padding: 18px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stat-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-number {
+            margin-top: 12px;
+            font-size: 22px;
+            font-weight: 850;
+        }
+
+        .stat-label {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .stat-change {
+            margin-top: 7px;
+            color: var(--success);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* SECTION HEADER & TOOLS */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .tool-card {
+            display: block;
+            padding: 17px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            border-color: #c7c9ff;
+            box-shadow: var(--shadow);
+        }
+
+        .tool-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 11px;
+        }
+
+        .tool-name {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .tool-description {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        /* BOTTOM GRID & PANELS */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.9fr);
+            gap: 18px;
+        }
+
+        .panel {
+            min-width: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        /* RECENT FILES */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 13px 18px;
+            border-bottom: 1px solid #f0f1f3;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background: #fff1f2;
+            color: #e11d48;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 850;
+            flex-shrink: 0;
+        }
+
+        .file-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        .file-status {
+            flex-shrink: 0;
+            padding: 4px 7px;
+            border-radius: 20px;
+            background: var(--success-bg);
+            color: var(--success);
+            font-size: 8px;
+            font-weight: 750;
+        }
+
+        .empty-files {
+            padding: 35px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* QUICK CARD */
+        .quick-card {
+            padding: 18px;
+        }
+
+        .quick-title {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .quick-text {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .quick-action {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fafafa;
+            color: var(--text-soft);
+            text-align: center;
+            font-size: 9px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action:hover {
+            border-color: #c7c9ff;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* =========================================================
+           FOOTER (Dark Theme)
+        ========================================================= */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 40px), 1180px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .footer-subtitle {
+            color: #cbd5e1;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .footer-socials a {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #1e293b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            border: 1px solid #334155;
+            text-decoration: none;
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-column-title {
+            color: #f8fafc;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links-list a {
+            color: #94a3b8;
+            font-size: 12px;
+            transition: color 0.2s;
+            display: inline-block;
+            padding: 2px 0;
+            text-decoration: none;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #64748b;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* CUSTOM FLOATING TOOLTIP */
+        #floatingTooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #floatingTooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 1100px) {
+            .stats-grid, .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .bottom-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: 10px 0 35px rgba(0, 0, 0, 0.12); }
+            .sidebar.open + .sidebar-overlay { display: block; }
+            .main { margin-left: 0; }
+            .mobile-menu { display: flex; }
+            .topbar { height: 64px; }
+            .content { padding: 20px 15px; }
+            .plan-card { align-items: flex-start; flex-direction: column; }
+            .upgrade-button { width: 100%; }
+        }
+
+        @media (max-width: 550px) {
+            .topbar-right { gap: 6px; }
+            .user-mini-info, .page-subtitle { display: none; }
+            .user-mini { padding: 3px; border: none; }
+            .page-title { font-size: 15px; }
+            .stats-grid, .tools-grid { grid-template-columns: 1fr 1fr; gap: 9px; }
+            .stat-card, .tool-card, .plan-card { padding: 14px; }
+            .stat-number { font-size: 19px; }
+            .plan-title { font-size: 20px; }
+            .bottom-grid { gap: 12px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ELEMENT TEKS NGAMBANG (CUSTOM FLOATING TOOLTIP) -->
+    <div id="floatingTooltip"></div>
+
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar" aria-label="Dashboard navigation">
+            <a href="dashboard.html" class="brand">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-name">PDF Master AI</div>
+                    <span class="brand-subtitle">Smart PDF Workspace</span>
+                </div>
+            </a>
+
+            <nav class="nav">
+                <div class="nav-section">Workspace</div>
+                <a href="dashboard.html" class="nav-link active">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    </span>
+                    Dashboard
+                </a>
+                <a href="tools.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+                    </span>
+                    PDF Tools
+                </a>
+                <a href="my-files.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+                    </span>
+                    My Files
+                </a>
+                <a href="history.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                    </span>
+                    History
+                </a>
+
+                <div class="nav-section">Account</div>
+                <a href="pricing.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </span>
+                    Subscription
+                    <span class="nav-badge">UPGRADE</span>
+                </a>
+                <a href="my-profile.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </span>
+                    Profile
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                    </span>
+                    Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <button type="button" class="logout-button" id="logoutButton">
+                    <span class="nav-icon">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    </span>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- MAIN -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button type="button" class="mobile-menu" id="mobileMenu" aria-label="Buka menu">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                    </button>
+                    <div>
+                        <div class="page-title">Dashboard</div>
+                        <div class="page-subtitle">PDF Master AI Workspace</div>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button type="button" class="notification" aria-label="Notifikasi">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <a href="my-profile.html" class="user-mini">
+                        <div class="avatar" id="avatar">U</div>
+                        <div class="user-mini-info">
+                            <div class="user-mini-name" id="topUserName">User</div>
+                            <div class="user-mini-plan">FREE PLAN</div>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <!-- CONTENT -->
+            <div class="content">
+                <!-- WELCOME -->
+                <section class="welcome">
+                    <h1>Halo, <span id="welcomeName">User</span> 👋</h1>
+                    <p>Kelola file PDF Anda dengan mudah dari satu tempat.</p>
+                </section>
+
+                <!-- PLAN CARD -->
+                <section class="plan-card" aria-label="Subscription plan">
+                    <div class="plan-content">
+                        <div class="plan-label">✓ Paket Anda</div>
+                        <div class="plan-title">Free Plan</div>
+                        <div class="plan-description">
+                            Gunakan tools PDF dasar secara gratis. Upgrade ke Pro untuk mendapatkan batas penggunaan dan fitur yang lebih tinggi.
+                        </div>
+                        <div class="plan-progress">
+                            <div class="plan-progress-head">
+                                <span>Penggunaan bulan ini</span>
+                                <span><strong id="usageCount">25</strong> / 100</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" id="usageBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="upgrade-button" id="upgradeButton">
+                        Upgrade ke Pro
+                    </button>
+                </section>
+
+                <!-- STATISTICS -->
+                <section class="stats-grid" aria-label="Statistics">
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="totalFiles">0</div>
+                        <div class="stat-label">Total File</div>
+                        <div class="stat-change">File tersimpan</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="processedFiles">0</div>
+                        <div class="stat-label">File Diproses</div>
+                        <div class="stat-change">Bulan ini</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-number" id="historyCount">0</div>
+                        <div class="stat-label">Riwayat</div>
+                        <div class="stat-change">Aktivitas terbaru</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-number">Free</div>
+                        <div class="stat-label">Subscription</div>
+                        <div class="stat-change">Upgrade tersedia</div>
+                    </div>
+                </section>
+
+                <!-- PDF TOOLS -->
+                <section>
+                    <div class="section-header">
+                        <h2 class="section-title">PDF Tools</h2>
+                        <a href="tools.html" class="view-all">Lihat semua →</a>
+                    </div>
+
+                    <div class="tools-grid">
+                        <a href="pdf-tools/compress-pdf-target.html" class="tool-card">
+                            <div class="tool-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h-2v4h2V4zm0 6h-2v4h2v-4zm0 6h-2v4h2v-4zM4 19h8V5H4v14zm10 0h6v-2h-6v2zm0-4h6v-2h-6v2zm0-4h6V9h-6v2z"/></svg>
+                            </div>
+                            <div class="tool-name">Compress PDF</div>
+                            <div class="tool-description">Kurangi ukuran file PDF tanpa proses rumit.</div>
+                        </a>
+
+                        <a href="pdf-tools/merge-pdf.html" class="tool-card">
+                            <div class="tool-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            </div>
+                            <div class="tool-name">Merge PDF</div>
+                            <div class="tool-description">Gabungkan beberapa PDF menjadi satu file.</div>
+                        </a>
+
+                        <a href="pdf-tools/pdf-to-jpg.html" class="tool-card">
+                            <div class="tool-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                            </div>
+                            <div class="tool-name">PDF TO JPG</div>
+                            <div class="tool-description">Pisahkan halaman PDF sesuai kebutuhan.</div>
+                        </a>
+
+                        <a href="pdf-tools/pdf-to-word.html" class="tool-card">
+                            <div class="tool-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                            </div>
+                            <div class="tool-name">PDF TO WORD</div>
+                            <div class="tool-description">Konversi PDF ke berbagai format file.</div>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- BOTTOM GRID -->
+                <section class="bottom-grid">
+                    <!-- RECENT FILES LIST PANEL -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="section-title">File Terbaru</h2>
+                            <a href="my-files.html" class="view-all">Lihat Semua →</a>
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                    </div>
+
+                    <!-- QUICK ACTIONS -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="section-title">Quick Actions</h2>
+                        </div>
+                        <div class="quick-card">
+                            <div class="quick-title">Mulai bekerja dengan PDF</div>
+                            <div class="quick-text">
+                                Pilih salah satu tindakan untuk mulai mengelola dokumen PDF Anda.
+                            </div>
+                            <div class="quick-actions">
+                                <a href="pdf-tools/compress-pdf-target.html" class="quick-action">Compress</a>
+                                <a href="pdf-tools/merge-pdf.html" class="quick-action">Merge</a>
+                                <a href="pdf-tools/pdf-to-jpg.html" class="quick-action">Split</a>
+                                <a href="tools.html" class="quick-action">Semua Tools</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="footer" role="contentinfo">
+                <div class="footer-inner">
+                    <div class="footer-grid">
+
+                        <!-- Brand Info & Socials -->
+                        <div>
+                            <div class="footer-brand">
+                                <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                                <span>PDF Master AI</span>
+                            </div>
+                            <div class="footer-subtitle">Smart PDF Workspace</div>
+                            <div class="footer-desc">
+                                Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                            </div>
+                            <div class="footer-email-support">
+                                Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                            </div>
+
+                            <div class="footer-socials">
+                                <a href="https://web.facebook.com/mahesa.rendy.1" aria-label="Facebook Profile" rel="noopener noreferrer" target="_blank">Facebook</a>
+                                <a href="https://www.instagram.com/justmrboy" aria-label="Instagram Profile" rel="noopener noreferrer" target="_blank">Instagram</a>
+                                <a href="https://x.com/Ruslan5570" aria-label="Twitter / X Profile" rel="noopener noreferrer" target="_blank">X</a>
+                                <a href="https://wa.me/628381055378" aria-label="WhatsApp Contact" rel="noopener noreferrer" target="_blank">WhatsApp</a>
+                                <a href="https://www.tiktok.com/@justmrboy" aria-label="TikTok Profile" rel="noopener noreferrer" target="_blank">TikTok</a>
+                            </div>
+                        </div>
+
+                        <!-- PDF Tools Populer -->
+                        <nav>
+                            <div class="footer-column-title">PDF Tools Populer</div>
+                            <ul class="footer-links-list">
+                                <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                                <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                                <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                                <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                            </ul>
+                        </nav>
+
+                        <!-- Perusahaan -->
+                        <nav>
+                            <div class="footer-column-title">Perusahaan</div>
+                            <ul class="footer-links-list">
+                                <li><a href="about.html">Tentang Kami</a></li>
+                                <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                                <li><a href="help.html">Pusat Bantuan</a></li>
+                                <li><a href="blog.html">Blog &amp; Panduan</a></li>
+                                <li><a href="sitemap.html">Sitemap</a></li>
+                                <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                            </ul>
+                        </nav>
+
+                        <!-- Hukum & Privasi -->
+                        <nav>
+                            <div class="footer-column-title">Hukum & Privasi</div>
+                            <ul class="footer-links-list">
+                                <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                                <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                                <li><a href="security.html">Keamanan Data PDF</a></li>
+                                <li><a href="disclaimer.html">Disclaimer</a></li>
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                    <div class="footer-bottom">
+                        <div>
+                            © <span id="currentYear"></span> <strong>PDF Master AI</strong>. All rights reserved.
+                        </div>
+                        <div>
+                            Smart PDF Workspace Powered by AI
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC PERBAIKAN -->
+    <script>
+        /* =========================================================
+           CONFIG & ELEMENTS
+        ========================================================= */
+        const API_URL = "http://127.0.0.1:8000";
+
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const logoutButton = document.getElementById("logoutButton");
+        const welcomeName = document.getElementById("welcomeName");
+        const topUserName = document.getElementById("topUserName");
+        const avatar = document.getElementById("avatar");
+        const upgradeButton = document.getElementById("upgradeButton");
+        const totalFiles = document.getElementById("totalFiles");
+        const processedFiles = document.getElementById("processedFiles");
+        const historyCount = document.getElementById("historyCount");
+        const usageCount = document.getElementById("usageCount");
+        const usageBar = document.getElementById("usageBar");
+
+        // Set Tahun Dinamis di Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        /* =========================================================
+           TOKEN & AUTH HELPERS
+        ========================================================= */
+        function getAccessToken() {
+            return localStorage.getItem("pdf_master_access_token") ||
+                   sessionStorage.getItem("pdf_master_access_token") ||
+                   localStorage.getItem("access_token") ||
+                   sessionStorage.getItem("access_token");
+        }
+
+        function clearAuth() {
+            const keys = [
+                "pdf_master_access_token", "pdf_master_refresh_token", "pdf_master_token_type",
+                "pdf_master_user_name", "pdf_master_user_email", "pdf_master_username",
+                "pdf_master_user_id", "pdf_master_user_role", "pdf_master_user_plan",
+                "pdf_master_user_avatar", "access_token"
+            ];
+            keys.forEach(key => {
+                localStorage.removeItem(key);
+                sessionStorage.removeItem(key);
+            });
+        }
+
+        function redirectToLogin() {
+            clearAuth();
+            window.location.href = "login.html";
+        }
+
+        async function apiRequest(endpoint, options = {}) {
+            const token = getAccessToken();
+            const headers = {
+                "Accept": "application/json",
+                ...(options.headers || {})
+            };
+
+            if (options.body && !headers["Content-Type"]) {
+                headers["Content-Type"] = "application/json";
+            }
+
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+
+            return fetch(`${API_URL}${endpoint}`, { ...options, headers });
+        }
+
+        /* =========================================================
+           USER DATA MANAGEMENT
+        ========================================================= */
+        function renderAvatar(avatarUrl, userName) {
+            if (!avatar) return;
+            if (avatarUrl && avatarUrl.trim() !== "") {
+                let fullUrl = avatarUrl;
+                if (!fullUrl.startsWith("http")) {
+                    fullUrl = `${API_URL}${fullUrl}`;
+                }
+                avatar.innerHTML = `<img src="${fullUrl}" alt="Foto Profil">`;
+            } else {
+                const initial = (userName || "U").trim().charAt(0).toUpperCase();
+                avatar.textContent = initial;
+            }
+        }
+
+        function setUserName(name, avatarUrl = "") {
+            if (!name || name.trim() === "") name = "User";
+            if (welcomeName) welcomeName.textContent = name;
+            if (topUserName) topUserName.textContent = name;
+            renderAvatar(avatarUrl, name);
+        }
+
+        function getStoredUserName() {
+            return localStorage.getItem("pdf_master_user_name") ||
+                   sessionStorage.getItem("pdf_master_user_name") || "User";
+        }
+
+        function saveUserData(user) {
+            const fullName = user.full_name || user.name || user.username || "User";
+            const avatarUrl = user.avatar || user.profile_image || user.avatar_url || "";
+
+            localStorage.setItem("pdf_master_user_name", fullName);
+            localStorage.setItem("pdf_master_user_email", user.email || "");
+            localStorage.setItem("pdf_master_username", user.username || "");
+            localStorage.setItem("pdf_master_user_id", String(user.id || ""));
+            localStorage.setItem("pdf_master_user_role", user.role || "user");
+            localStorage.setItem("pdf_master_user_avatar", avatarUrl);
+
+            const plan = user.plan || user.subscription?.plan || user.subscription?.name || "Free";
+            localStorage.setItem("pdf_master_user_plan", plan);
+
+            setUserName(fullName, avatarUrl);
+        }
+
+        function setPlan(plan = "Free") {
+            const normalized = String(plan).trim().toLowerCase();
+            let displayPlan = "Free Plan";
+
+            if (normalized === "pro" || normalized === "pro plan") displayPlan = "Pro Plan";
+            if (normalized === "vip" || normalized === "vip plan") displayPlan = "VIP Plan";
+
+            const planTitle = document.querySelector(".plan-title");
+            const planBadge = document.querySelector(".user-mini-plan");
+            const subscriptionStat = document.querySelector(".stat-card:nth-child(4) .stat-number");
+
+            if (planTitle) planTitle.textContent = displayPlan;
+            if (planBadge) planBadge.textContent = displayPlan.toUpperCase();
+            if (subscriptionStat) subscriptionStat.textContent = displayPlan.replace(" Plan", "");
+        }
+
+        async function loadCurrentUser() {
+            const token = getAccessToken();
+            if (!token) {
+                redirectToLogin();
+                return;
+            }
+
+            try {
+                const response = await apiRequest("/api/v1/users/me");
+
+                if (response.status === 401) {
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                const user = data.user || data.data || data;
+
+                if (!user || !user.id) throw new Error("Data user tidak ditemukan.");
+
+                saveUserData(user);
+                setPlan(user.plan || user.subscription?.plan || user.subscription?.name || "Free");
+
+            } catch (error) {
+                console.error("Gagal mengambil current user:", error);
+                const storedName = getStoredUserName();
+                const storedAvatar = localStorage.getItem("pdf_master_user_avatar") || "";
+                setUserName(storedName, storedAvatar);
+                setPlan(localStorage.getItem("pdf_master_user_plan") || "Free");
+            }
+        }
+
+        /* =========================================================
+           MOBILE SIDEBAR EVENTS
+        ========================================================= */
+        mobileMenu.addEventListener("click", () => sidebar.classList.add("open"));
+        overlay.addEventListener("click", () => sidebar.classList.remove("open"));
+
+        document.querySelectorAll(".nav-link").forEach(link => {
+            link.addEventListener("click", () => sidebar.classList.remove("open"));
+        });
+
+        /* =========================================================
+           ACTIONS
+        ========================================================= */
+        upgradeButton.addEventListener("click", () => {
+            window.location.href = "pricing.html";
+        });
+
+        logoutButton.addEventListener("click", () => {
+            if (confirm("Apakah Anda yakin ingin logout?")) {
+                clearAuth();
+                window.location.href = "index.html";
+            }
+        });
+
+        /* =========================================================
+           RECENT FILES API INTEGRATION
+        ========================================================= */
+        async function loadRecentFiles() {
+            const fileList = document.getElementById("fileList");
+            if (!fileList) return;
+
+            const token = getAccessToken();
+            if (!token) {
+                fileList.innerHTML = `<div class="empty-files">Silakan login terlebih dahulu.</div>`;
+                return;
+            }
+
+            try {
+                const response = await apiRequest("/api/v1/storage/my-files");
+
+                if (!response.ok) {
+                    fileList.innerHTML = `<div class="empty-files">Gagal mengambil daftar file.</div>`;
+                    return;
+                }
+
+                const data = await response.json();
+                const rawFiles = Array.isArray(data) ? data : (data.files || data.items || data.data || []);
+
+                if (!rawFiles.length) {
+                    fileList.innerHTML = `
+                        <div class="empty-files">
+                            Belum ada file yang diproses. <br><br>
+                            Mulai menggunakan PDF Tools untuk melihat file di sini.
+                        </div>`;
+                    return;
+                }
+
+                const recentFiles = rawFiles
+                    .slice()
+                    .sort((a, b) => {
+                        const dateA = new Date(a.created_at || a.updated_at || a.uploaded_at || 0).getTime();
+                        const dateB = new Date(b.created_at || b.updated_at || b.uploaded_at || 0).getTime();
+                        return dateB - dateA;
+                    })
+                    .slice(0, 5);
+
+                fileList.innerHTML = "";
+
+                recentFiles.forEach(file => {
+                    const name = file.original_name || file.name || file.filename || file.file_name || "Unnamed file.pdf";
+                    const size = Number(file.file_size || file.size || 0);
+                    const fileId = file.id || file.file_id || file.pk;
+
+                    let sizeText = "0 B";
+                    if (size >= 1024 * 1024) sizeText = (size / (1024 * 1024)).toFixed(1) + " MB";
+                    else if (size >= 1024) sizeText = (size / 1024).toFixed(1) + " KB";
+                    else if (size > 0) sizeText = size + " B";
+
+                    const extension = name.includes(".") ? name.split(".").pop().toUpperCase() : "PDF";
+
+                    const item = document.createElement("div");
+                    item.className = "file-item";
+                    item.innerHTML = `
+                        <div class="file-icon">${extension}</div>
+                        <div class="file-info">
+                            <div class="file-name" title="${name}">${name}</div>
+                            <div class="file-meta">${sizeText}</div>
+                        </div>
+                        <div class="file-status">Tersimpan</div>
+                    `;
+
+                    if (fileId) {
+                        item.style.cursor = "pointer";
+                        item.addEventListener("click", async () => {
+                            try {
+                                const downloadResponse = await apiRequest(`/api/v1/storage/download/${encodeURIComponent(fileId)}`);
+                                if (!downloadResponse.ok) return;
+
+                                const blob = await downloadResponse.blob();
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.download = name;
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                                URL.revokeObjectURL(url);
+                            } catch (error) {
+                                console.error("DOWNLOAD ERROR:", error);
+                            }
+                        });
+                    }
+
+                    attachFloatingTooltip(item);
+                    fileList.appendChild(item);
+                });
+
+                if (totalFiles) totalFiles.textContent = rawFiles.length;
+
+            } catch (error) {
+                console.error("RECENT FILES ERROR:", error);
+                fileList.innerHTML = `<div class="empty-files">Gagal memuat file.</div>`;
+            }
+        }
+
+        /* =========================================================
+           ENGINE FLOATING TOOLTIP
+        ========================================================= */
+        const tooltip = document.getElementById("floatingTooltip");
+
+        function attachFloatingTooltip(element) {
+            element.addEventListener("mouseenter", (e) => {
+                e.stopPropagation();
+                let text = element.innerText || element.textContent;
+                text = text.replace(/\s+/g, " ").trim();
+
+                if (!text) return;
+
+                tooltip.textContent = text;
+                tooltip.classList.add("visible");
+            });
+
+            element.addEventListener("mousemove", (e) => {
+                let x = e.clientX + 15;
+                let y = e.clientY + 15;
+
+                if (x + tooltip.offsetWidth > window.innerWidth - 10) {
+                    x = e.clientX - tooltip.offsetWidth - 10;
+                }
+                if (y + tooltip.offsetHeight > window.innerHeight - 10) {
+                    y = e.clientY - tooltip.offsetHeight - 10;
+                }
+
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+            });
+
+            element.addEventListener("mouseleave", (e) => {
+                e.stopPropagation();
+                tooltip.classList.remove("visible");
+            });
+        }
+
+        function initFloatingTooltips() {
+            const selector = "h1, h2, h3, p, a, button, .nav-link, .stat-card, .tool-card, .quick-action, .footer-column-title";
+            document.querySelectorAll(selector).forEach(attachFloatingTooltip);
+        }
+
+        /* =========================================================
+           INITIALIZATION
+        ========================================================= */
+        const initialStoredName = getStoredUserName();
+        const initialStoredAvatar = localStorage.getItem("pdf_master_user_avatar") || "";
+        setUserName(initialStoredName, initialStoredAvatar);
+        setPlan(localStorage.getItem("pdf_master_user_plan") || "Free");
+
+        if (totalFiles) totalFiles.textContent = "0";
+        if (processedFiles) processedFiles.textContent = "0";
+        if (historyCount) historyCount.textContent = "0";
+
+        const usage = 25;
+        const usageLimit = 100;
+        const usagePercent = Math.min(100, (usage / usageLimit) * 100);
+
+        if (usageCount) usageCount.textContent = usage;
+        if (usageBar) usageBar.style.width = `${usagePercent}%`;
+
+        loadCurrentUser();
+        loadRecentFiles();
+        initFloatingTooltips();
+    </script>
+</body>
+
+</html>

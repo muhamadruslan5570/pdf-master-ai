@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Files - PDF Master AI</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4546d8;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f7f8fc;
+            --card: #ffffff;
+            --danger: #dc2626;
+            --danger-dark: #b91c1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Skip link tersembunyi untuk Pembaca Layar */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 200;
+            transition: top 0.2s;
+            border-radius: 0 0 8px 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            width: min(calc(100% - 40px), 1150px);
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .back {
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+
+        .back:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* MAIN & CONTAINER */
+        main {
+            flex: 1;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), 1150px);
+            margin: auto;
+        }
+
+        .header {
+            padding: 38px 0 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .title {
+            margin: 0 0 7px;
+            font-size: 29px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* STORAGE CARD */
+        .storage-card {
+            padding: 17px 19px;
+            margin-bottom: 18px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+        }
+
+        .storage-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            gap: 15px;
+        }
+
+        .storage-title {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .storage-value {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .storage-bar {
+            width: 100%;
+            height: 8px;
+            overflow: hidden;
+            background: #eef0f4;
+            border-radius: 20px;
+        }
+
+        .storage-progress {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            margin-bottom: 18px;
+            display: flex;
+            gap: 9px;
+            align-items: center;
+        }
+
+        .search {
+            position: relative;
+            flex: 1;
+        }
+
+        .search input {
+            width: 100%;
+            height: 42px;
+            padding: 0 13px 0 38px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            background: white;
+            font-size: 12px;
+        }
+
+        .search input:focus {
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .filter {
+            height: 42px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .refresh {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+            display: grid;
+            place-items: center;
+        }
+
+        .refresh:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .delete-all {
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid var(--danger);
+            border-radius: 9px;
+            background: #fef2f2;
+            color: var(--danger);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-all:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .delete-all:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* FILES CARD & LIST */
+        .files-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            overflow: hidden;
+        }
+
+        .files-header {
+            min-height: 55px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .files-title {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .file-count {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .file-list {
+            width: 100%;
+        }
+
+        .file-row {
+            min-height: 70px;
+            padding: 10px 18px;
+            border-bottom: 1px solid #f0f1f4;
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) 100px 145px 105px 95px;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .file-row:last-child {
+            border-bottom: 0;
+        }
+
+        .file-name {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            flex: 0 0 auto;
+            width: 37px;
+            height: 37px;
+            border-radius: 8px;
+            background: #eef0ff;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .file-info {
+            min-width: 0;
+        }
+
+        .file-title {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .file-type {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .file-meta {
+            color: #4b5563;
+            font-size: 11px;
+        }
+
+        .file-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+        }
+
+        .action {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: white;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 14px;
+        }
+
+        .action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .action.delete:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* EMPTY & LOADING STATES */
+        .empty {
+            padding: 65px 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .empty.show {
+            display: block;
+        }
+
+        .empty-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 12px;
+            border-radius: 12px;
+            background: #f0f1ff;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+        }
+
+        .empty-title {
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .empty-text {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .loading {
+            padding: 50px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            max-width: calc(100% - 40px);
+            padding: 11px 16px;
+            background: #111827;
+            color: white;
+            border-radius: 8px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.2s;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           FOOTER (DARK THEME PRESI SESUAI GAMBAR)
+        ========================================================= */
+        .footer {
+            background: #090e1a;
+            color: #8fa0b5;
+            margin-top: 60px;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 60px), 1200px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #151d2a;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .footer-brand-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-subtitle {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #55657a;
+            max-width: 380px;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #8fa0b5;
+            margin-bottom: 20px;
+        }
+
+        .footer-email-support a {
+            color: #5b5cf0;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-socials a {
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: #151d2a;
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #1e293b;
+        }
+
+        .footer-socials a:hover {
+            background: #5b5cf0;
+            color: #ffffff;
+            border-color: #5b5cf0;
+        }
+
+        .footer-column-title {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links-list a {
+            color: #7b8ea5;
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #4a586d;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .file-row { grid-template-columns: minmax(0, 2fr) 90px 100px 85px; }
+            .file-row .date { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media(max-width: 700px) {
+            .container, .nav-inner { width: calc(100% - 30px); }
+            .header { align-items: flex-start; flex-direction: column; }
+            .toolbar { flex-wrap: wrap; }
+            .search { flex-basis: 100%; }
+            .file-row { grid-template-columns: minmax(0, 1fr) auto; }
+            .file-row .size, .file-row .date, .file-row .type { display: none; }
+        }
+
+        @media(max-width: 550px) {
+            .container, .nav-inner { width: calc(100% - 24px); }
+            .title { font-size: 25px; }
+            .filter { flex: 1; }
+            .refresh { flex: 0 0 42px; }
+            .file-row { padding: 10px 12px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skip link untuk Pembaca Layar -->
+    <a href="#main-content" class="skip-link">Lompat ke Konten Utama</a>
+
+    <!-- NAVBAR -->
+    <header class="navbar" role="banner">
+        <div class="nav-inner">
+            <a href="dashboard.html" class="brand" aria-label="PDF Master AI Dashboard">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-name">PDF Master AI</div>
+                    <span class="brand-subtitle">Smart PDF Workspace</span>
+                </div>
+            </a>
+            <a href="dashboard.html" class="back" aria-label="Kembali ke Dashboard">← Dashboard</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" role="main">
+        <div class="container">
+
+            <section class="header" aria-labelledby="page-title">
+                <div>
+                    <h1 class="title" id="page-title">My Files</h1>
+                    <p class="subtitle">Kelola semua file yang tersimpan di akun Anda.</p>
+                </div>
+            </section>
+
+            <!-- STORAGE INFO -->
+            <section class="storage-card" aria-labelledby="storage-heading">
+                <div class="storage-top">
+                    <div class="storage-title" id="storage-heading">Penyimpanan Akun</div>
+                    <div class="storage-value" id="storageValue" aria-live="polite">Memuat...</div>
+                </div>
+                <div class="storage-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressBar">
+                    <div class="storage-progress" id="storageProgress"></div>
+                </div>
+            </section>
+
+            <!-- TOOLBAR SEARCH & FILTER -->
+            <div class="toolbar" role="search" aria-label="Pencarian dan Filter File">
+                <div class="search">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                    <input type="search" id="searchInput" placeholder="Cari file berdasarkan nama..." autocomplete="off" aria-label="Cari nama file">
+                </div>
+
+                <select class="filter" id="typeFilter" aria-label="Filter berdasarkan tipe file">
+                    <option value="all">Semua tipe</option>
+                    <option value="pdf">PDF</option>
+                    <option value="image">Image</option>
+                    <option value="word">Word</option>
+                    <option value="other">Lainnya</option>
+                </select>
+
+                <button class="refresh" id="refreshButton" title="Muat ulang daftar file" aria-label="Muat ulang daftar file">↻</button>
+                <button class="delete-all" id="deleteAllButton" type="button" title="Hapus seluruh file tersimpan" aria-label="Hapus semua file">Hapus Semua</button>
+            </div>
+
+            <!-- FILES LIST SECTION -->
+            <section class="files-card" aria-labelledby="files-heading">
+                <div class="files-header">
+                    <div class="files-title" id="files-heading">Semua File</div>
+                    <div class="file-count" id="fileCount" aria-live="polite">0 file</div>
+                </div>
+
+                <div class="loading" id="loading" aria-live="polite">Memuat file...</div>
+                <div class="file-list" id="fileList" role="region" aria-label="Daftar berkas tersimpan"></div>
+                
+                <div class="empty" id="empty" aria-live="polite">
+                    <div class="empty-icon" aria-hidden="true">📁</div>
+                    <div class="empty-title">Belum ada file</div>
+                    <div class="empty-text">File yang Anda upload atau olah akan muncul di sini.</div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- FOOTER PRESI SESUAI GAMBAR RUJUKAN -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Kolom 1: Brand, Support, Socials -->
+                <div class="footer-col-brand">
+                    <div class="footer-brand">
+                        <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                        <span class="footer-brand-title">PDF Master AI</span>
+                    </div>
+                    <div class="footer-subtitle">Smart PDF Workspace</div>
+                    <p class="footer-desc">
+                        Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                    </p>
+                    <div class="footer-email-support">
+                        Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                    </div>
+
+                    <div class="footer-socials">
+                        <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile">Facebook</a>
+                        <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile">Instagram</a>
+                        <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer" aria-label="Twitter X Profile">X</a>
+                        <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact">WhatsApp</a>
+                        <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer" aria-label="TikTok Profile">TikTok</a>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: PDF Tools Populer -->
+                <nav class="footer-col" aria-label="PDF Tools Populer Footer Navigation">
+                    <div class="footer-column-title">PDF TOOLS POPULER</div>
+                    <ul class="footer-links-list">
+                        <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 3: Perusahaan -->
+                <nav class="footer-col" aria-label="Perusahaan Footer Navigation">
+                    <div class="footer-column-title">PERUSAHAAN</div>
+                    <ul class="footer-links-list">
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                        <li><a href="help.html">Pusat Bantuan</a></li>
+                        <li><a href="blog.html">Blog &amp; Panduan</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                        <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 4: Hukum & Privasi -->
+                <nav class="footer-col" aria-label="Hukum dan Privasi Footer Navigation">
+                    <div class="footer-column-title">HUKUM &amp; PRIVASI</div>
+                    <ul class="footer-links-list">
+                        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                        <li><a href="security.html">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom">
+                <div>
+                    © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                </div>
+                <div>
+                    Smart PDF Workspace Powered by AI
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        function getToken() {
+            return (
+                localStorage.getItem("pdf_master_access_token") ||
+                sessionStorage.getItem("pdf_master_access_token") ||
+                localStorage.getItem("access_token") ||
+                localStorage.getItem("token") ||
+                sessionStorage.getItem("access_token") ||
+                sessionStorage.getItem("token") ||
+                ""
+            );
+        }
+
+        const fileList = document.getElementById("fileList");
+        const loading = document.getElementById("loading");
+        const empty = document.getElementById("empty");
+        const fileCount = document.getElementById("fileCount");
+        const searchInput = document.getElementById("searchInput");
+        const typeFilter = document.getElementById("typeFilter");
+        const deleteAllButton = document.getElementById("deleteAllButton");
+
+        let files = [];
+
+        // Set Tahun Dinamis Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function formatSize(value) {
+            const size = Number(value || 0);
+            if (size <= 0) return "—";
+
+            const units = ["B", "KB", "MB", "GB"];
+            let number = size;
+            let index = 0;
+
+            while (number >= 1024 && index < units.length - 1) {
+                number /= 1024;
+                index++;
+            }
+
+            return (number >= 10 ? number.toFixed(0) : number.toFixed(1)) + " " + units[index];
+        }
+
+        function formatDate(value) {
+            if (!value) return "—";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return String(value);
+
+            return date.toLocaleDateString("id-ID", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+        }
+
+        function getExtension(name) {
+            const value = String(name || "");
+            const parts = value.split(".");
+            return parts.length > 1 ? parts.pop().toLowerCase() : "";
+        }
+
+        function getFileCategory(file) {
+            const name = file.name || file.filename || file.file_name || "";
+            const extension = getExtension(name);
+
+            if (extension === "pdf") return "pdf";
+            if (["jpg", "jpeg", "png", "gif", "webp", "bmp"].includes(extension)) return "image";
+            if (["doc", "docx"].includes(extension)) return "word";
+            return "other";
+        }
+
+        function normalizeFile(file) {
+            return {
+                id: file.id ?? file.file_id ?? file.pk,
+                name: (() => {
+                    const original = file.original_name ?? file.name ?? file.filename ?? file.file_name ?? "Unnamed file";
+                    const dot = original.lastIndexOf(".");
+                    if (dot > 0) {
+                        return original.substring(0, dot) + " - PDF Master AI" + original.substring(dot);
+                    }
+                    return original + " - PDF Master AI";
+                })(),
+                size: file.size ?? file.file_size ?? 0,
+                created: file.created_at ?? file.uploaded_at ?? file.created ?? file.date,
+                category: getFileCategory(file)
+            };
+        }
+
+        async function loadStorageInfo() {
+            const token = getToken();
+            if (!token) return;
+
+            try {
+                const response = await fetch(API_URL + "/api/v1/storage/info", {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const total = Number(data.total_size ?? data.used_size ?? data.size ?? 0);
+                const limit = Number(data.max_size ?? data.storage_limit ?? 0);
+
+                if (limit > 0) {
+                    const percent = Math.min(100, Math.round((total / limit) * 100));
+                    document.getElementById("storageProgress").style.width = percent + "%";
+                    document.getElementById("progressBar").setAttribute("aria-valuenow", percent);
+                    document.getElementById("storageValue").textContent = formatSize(total) + " / " + formatSize(limit);
+                } else {
+                    document.getElementById("storageValue").textContent = formatSize(total);
+                }
+            } catch (error) {
+                console.error("STORAGE INFO ERROR:", error);
+            }
+        }
+
+        async function loadFiles() {
+            const token = getToken();
+            if (!token) {
+                showToast("Sesi login tidak ditemukan.");
+                return;
+            }
+
+            loading.style.display = "block";
+            empty.classList.remove("show");
+            fileList.innerHTML = "";
+
+            try {
+                const response = await fetch(API_URL + "/api/v1/storage/my-files", {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (!response.ok) {
+                    let message = "Gagal mengambil daftar file.";
+                    try {
+                        const data = await response.json();
+                        message = data.detail || data.message || message;
+                    } catch (_) {}
+                    throw new Error(message);
+                }
+
+                const data = await response.json();
+                const rawFiles = Array.isArray(data) ? data : (data.files || data.items || data.data || []);
+                files = rawFiles.map(normalizeFile);
+
+                renderFiles();
+            } catch (error) {
+                console.error("FILES ERROR:", error);
+                showToast(error.message || "Gagal memuat file.");
+                files = [];
+                renderFiles();
+            } finally {
+                loading.style.display = "none";
+            }
+        }
+
+        function renderFiles() {
+            const keyword = searchInput.value.trim().toLowerCase();
+            const category = typeFilter.value;
+
+            const filtered = files.filter(file => {
+                const matchName = !keyword || file.name.toLowerCase().includes(keyword);
+                const matchType = category === "all" || file.category === category;
+                return matchName && matchType;
+            });
+
+            fileCount.textContent = filtered.length + " file" + (filtered.length === 1 ? "" : "s");
+            fileList.innerHTML = "";
+
+            if (!filtered.length) {
+                empty.classList.add("show");
+                return;
+            }
+
+            empty.classList.remove("show");
+
+            filtered.forEach(file => {
+                const row = document.createElement("div");
+                row.className = "file-row";
+
+                const icon = file.category === "pdf" ? "PDF"
+                    : file.category === "image" ? "IMG"
+                    : file.category === "word" ? "DOC"
+                    : "FILE";
+
+                row.innerHTML = `
+                    <div class="file-name">
+                        <div class="file-icon" aria-hidden="true">${icon}</div>
+                        <div class="file-info">
+                            <div class="file-title" title="${escapeHtml(file.name)}">
+                                ${escapeHtml(file.name)}
+                            </div>
+                            <div class="file-type">${file.category.toUpperCase()}</div>
+                        </div>
+                    </div>
+                    <div class="file-meta size" aria-label="Ukuran file">${formatSize(file.size)}</div>
+                    <div class="file-meta date" aria-label="Tanggal diunggah">${formatDate(file.created)}</div>
+                    <div class="file-meta type" aria-label="Tipe berkas">${file.category.toUpperCase()}</div>
+                    <div class="file-actions">
+                        <button class="action" title="Unduh ${escapeHtml(file.name)}" aria-label="Unduh ${escapeHtml(file.name)}" data-action="download" data-id="${file.id}">↓</button>
+                        <button class="action delete" title="Hapus ${escapeHtml(file.name)}" aria-label="Hapus ${escapeHtml(file.name)}" data-action="delete" data-id="${file.id}">×</button>
+                    </div>
+                `;
+
+                fileList.appendChild(row);
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function downloadFile(id) {
+            const token = getToken();
+            if (!token) return;
+
+            try {
+                const response = await fetch(API_URL + "/api/v1/storage/download/" + encodeURIComponent(id), {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (!response.ok) {
+                    let message = "Gagal mengunduh file.";
+                    try {
+                        const data = await response.json();
+                        message = data.detail || data.message || message;
+                    } catch (_) {}
+                    throw new Error(message);
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "";
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("DOWNLOAD ERROR:", error);
+                showToast(error.message || "Gagal mengunduh file.");
+            }
+        }
+
+        async function deleteFile(id) {
+            if (!confirm("Apakah Anda yakin ingin menghapus file ini?")) return;
+
+            const token = getToken();
+            if (!token) return;
+
+            try {
+                const response = await fetch(API_URL + "/api/v1/storage/" + encodeURIComponent(id), {
+                    method: "DELETE",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (!response.ok) {
+                    let message = "Gagal menghapus file.";
+                    try {
+                        const data = await response.json();
+                        message = data.detail || data.message || message;
+                    } catch (_) {}
+                    throw new Error(message);
+                }
+
+                showToast("File berhasil dihapus.");
+                await loadFiles();
+                await loadStorageInfo();
+            } catch (error) {
+                console.error("DELETE ERROR:", error);
+                showToast(error.message || "Gagal menghapus file.");
+            }
+        }
+
+        async function deleteAllFiles() {
+            if (!files || files.length === 0) {
+                showToast("Tidak ada file untuk dihapus.");
+                return;
+            }
+
+            if (!confirm(`Apakah Anda yakin ingin menghapus SELURUH (${files.length}) file secara permanen?`)) {
+                return;
+            }
+
+            const token = getToken();
+            if (!token) {
+                showToast("Sesi login tidak ditemukan.");
+                return;
+            }
+
+            deleteAllButton.disabled = true;
+            showToast("Memproses penghapusan semua file...");
+
+            let successCount = 0;
+
+            for (const file of files) {
+                try {
+                    const response = await fetch(API_URL + "/api/v1/storage/" + encodeURIComponent(file.id), {
+                        method: "DELETE",
+                        headers: { "Authorization": "Bearer " + token }
+                    });
+
+                    if (response.ok) {
+                        successCount++;
+                    }
+                } catch (err) {
+                    console.error("Gagal menghapus file ID:", file.id, err);
+                }
+            }
+
+            deleteAllButton.disabled = false;
+            showToast(`${successCount} dari ${files.length} file berhasil dihapus.`);
+
+            await loadFiles();
+            await loadStorageInfo();
+        }
+
+        /* EVENT LISTENERS */
+        fileList.addEventListener("click", event => {
+            const button = event.target.closest("[data-action]");
+            if (!button) return;
+
+            const id = button.dataset.id;
+            const action = button.dataset.action;
+
+            if (action === "download") downloadFile(id);
+            if (action === "delete") deleteFile(id);
+        });
+
+        searchInput.addEventListener("input", renderFiles);
+        typeFilter.addEventListener("change", renderFiles);
+
+        document.getElementById("refreshButton").addEventListener("click", async () => {
+            await loadFiles();
+            await loadStorageInfo();
+        });
+
+        if (deleteAllButton) {
+            deleteAllButton.addEventListener("click", deleteAllFiles);
+        }
+
+        /* INITIALIZATION */
+        loadFiles();
+        loadStorageInfo();
+    </script>
+</body>
+
+</html>

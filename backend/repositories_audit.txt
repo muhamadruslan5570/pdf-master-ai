@@ -1,0 +1,2468 @@
+
+=======================================================
+FILE : __init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : api_key_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# API Key Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.api_key import ApiKey
+
+from repositories.base_repository import BaseRepository
+
+# ----------------------------------------------------------
+# API KEY REPOSITORY
+# ----------------------------------------------------------
+
+class ApiKeyRepository(
+
+    BaseRepository[ApiKey]
+
+):
+
+    """
+    API Key Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            ApiKey
+
+        )
+
+    # ------------------------------------------------------
+    # GET API KEY
+    # ------------------------------------------------------
+
+    def get_by_key(
+
+        self,
+
+        api_key: str
+
+    ) -> ApiKey | None:
+
+        return (
+
+            self.db.query(ApiKey)
+
+            .filter(
+
+                ApiKey.api_key == api_key
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # USER API KEYS
+    # ------------------------------------------------------
+
+    def get_user_keys(
+
+        self,
+
+        user_id: int
+
+    ) -> list[ApiKey]:
+
+        return (
+
+            self.db.query(ApiKey)
+
+            .filter(
+
+                ApiKey.user_id == user_id
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # ACTIVE KEYS
+    # ------------------------------------------------------
+
+    def get_active_keys(
+
+        self,
+
+        user_id: int
+
+    ) -> list[ApiKey]:
+
+        return (
+
+            self.db.query(ApiKey)
+
+            .filter(
+
+                ApiKey.user_id == user_id,
+
+                ApiKey.is_active == True
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # EXISTS
+    # ------------------------------------------------------
+
+    def key_exists(
+
+        self,
+
+        api_key: str
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_key(
+
+                api_key
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # ACTIVATE
+    # ------------------------------------------------------
+
+    def activate(
+
+        self,
+
+        api_key: ApiKey
+
+    ) -> ApiKey:
+
+        api_key.is_active = True
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            api_key
+
+        )
+
+        return api_key
+
+    # ------------------------------------------------------
+    # DEACTIVATE
+    # ------------------------------------------------------
+
+    def deactivate(
+
+        self,
+
+        api_key: ApiKey
+
+    ) -> ApiKey:
+
+        api_key.is_active = False
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            api_key
+
+        )
+
+        return api_key
+
+    # ------------------------------------------------------
+    # UPDATE LAST USED
+    # ------------------------------------------------------
+
+    def update_last_used(
+
+        self,
+
+        api_key: ApiKey
+
+    ) -> ApiKey:
+
+        if hasattr(
+
+            api_key,
+
+            "last_used"
+
+        ):
+
+            from utils.helpers import utc_now
+
+            api_key.last_used = utc_now()
+
+            self.db.commit()
+
+            self.db.refresh(
+
+                api_key
+
+            )
+
+        return api_key
+
+
+
+=======================================================
+FILE : audit_log_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Audit Log Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.audit_log import AuditLog
+
+from repositories.base_repository import BaseRepository
+
+# ----------------------------------------------------------
+# AUDIT LOG REPOSITORY
+# ----------------------------------------------------------
+
+class AuditLogRepository(
+
+    BaseRepository[AuditLog]
+
+):
+
+    """
+    Audit Log Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            AuditLog
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER LOGS
+    # ------------------------------------------------------
+
+    def get_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> list[AuditLog]:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.user_id == user_id
+
+            )
+
+            .order_by(
+
+                AuditLog.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET ACTION
+    # ------------------------------------------------------
+
+    def get_by_action(
+
+        self,
+
+        action: str
+
+    ) -> list[AuditLog]:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.action == action
+
+            )
+
+            .order_by(
+
+                AuditLog.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER ACTION
+    # ------------------------------------------------------
+
+    def get_user_action(
+
+        self,
+
+        user_id: int,
+
+        action: str
+
+    ) -> list[AuditLog]:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.user_id == user_id,
+
+                AuditLog.action == action
+
+            )
+
+            .order_by(
+
+                AuditLog.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET IP ADDRESS
+    # ------------------------------------------------------
+
+    def get_by_ip(
+
+        self,
+
+        ip_address: str
+
+    ) -> list[AuditLog]:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.ip_address == ip_address
+
+            )
+
+            .order_by(
+
+                AuditLog.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # DELETE USER LOGS
+    # ------------------------------------------------------
+
+    def delete_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        deleted = (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.user_id == user_id
+
+            )
+
+            .delete()
+
+        )
+
+        self.db.commit()
+
+        return deleted
+
+    # ------------------------------------------------------
+    # COUNT USER LOGS
+    # ------------------------------------------------------
+
+    def count_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.user_id == user_id
+
+            )
+
+            .count()
+
+        )
+
+    # ------------------------------------------------------
+    # COUNT ACTION
+    # ------------------------------------------------------
+
+    def count_by_action(
+
+        self,
+
+        action: str
+
+    ) -> int:
+
+        return (
+
+            self.db.query(AuditLog)
+
+            .filter(
+
+                AuditLog.action == action
+
+            )
+
+            .count()
+
+        )
+
+
+
+=======================================================
+FILE : base_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Base Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from typing import Generic
+from typing import Type
+from typing import TypeVar
+
+from sqlalchemy.orm import Session
+
+from models.base_model import BaseModel
+
+# ----------------------------------------------------------
+# TYPE
+# ----------------------------------------------------------
+
+ModelType = TypeVar(
+
+    "ModelType",
+
+    bound=BaseModel
+
+)
+
+# ----------------------------------------------------------
+# BASE REPOSITORY
+# ----------------------------------------------------------
+
+class BaseRepository(
+
+    Generic[ModelType]
+
+):
+
+    """
+    Base Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session,
+
+        model: Type[ModelType]
+
+    ):
+
+        self.db = db
+
+        self.model = model
+
+    # ------------------------------------------------------
+    # GET BY ID
+    # ------------------------------------------------------
+
+    def get_by_id(
+
+        self,
+
+        record_id: int
+
+    ) -> ModelType | None:
+
+        return (
+
+            self.db.query(self.model)
+
+            .filter(
+
+                self.model.id == record_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET ALL
+    # ------------------------------------------------------
+
+    def get_all(
+
+        self
+
+    ) -> list[ModelType]:
+
+        return (
+
+            self.db.query(
+
+                self.model
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # CREATE
+    # ------------------------------------------------------
+
+    def create(
+
+        self,
+
+        obj: ModelType
+
+    ) -> ModelType:
+
+        self.db.add(obj)
+
+        self.db.commit()
+
+        self.db.refresh(obj)
+
+        return obj
+
+    # ------------------------------------------------------
+    # UPDATE
+    # ------------------------------------------------------
+
+    def update(
+
+        self,
+
+        obj: ModelType
+
+    ) -> ModelType:
+
+        self.db.commit()
+
+        self.db.refresh(obj)
+
+        return obj
+
+    # ------------------------------------------------------
+    # DELETE
+    # ------------------------------------------------------
+
+    def delete(
+
+        self,
+
+        obj: ModelType
+
+    ) -> None:
+
+        self.db.delete(obj)
+
+        self.db.commit()
+
+    # ------------------------------------------------------
+    # EXISTS
+    # ------------------------------------------------------
+
+    def exists(
+
+        self,
+
+        record_id: int
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_id(
+
+                record_id
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # COUNT
+    # ------------------------------------------------------
+
+    def count(
+
+        self
+
+    ) -> int:
+
+        return (
+
+            self.db.query(
+
+                self.model
+
+            )
+
+            .count()
+
+        )
+
+
+
+=======================================================
+FILE : file_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# File Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.file import File
+
+from repositories.base_repository import BaseRepository
+
+from utils.helpers import utc_now
+
+# ----------------------------------------------------------
+# FILE REPOSITORY
+# ----------------------------------------------------------
+
+class FileRepository(
+
+    BaseRepository[File]
+
+):
+
+    """
+    File Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            File
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER FILES
+    # ------------------------------------------------------
+
+    def get_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> list[File]:
+
+        return (
+
+            self.db.query(File)
+
+            .filter(
+
+                File.user_id == user_id
+
+            )
+
+            .order_by(
+
+                File.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE NAME
+    # ------------------------------------------------------
+
+    def get_by_filename(
+
+        self,
+
+        filename: str
+
+    ) -> File | None:
+
+        return (
+
+            self.db.query(File)
+
+            .filter(
+
+                File.filename == filename
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE TYPE
+    # ------------------------------------------------------
+
+    def get_by_type(
+
+        self,
+
+        file_type: str
+
+    ) -> list[File]:
+
+        return (
+
+            self.db.query(File)
+
+            .filter(
+
+                File.file_type == file_type
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET STATUS
+    # ------------------------------------------------------
+
+    def get_by_status(
+
+        self,
+
+        status: str
+
+    ) -> list[File]:
+
+        return (
+
+            self.db.query(File)
+
+            .filter(
+
+                File.status == status
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # FILE EXISTS
+    # ------------------------------------------------------
+
+    def filename_exists(
+
+        self,
+
+        filename: str
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_filename(
+
+                filename
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # UPDATE STATUS
+    # ------------------------------------------------------
+
+    def update_status(
+
+        self,
+
+        file: File,
+
+        status: str
+
+    ) -> File:
+
+        file.status = status
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            file
+
+        )
+
+        return file
+
+    # ------------------------------------------------------
+    # UPDATE DOWNLOAD
+    # ------------------------------------------------------
+
+    def increase_download(
+
+        self,
+
+        file: File
+
+    ) -> File:
+
+        if hasattr(
+
+            file,
+
+            "download_count"
+
+        ):
+
+            file.download_count += 1
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            file
+
+        )
+
+        return file
+
+    # ------------------------------------------------------
+    # UPDATE LAST ACCESS
+    # ------------------------------------------------------
+
+    def update_last_access(
+
+        self,
+
+        file: File
+
+    ) -> File:
+
+        if hasattr(
+
+            file,
+
+            "last_accessed"
+
+        ):
+
+            file.last_accessed = utc_now()
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            file
+
+        )
+
+        return file
+
+    # ------------------------------------------------------
+    # SOFT DELETE
+    # ------------------------------------------------------
+
+    def soft_delete(
+
+        self,
+
+        file: File
+
+    ) -> File:
+
+        if hasattr(
+
+            file,
+
+            "is_deleted"
+
+        ):
+
+            file.is_deleted = True
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            file
+
+        )
+
+        return file
+
+
+
+=======================================================
+FILE : history_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# History Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.history import History
+
+from repositories.base_repository import BaseRepository
+
+# ----------------------------------------------------------
+# HISTORY REPOSITORY
+# ----------------------------------------------------------
+
+class HistoryRepository(
+
+    BaseRepository[History]
+
+):
+
+    """
+    History Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            History
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER HISTORY
+    # ------------------------------------------------------
+
+    def get_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> list[History]:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.user_id == user_id
+
+            )
+
+            .order_by(
+
+                History.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET ACTION
+    # ------------------------------------------------------
+
+    def get_by_action(
+
+        self,
+
+        action: str
+
+    ) -> list[History]:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.action == action
+
+            )
+
+            .order_by(
+
+                History.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER ACTION
+    # ------------------------------------------------------
+
+    def get_user_action(
+
+        self,
+
+        user_id: int,
+
+        action: str
+
+    ) -> list[History]:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.user_id == user_id,
+
+                History.action == action
+
+            )
+
+            .order_by(
+
+                History.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE HISTORY
+    # ------------------------------------------------------
+
+    def get_by_file(
+
+        self,
+
+        file_id: int
+
+    ) -> list[History]:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.file_id == file_id
+
+            )
+
+            .order_by(
+
+                History.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # DELETE USER HISTORY
+    # ------------------------------------------------------
+
+    def delete_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        deleted = (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.user_id == user_id
+
+            )
+
+            .delete()
+
+        )
+
+        self.db.commit()
+
+        return deleted
+
+    # ------------------------------------------------------
+    # DELETE FILE HISTORY
+    # ------------------------------------------------------
+
+    def delete_by_file(
+
+        self,
+
+        file_id: int
+
+    ) -> int:
+
+        deleted = (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.file_id == file_id
+
+            )
+
+            .delete()
+
+        )
+
+        self.db.commit()
+
+        return deleted
+
+    # ------------------------------------------------------
+    # COUNT USER HISTORY
+    # ------------------------------------------------------
+
+    def count_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.user_id == user_id
+
+            )
+
+            .count()
+
+        )
+
+    # ------------------------------------------------------
+    # COUNT ACTION
+    # ------------------------------------------------------
+
+    def count_by_action(
+
+        self,
+
+        action: str
+
+    ) -> int:
+
+        return (
+
+            self.db.query(History)
+
+            .filter(
+
+                History.action == action
+
+            )
+
+            .count()
+
+        )
+
+
+
+=======================================================
+FILE : payment_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Payment Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.payment import Payment
+
+from repositories.base_repository import BaseRepository
+
+from utils.helpers import utc_now
+
+# ----------------------------------------------------------
+# PAYMENT REPOSITORY
+# ----------------------------------------------------------
+
+class PaymentRepository(
+
+    BaseRepository[Payment]
+
+):
+
+    """
+    Payment Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            Payment
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER PAYMENTS
+    # ------------------------------------------------------
+
+    def get_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> list[Payment]:
+
+        return (
+
+            self.db.query(Payment)
+
+            .filter(
+
+                Payment.user_id == user_id
+
+            )
+
+            .order_by(
+
+                Payment.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET INVOICE
+    # ------------------------------------------------------
+
+    def get_by_invoice(
+
+        self,
+
+        invoice_number: str
+
+    ) -> Payment | None:
+
+        return (
+
+            self.db.query(Payment)
+
+            .filter(
+
+                Payment.invoice_number == invoice_number
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET TRANSACTION
+    # ------------------------------------------------------
+
+    def get_by_transaction(
+
+        self,
+
+        transaction_id: str
+
+    ) -> Payment | None:
+
+        return (
+
+            self.db.query(Payment)
+
+            .filter(
+
+                Payment.transaction_id == transaction_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET STATUS
+    # ------------------------------------------------------
+
+    def get_by_status(
+
+        self,
+
+        status: str
+
+    ) -> list[Payment]:
+
+        return (
+
+            self.db.query(Payment)
+
+            .filter(
+
+                Payment.status == status
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # PENDING
+    # ------------------------------------------------------
+
+    def get_pending(
+
+        self
+
+    ) -> list[Payment]:
+
+        return self.get_by_status(
+
+            "pending"
+
+        )
+
+    # ------------------------------------------------------
+    # SUCCESS
+    # ------------------------------------------------------
+
+    def get_success(
+
+        self
+
+    ) -> list[Payment]:
+
+        return self.get_by_status(
+
+            "success"
+
+        )
+
+    # ------------------------------------------------------
+    # FAILED
+    # ------------------------------------------------------
+
+    def get_failed(
+
+        self
+
+    ) -> list[Payment]:
+
+        return self.get_by_status(
+
+            "failed"
+
+        )
+
+    # ------------------------------------------------------
+    # UPDATE STATUS
+    # ------------------------------------------------------
+
+    def update_status(
+
+        self,
+
+        payment: Payment,
+
+        status: str
+
+    ) -> Payment:
+
+        payment.status = status
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            payment
+
+        )
+
+        return payment
+
+    # ------------------------------------------------------
+    # MARK PAID
+    # ------------------------------------------------------
+
+    def mark_paid(
+
+        self,
+
+        payment: Payment,
+
+        transaction_id: str
+
+    ) -> Payment:
+
+        payment.status = "success"
+
+        payment.transaction_id = transaction_id
+
+        payment.payment_date = utc_now()
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            payment
+
+        )
+
+        return payment
+
+    # ------------------------------------------------------
+    # CANCEL
+    # ------------------------------------------------------
+
+    def cancel(
+
+        self,
+
+        payment: Payment
+
+    ) -> Payment:
+
+        payment.status = "cancelled"
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            payment
+
+        )
+
+        return payment
+
+
+
+=======================================================
+FILE : subscription_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Subscription Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.subscription import Subscription
+
+from repositories.base_repository import BaseRepository
+
+from utils.helpers import utc_now
+
+# ----------------------------------------------------------
+# SUBSCRIPTION REPOSITORY
+# ----------------------------------------------------------
+
+class SubscriptionRepository(
+
+    BaseRepository[Subscription]
+
+):
+
+    """
+    Subscription Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            Subscription
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER SUBSCRIPTION
+    # ------------------------------------------------------
+
+    def get_by_user(
+
+        self,
+
+        user_id: int
+
+    ) -> Subscription | None:
+
+        return (
+
+            self.db.query(Subscription)
+
+            .filter(
+
+                Subscription.user_id == user_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # ACTIVE SUBSCRIPTION
+    # ------------------------------------------------------
+
+    def get_active(
+
+        self,
+
+        user_id: int
+
+    ) -> Subscription | None:
+
+        return (
+
+            self.db.query(Subscription)
+
+            .filter(
+
+                Subscription.user_id == user_id,
+
+                Subscription.is_active == True
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # PLAN
+    # ------------------------------------------------------
+
+    def get_by_plan(
+
+        self,
+
+        plan: str
+
+    ) -> list[Subscription]:
+
+        return (
+
+            self.db.query(Subscription)
+
+            .filter(
+
+                Subscription.plan == plan
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # ACTIVE
+    # ------------------------------------------------------
+
+    def activate(
+
+        self,
+
+        subscription: Subscription
+
+    ) -> Subscription:
+
+        subscription.is_active = True
+
+        self.db.commit()
+
+        self.db.refresh(subscription)
+
+        return subscription
+
+    # ------------------------------------------------------
+    # DEACTIVATE
+    # ------------------------------------------------------
+
+    def deactivate(
+
+        self,
+
+        subscription: Subscription
+
+    ) -> Subscription:
+
+        subscription.is_active = False
+
+        self.db.commit()
+
+        self.db.refresh(subscription)
+
+        return subscription
+
+    # ------------------------------------------------------
+    # EXTEND
+    # ------------------------------------------------------
+
+    def extend(
+
+        self,
+
+        subscription: Subscription,
+
+        expires_at
+
+    ) -> Subscription:
+
+        subscription.expires_at = expires_at
+
+        self.db.commit()
+
+        self.db.refresh(subscription)
+
+        return subscription
+
+    # ------------------------------------------------------
+    # EXPIRED
+    # ------------------------------------------------------
+
+    def get_expired(
+
+        self
+
+    ) -> list[Subscription]:
+
+        return (
+
+            self.db.query(Subscription)
+
+            .filter(
+
+                Subscription.expires_at < utc_now()
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # IS ACTIVE
+    # ------------------------------------------------------
+
+    def is_active(
+
+        self,
+
+        user_id: int
+
+    ) -> bool:
+
+        subscription = self.get_active(
+
+            user_id
+
+        )
+
+        return subscription is not None
+
+
+
+=======================================================
+FILE : token_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Token Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.token import Token
+
+from repositories.base_repository import BaseRepository
+
+# ----------------------------------------------------------
+# TOKEN REPOSITORY
+# ----------------------------------------------------------
+
+class TokenRepository(
+
+    BaseRepository[Token]
+
+):
+
+    """
+    Token Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            Token
+
+        )
+
+    # ------------------------------------------------------
+    # GET TOKEN
+    # ------------------------------------------------------
+
+    def get_by_token(
+
+        self,
+
+        token: str
+
+    ) -> Token | None:
+
+        return (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.token == token
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER TOKEN
+    # ------------------------------------------------------
+
+    def get_user_tokens(
+
+        self,
+
+        user_id: int
+
+    ) -> list[Token]:
+
+        return (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.user_id == user_id
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # GET TOKEN TYPE
+    # ------------------------------------------------------
+
+    def get_by_type(
+
+        self,
+
+        user_id: int,
+
+        token_type: str
+
+    ) -> list[Token]:
+
+        return (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.user_id == user_id,
+
+                Token.token_type == token_type
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # TOKEN EXISTS
+    # ------------------------------------------------------
+
+    def token_exists(
+
+        self,
+
+        token: str
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_token(
+
+                token
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # DELETE TOKEN
+    # ------------------------------------------------------
+
+    def delete_token(
+
+        self,
+
+        token: Token
+
+    ) -> None:
+
+        self.db.delete(
+
+            token
+
+        )
+
+        self.db.commit()
+
+    # ------------------------------------------------------
+    # DELETE USER TOKENS
+    # ------------------------------------------------------
+
+    def delete_user_tokens(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        deleted = (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.user_id == user_id
+
+            )
+
+            .delete()
+
+        )
+
+        self.db.commit()
+
+        return deleted
+
+    # ------------------------------------------------------
+    # DELETE TOKEN TYPE
+    # ------------------------------------------------------
+
+    def delete_by_type(
+
+        self,
+
+        user_id: int,
+
+        token_type: str
+
+    ) -> int:
+
+        deleted = (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.user_id == user_id,
+
+                Token.token_type == token_type
+
+            )
+
+            .delete()
+
+        )
+
+        self.db.commit()
+
+        return deleted
+
+    # ------------------------------------------------------
+    # REVOKE TOKEN
+    # ------------------------------------------------------
+
+    def revoke(
+
+        self,
+
+        token: Token
+
+    ) -> Token:
+
+        token.is_revoked = True
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            token
+
+        )
+
+        return token
+
+    # ------------------------------------------------------
+    # ACTIVE TOKENS
+    # ------------------------------------------------------
+
+    def get_active_tokens(
+
+        self,
+
+        user_id: int
+
+    ) -> list[Token]:
+
+        return (
+
+            self.db.query(Token)
+
+            .filter(
+
+                Token.user_id == user_id,
+
+                Token.is_revoked == False
+
+            )
+
+            .all()
+
+        )
+
+
+
+=======================================================
+FILE : user_repository.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# User Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from repositories.base_repository import BaseRepository
+
+# ----------------------------------------------------------
+# USER REPOSITORY
+# ----------------------------------------------------------
+
+class UserRepository(
+
+    BaseRepository[User]
+
+):
+
+    """
+    User Repository.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(
+
+            db,
+
+            User
+
+        )
+
+    # ------------------------------------------------------
+    # GET BY EMAIL
+    # ------------------------------------------------------
+
+    def get_by_email(
+
+        self,
+
+        email: str
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.email == email
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET BY USERNAME
+    # ------------------------------------------------------
+
+    def get_by_username(
+
+        self,
+
+        username: str
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.username == username
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # EMAIL EXISTS
+    # ------------------------------------------------------
+
+    def email_exists(
+
+        self,
+
+        email: str
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_email(
+
+                email
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # USERNAME EXISTS
+    # ------------------------------------------------------
+
+    def username_exists(
+
+        self,
+
+        username: str
+
+    ) -> bool:
+
+        return (
+
+            self.get_by_username(
+
+                username
+
+            )
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # GET ACTIVE USER
+    # ------------------------------------------------------
+
+    def get_active_user(
+
+        self,
+
+        user_id: int
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.id == user_id,
+
+                User.is_active == True
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET VERIFIED USER
+    # ------------------------------------------------------
+
+    def get_verified_user(
+
+        self,
+
+        user_id: int
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.id == user_id,
+
+                User.is_verified == True
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GET ADMIN
+    # ------------------------------------------------------
+
+    def get_admins(
+
+        self
+
+    ) -> list[User]:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.is_admin == True
+
+            )
+
+            .all()
+
+        )
+
+    # ------------------------------------------------------
+    # UPDATE LAST LOGIN
+    # ------------------------------------------------------
+
+    def update_last_login(
+
+        self,
+
+        user: User
+
+    ) -> User:
+
+        if hasattr(
+
+            user,
+
+            "last_login"
+
+        ):
+
+            from utils.helpers import utc_now
+
+            user.last_login = utc_now()
+
+            self.db.commit()
+
+            self.db.refresh(user)
+
+        return user
+
+    # ------------------------------------------------------
+    # ACTIVATE USER
+    # ------------------------------------------------------
+
+    def activate(
+
+        self,
+
+        user: User
+
+    ) -> User:
+
+        user.is_active = True
+
+        self.db.commit()
+
+        self.db.refresh(user)
+
+        return user
+
+    # ------------------------------------------------------
+    # VERIFY USER
+    # ------------------------------------------------------
+
+    def verify(
+
+        self,
+
+        user: User
+
+    ) -> User:
+
+        user.is_verified = True
+
+        self.db.commit()
+
+        self.db.refresh(user)
+
+        return user
+
+    # ------------------------------------------------------
+    # DEACTIVATE USER
+    # ------------------------------------------------------
+
+    def deactivate(
+
+        self,
+
+        user: User
+
+    ) -> User:
+
+        user.is_active = False
+
+        self.db.commit()
+
+        self.db.refresh(user)
+
+        return user
+
+

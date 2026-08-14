@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontak Kami - PDF Master AI</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --p: #5b5cf0; --pd: #4344d6; --pl: #eef0ff; --text: #0f172a;
+  --muted: #64748b; --bg: #f8fafc; --border: #e2e8f0; --green: #10b981;
+  --red: #ef4444; --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.08); --radius: 16px;
+}
+body { font-family: Inter, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+.container { width: min(calc(100% - 32px), 1140px); margin: auto; }
+
+header { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.88); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; }
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-icon { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, var(--p), #7c3aed); color: #fff; display: grid; place-items: center; font-weight: 900; font-size: 18px; }
+.logo-title { font-size: 17px; font-weight: 800; display: block; line-height: 1.2; }
+.logo-sub { font-size: 10px; color: var(--muted); font-weight: 600; }
+.nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 600; color: #334155; }
+.nav-links a:hover { color: var(--p); }
+.btn-logout { min-height: 38px; padding: 0 16px; border: 1px solid #fee2e2; border-radius: 10px; background: #fef2f2; color: var(--red); font-size: 12px; font-weight: 700; cursor: pointer; }
+
+.hero { padding: 56px 0 36px; text-align: center; background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, var(--bg) 100%); }
+.eyebrow { display: inline-block; padding: 4px 12px; background: var(--pl); color: var(--p); font-size: 11px; font-weight: 800; text-transform: uppercase; border-radius: 20px; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 12px; }
+
+.contact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-md); margin: 24px auto 60px; max-width: 600px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; }
+.btn-submit { width: 100%; padding: 12px; border: none; border-radius: 10px; background: var(--p); color: #fff; font-weight: 800; cursor: pointer; }
+
+.main-footer { background: #0f172a; border-top: 1px solid #1e293b; padding: 50px 0 25px; color: #94a3b8; font-size: 12px; }
+.footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 35px; margin-bottom: 35px; }
+.footer-brand .logo-title { color: #fff; }
+.footer-column h3 { font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 9px; }
+.footer-bottom { border-top: 1px solid #1e293b; padding-top: 20px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+</style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<header>
+  <nav class="container">
+    <a href="dashboard.html" class="logo"><div class="logo-icon">P</div><div><span class="logo-title">PDF Master AI</span><span class="logo-sub">Smart PDF Workspace</span></div></a>
+    <div class="nav-links"><a href="index.html#tools">PDF Tools</a><a href="dashboard.html">Dashboard</a><a href="pricing.html">Harga</a></div>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">Hubungi Kami</div>
+      <h1>Kontak <span>Pengembang</span></h1>
+      <p>Kirimkan masukan, pertanyaan, atau kendala teknis Anda kepada tim support kami.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="contact-card">
+      <form onsubmit="alert('Pesan berhasil terkirim!'); return false;">
+        <div class="form-group">
+          <label>Subjek / Topik</label>
+          <input type="text" placeholder="Kendala Kompresi PDF" required>
+        </div>
+        <div class="form-group">
+          <label>Email Anda</label>
+          <input type="email" placeholder="nama@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Pesan Anda</label>
+          <textarea rows="5" placeholder="Tuliskan kendala Anda secara detail..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Kirim Pesan</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><div class="logo-icon">P</div><div><span class="logo-title">PDF Master AI</span><span class="logo-sub">Smart PDF Workspace</span></div></a>
+        <p>Solusi pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan lanjutan.</p>
+      </div>
+      <div class="footer-column">
+        <h3>PDF Tools Populer</h3>
+        <ul class="footer-links">
+          <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+          <li><a href="pdf-to-word.html">PDF ke Word</a></li>
+          <li><a href="pdf-to-jpg.html">PDF ke Gambar</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Perusahaan</h3>
+        <ul class="footer-links">
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+          <li><a href="help-center.html">Pusat Bantuan</a></li>
+          <li><a href="contact.html">Kontak Kami</a></li>
+          <li><a href="blog.html">Panduan &amp; Blog AI</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Hukum &amp; Privasi</h3>
+        <ul class="footer-links">
+          <li><a href="privacy-policy.html">Kebijakan Privasi</a></li>
+          <li><a href="terms-of-service.html">Syarat &amp; Ketentuan</a></li>
+          <li><a href="data-security.html">Keamanan Data PDF</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Â© 2026 PDF Master AI. All Rights Reserved.</span>
+      <span>Support: muhamadruslan5570@gmail.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function logout(){ localStorage.clear(); sessionStorage.clear(); window.location.href="login.html"; }
+</script>
+</body>
+</html>
+
+

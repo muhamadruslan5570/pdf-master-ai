@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabung PDF (Merge) - PDF Master AI</title>
+<meta name="description" content="Gabungkan hingga 20 file PDF menjadi satu dokumen interaktif dengan urutan yang dapat diatur dengan mudah.">
+
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="../assets/logo.png">
+<link rel="apple-touch-icon" href="../assets/logo.png">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; outline: none !important; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --p: #5b5cf0;
+  --pd: #4344d6;
+  --pl: #eef0ff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --border: #e2e8f0;
+  --green: #10b981;
+  --red: #ef4444;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --radius: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+/* Skip Link Pembaca Layar */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--p);
+  color: white;
+  padding: 8px 16px;
+  z-index: 200;
+  transition: top 0.2s;
+  border-radius: 0 0 8px 0;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.skip-link:focus { top: 0; }
+
+.container {
+  width: min(calc(100% - 32px), 1140px);
+  margin: auto;
+}
+
+/* ==================================================
+   HEADER & NAVBAR
+================================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+nav {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  flex-shrink: 0;
+}
+
+.logo-title {
+  font-size: 17px;
+  font-weight: 800;
+  display: block;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.nav-links a:hover { color: var(--p); }
+
+.actions { display: flex; align-items: center; gap: 12px; }
+
+.btn-logout {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.menu-button {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu {
+  display: none;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  padding: 16px 0;
+  box-shadow: var(--shadow-md);
+}
+
+.mobile-menu.active { display: block; }
+.mobile-menu a { display: block; padding: 10px 0; color: var(--text); font-size: 13px; font-weight: 600; }
+
+/* ==================================================
+   HERO & MAIN
+================================================== */
+main { flex: 1; }
+
+.hero {
+  padding: 56px 0 36px;
+  text-align: center;
+  background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, var(--bg) 100%);
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--pl);
+  color: var(--p);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.hero h1 span {
+  color: var(--p);
+}
+
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.section { padding: 24px 0 60px; }
+
+.main-content {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 24px;
+}
+
+/* UPLOAD AREA */
+.upload-area {
+  min-height: 200px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 20px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+  border-color: var(--p);
+  background: var(--pl);
+}
+
+.upload-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--pl);
+  color: var(--p);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(91, 92, 240, 0.12);
+}
+
+.upload-area h2 { font-size: 18px; font-weight: 800; }
+.upload-area p { font-size: 12px; color: var(--muted); margin: 6px 0 16px; }
+
+/* BUTTONS */
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--p);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(91, 92, 240, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--pd);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover { background: #e2e8f0; }
+
+.btn-success {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-success:hover { background: #059669; }
+
+input[type="file"] { display: none; }
+
+/* FILE LIST TOOLBAR & ITEMS */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.file-count {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.file-item:hover {
+  border-color: #cbd5e1;
+  background: #fff;
+}
+
+.drag-handle {
+  cursor: grab;
+  font-size: 16px;
+  color: var(--muted);
+  user-select: none;
+}
+
+.file-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pl);
+  color: var(--p);
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.action-buttons { display: flex; gap: 6px; }
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s ease;
+}
+
+.action-btn:hover {
+  background: var(--pl);
+  color: var(--p);
+  border-color: var(--p);
+}
+
+.merge-button {
+  width: 100%;
+  min-height: 48px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* PROGRESS BAR */
+.progress {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--p);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  margin-top: 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* RESULT */
+.result {
+  display: none;
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.success-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.result h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #166534;
+  margin-bottom: 6px;
+}
+
+.result p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.status {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.error {
+  display: block;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.status.success {
+  display: block;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+/* =========================================================
+   FOOTER (PRESISI & SANGAT RAPI)
+========================================================= */
+.footer {
+  background: #090e1a;
+  color: #8fa0b5;
+  margin-top: 60px;
+  padding: 50px 0 30px;
+  font-size: 13px;
+}
+
+.footer-inner {
+  width: min(calc(100% - 60px), 1200px);
+  margin: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #151d2a;
+  align-items: start;
+}
+
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.footer-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.footer-brand-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+
+.footer-subtitle {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.footer-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #55657a;
+  max-width: 380px;
+  margin-bottom: 16px;
+}
+
+.footer-email-support {
+  font-size: 12px;
+  color: #8fa0b5;
+  margin-bottom: 20px;
+}
+
+.footer-email-support a {
+  color: #5b5cf0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-socials a {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: #151d2a;
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid #1e293b;
+}
+
+.footer-socials a:hover {
+  background: #5b5cf0;
+  color: #ffffff;
+  border-color: #5b5cf0;
+}
+
+.footer-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.footer-column-title {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+
+.footer-links-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+  width: 100%;
+}
+
+.footer-links-list li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.footer-links-list a {
+  color: #7b8ea5;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links-list a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 25px;
+  font-size: 12px;
+  color: #4a586d;
+}
+
+.footer-bottom strong {
+  color: #cbd5e1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .menu-button { display: inline-flex; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 550px) {
+  .hero { padding: 40px 0 24px; }
+  .card { padding: 18px; }
+  .file-item { padding: 10px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Skip Link Pembaca Layar -->
+<a href="#main-content" class="skip-link">Lompat ke Konten Utama</a>
+
+<!-- HEADER LOGGED-IN WORKSPACE -->
+<header role="banner">
+  <nav class="container">
+    <a href="../dashboard.html" class="logo" aria-label="Dashboard PDF Master AI">
+      <img src="../assets/logo.png" alt="PDF Master AI Logo" class="logo-img">
+      <div>
+        <span class="logo-title">PDF Master AI</span>
+        <span class="logo-sub">Smart PDF Workspace</span>
+      </div>
+    </a>
+
+    <!-- NAVIGASI MEMBER -->
+    <div class="nav-links">
+      <a href="../index.html#tools">PDF Tools</a>
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="../pricing.html">Harga</a>
+    </div>
+
+    <!-- TOMBOL KELUAR -->
+    <div class="actions">
+      <button class="btn-logout" id="logoutTop" type="button">Logout</button>
+      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">☰</button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="container">
+      <a href="../index.html#tools">PDF Tools</a>
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="../pricing.html">Harga</a>
+      <a href="#" id="logoutMobile" style="color:var(--red);">Logout</a>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" role="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="eyebrow">PDF Tools</div>
+      <h1 id="hero-title">Merge <span>PDF</span></h1>
+      <p>Gabungkan hingga 20 file PDF menjadi satu dokumen dengan urutan kustom yang rapi.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="main-content">
+
+        <!-- UPLOAD CARD -->
+        <div class="card" aria-label="Area Pengunggahan File PDF">
+          <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="Area Pilih Berkas PDF">
+            <div class="upload-icon" aria-hidden="true">PDF +</div>
+            <h2>Tambahkan File PDF</h2>
+            <p>Tarik & drop file PDF di sini atau pilih langsung dari perangkat Anda.</p>
+
+            <button type="button" class="btn btn-primary" id="selectButton">
+              Pilih File PDF
+            </button>
+
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple aria-label="Pilih berkas-berkas PDF">
+          </div>
+        </div>
+
+        <!-- FILE LIST CARD -->
+        <div class="card" id="fileCard" style="display:none;" aria-label="Daftar Berkas PDF yang Diunggah">
+          <div class="toolbar">
+            <div class="file-count" id="fileCount" aria-live="polite">0 file</div>
+            <button type="button" class="btn btn-secondary" id="clearButton">
+              Hapus Semua
+            </button>
+          </div>
+
+          <div class="file-list" id="fileList" role="list"></div>
+
+          <button type="button" class="btn btn-primary merge-button" id="mergeButton">
+            Gabungkan PDF
+          </button>
+
+          <div class="progress" id="progress" role="status" aria-live="polite">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Menyiapkan...</div>
+          </div>
+
+          <div class="status" id="status" role="alert" aria-live="polite"></div>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="card result" id="result" role="region" aria-label="Hasil Gabung PDF" aria-live="polite">
+          <div class="success-icon" aria-hidden="true">✓</div>
+          <h2>PDF Berhasil Digabung</h2>
+          <p id="resultText">File PDF berhasil dibuat dan siap diunduh.</p>
+          <button type="button" class="btn btn-success" id="downloadButton">
+            ↓ Download PDF
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER AKSESIBEL & SIMETRIS -->
+<footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+        <div class="footer-grid">
+
+            <!-- Kolom 1: Brand, Support, Socials -->
+            <div class="footer-col-brand">
+                <div class="footer-brand">
+                    <img src="../assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                    <span class="footer-brand-title">PDF Master AI</span>
+                </div>
+                <div class="footer-subtitle">Smart PDF Workspace</div>
+                <p class="footer-desc">
+                    Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                </p>
+                <div class="footer-email-support">
+                    Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                </div>
+
+                <div class="footer-socials">
+                    <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer">Facebook</a>
+                    <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer">X</a>
+                    <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                    <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer">TikTok</a>
+                </div>
+            </div>
+
+            <!-- Kolom 2: PDF Tools Populer -->
+            <nav class="footer-col" aria-label="Navigasi Footer PDF Tools Populer">
+                <div class="footer-column-title">PDF TOOLS POPULER</div>
+                <ul class="footer-links-list">
+                    <li><a href="compress-pdf-target.html">Kompres PDF</a></li>
+                    <li><a href="merge-pdf.html">Gabung PDF (Merge)</a></li>
+                    <li><a href="pdf-to-word.html">Konversi PDF ke Word</a></li>
+                    <li><a href="pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                </ul>
+            </nav>
+
+            <!-- Kolom 3: Perusahaan -->
+            <nav class="footer-col" aria-label="Navigasi Footer Perusahaan">
+                <div class="footer-column-title">PERUSAHAAN</div>
+                <ul class="footer-links-list">
+                    <li><a href="../about.html">Tentang Kami</a></li>
+                    <li><a href="../pricing.html">Harga &amp; Langganan</a></li>
+                    <li><a href="../help.html">Pusat Bantuan</a></li>
+                    <li><a href="../blog.html">Blog &amp; Panduan</a></li>
+                    <li><a href="../sitemap.html">Sitemap</a></li>
+                    <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                </ul>
+            </nav>
+
+            <!-- Kolom 4: Hukum & Privasi -->
+            <nav class="footer-col" aria-label="Navigasi Footer Hukum dan Privasi">
+                <div class="footer-column-title">HUKUM &amp; PRIVASI</div>
+                <ul class="footer-links-list">
+                    <li><a href="../privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="../terms.html">Syarat &amp; Ketentuan</a></li>
+                    <li><a href="../security.html">Keamanan Data PDF</a></li>
+                    <li><a href="../disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+            <div>
+                © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+            </div>
+            <div>
+                Smart PDF Workspace Powered by AI
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+const API_BASE = "http://127.0.0.1:8000";
+const UPLOAD_ENDPOINT = API_BASE + "/api/v1/storage/upload/multiple";
+const MERGE_ENDPOINT = API_BASE + "/api/v1/pdf/merge";
+const DOWNLOAD_ENDPOINT = API_BASE + "/api/v1/storage/download/";
+
+const uploadArea = document.getElementById("uploadArea");
+const selectButton = document.getElementById("selectButton");
+const fileInput = document.getElementById("fileInput");
+const fileCard = document.getElementById("fileCard");
+const fileList = document.getElementById("fileList");
+const fileCount = document.getElementById("fileCount");
+const clearButton = document.getElementById("clearButton");
+const mergeButton = document.getElementById("mergeButton");
+const progress = document.getElementById("progress");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
+const statusBox = document.getElementById("status");
+const result = document.getElementById("result");
+const resultText = document.getElementById("resultText");
+const downloadButton = document.getElementById("downloadButton");
+
+let selectedFiles = [];
+let mergedFileId = null;
+
+// Set Tahun Dinamis
+document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+// TOGGLE MOBILE MENU
+const menuBtn = document.getElementById("menuButton");
+const mobileNav = document.getElementById("mobileMenu");
+if (menuBtn) {
+  menuBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("active");
+  });
+}
+
+/* AUTH TOKEN & LOGOUT */
+function getToken() {
+    const token =
+        localStorage.getItem("pdf_master_access_token") ||
+        sessionStorage.getItem("pdf_master_access_token") ||
+        localStorage.getItem("access_token") ||
+        localStorage.getItem("token") ||
+        sessionStorage.getItem("access_token") ||
+        sessionStorage.getItem("token") ||
+        "";
+
+    return token;
+}
+
+function getAuthHeaders() {
+    const token = getToken();
+    if (!token) {
+        throw new Error("Token login tidak ditemukan. Silakan login terlebih dahulu.");
+    }
+    return {
+        "Authorization": "Bearer " + token
+    };
+}
+
+function logout(){
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href="../login.html";
+}
+
+if(document.getElementById("logoutTop")){
+    document.getElementById("logoutTop").addEventListener("click", logout);
+}
+
+if(document.getElementById("logoutMobile")){
+    document.getElementById("logoutMobile").addEventListener("click", logout);
+}
+
+/* SELECT FILE */
+selectButton.addEventListener("click", function(event) {
+    event.stopPropagation();
+    fileInput.click();
+});
+
+uploadArea.addEventListener("click", function() {
+    fileInput.click();
+});
+
+uploadArea.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fileInput.click();
+    }
+});
+
+fileInput.addEventListener("change", function() {
+    addFiles(Array.from(fileInput.files));
+    fileInput.value = "";
+});
+
+/* DRAG DROP */
+uploadArea.addEventListener("dragover", function(event) {
+    event.preventDefault();
+    uploadArea.classList.add("dragover");
+});
+
+uploadArea.addEventListener("dragleave", function() {
+    uploadArea.classList.remove("dragover");
+});
+
+uploadArea.addEventListener("drop", function(event) {
+    event.preventDefault();
+    uploadArea.classList.remove("dragover");
+    addFiles(Array.from(event.dataTransfer.files));
+});
+
+/* ADD FILES */
+function addFiles(files) {
+    for (const file of files) {
+        if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+            showStatus("Hanya file PDF yang diperbolehkan.", true);
+            continue;
+        }
+
+        if (file.size > 100 * 1024 * 1024) {
+            showStatus(file.name + " melebihi batas 100 MB.", true);
+            continue;
+        }
+
+        if (selectedFiles.length >= 20) {
+            showStatus("Maksimal 20 file PDF dapat digabung.", true);
+            break;
+        }
+
+        const duplicate = selectedFiles.some(
+            item => item.file.name === file.name && item.file.size === file.size
+        );
+
+        if (duplicate) {
+            continue;
+        }
+
+        selectedFiles.push({
+            file: file,
+            id: crypto.randomUUID()
+        });
+    }
+
+    renderFiles();
+}
+
+/* RENDER FILES */
+function renderFiles() {
+    fileList.innerHTML = "";
+    fileCount.textContent = selectedFiles.length + " file";
+
+    fileCard.style.display = selectedFiles.length ? "block" : "none";
+
+    selectedFiles.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "file-item";
+        row.draggable = true;
+        row.dataset.id = item.id;
+        row.setAttribute("role", "listitem");
+
+        row.innerHTML = `
+            <div class="drag-handle" title="Geser untuk mengubah urutan" aria-label="Gagang geser">☰</div>
+            <div class="file-number">${index + 1}</div>
+            <div class="file-info">
+                <div class="file-name">${escapeHtml(item.file.name)}</div>
+                <div class="file-size">${formatBytes(item.file.size)}</div>
+            </div>
+            <div class="action-buttons">
+                <button type="button" class="action-btn" title="Naikkan" aria-label="Pindahkan file ke atas" onclick="moveFile('${item.id}', -1)">↑</button>
+                <button type="button" class="action-btn" title="Turunkan" aria-label="Pindahkan file ke bawah" onclick="moveFile('${item.id}', 1)">↓</button>
+                <button type="button" class="action-btn" title="Hapus" aria-label="Hapus file ini" onclick="removeFile('${item.id}')">✕</button>
+            </div>
+        `;
+
+        row.addEventListener("dragstart", function() {
+            row.dataset.dragging = "true";
+        });
+
+        row.addEventListener("dragend", function() {
+            row.dataset.dragging = "false";
+        });
+
+        row.addEventListener("dragover", function(event) {
+            event.preventDefault();
+            const dragging = document.querySelector('[data-dragging="true"]');
+            if (dragging && dragging !== row) {
+                const from = selectedFiles.findIndex(item => item.id === dragging.dataset.id);
+                const to = selectedFiles.findIndex(item => item.id === row.dataset.id);
+
+                if (from !== -1 && to !== -1) {
+                    const moved = selectedFiles.splice(from, 1)[0];
+                    selectedFiles.splice(to, 0, moved);
+                    renderFiles();
+                }
+            }
+        });
+
+        fileList.appendChild(row);
+    });
+}
+
+/* REMOVE & MOVE FILES */
+function removeFile(id) {
+    selectedFiles = selectedFiles.filter(item => item.id !== id);
+    renderFiles();
+}
+
+function moveFile(id, direction) {
+    const index = selectedFiles.findIndex(item => item.id === id);
+    if (index === -1) return;
+
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= selectedFiles.length) return;
+
+    const temp = selectedFiles[index];
+    selectedFiles[index] = selectedFiles[newIndex];
+    selectedFiles[newIndex] = temp;
+
+    renderFiles();
+}
+
+/* CLEAR */
+clearButton.addEventListener("click", function() {
+    selectedFiles = [];
+    mergedFileId = null;
+    result.style.display = "none";
+    hideStatus();
+    renderFiles();
+});
+
+/* MERGE PDF */
+mergeButton.addEventListener("click", mergePDF);
+
+async function mergePDF() {
+    hideStatus();
+
+    if (selectedFiles.length < 2) {
+        showStatus("Pilih minimal 2 file PDF.", true);
+        return;
+    }
+
+    if (selectedFiles.length > 20) {
+        showStatus("Maksimal 20 file PDF.", true);
+        return;
+    }
+
+    let token;
+    try {
+        token = getAuthHeaders();
+    } catch (error) {
+        showStatus(error.message, true);
+        return;
+    }
+
+    mergeButton.disabled = true;
+    progress.style.display = "block";
+    progressFill.style.width = "10%";
+    progressText.textContent = "Mengunggah PDF...";
+
+    try {
+        const formData = new FormData();
+        selectedFiles.forEach(item => {
+            formData.append("files", item.file);
+        });
+
+        const uploadResponse = await fetch(UPLOAD_ENDPOINT, {
+            method: "POST",
+            headers: token,
+            body: formData
+        });
+
+        if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error("Unggah gagal (" + uploadResponse.status + "): " + errorText);
+        }
+
+        const uploadData = await uploadResponse.json();
+        progressFill.style.width = "50%";
+        progressText.textContent = "Menyiapkan proses gabung...";
+
+        const fileIds = extractFileIds(uploadData);
+
+        if (fileIds.length < selectedFiles.length) {
+            throw new Error("ID file dari server tidak lengkap.");
+        }
+
+        const mergeResponse = await fetch(MERGE_ENDPOINT, {
+            method: "POST",
+            headers: {
+                ...token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(fileIds)
+        });
+
+        if (!mergeResponse.ok) {
+            const errorText = await mergeResponse.text();
+            throw new Error("Gabung PDF gagal (" + mergeResponse.status + "): " + errorText);
+        }
+
+        const mergeData = await mergeResponse.json();
+        progressFill.style.width = "100%";
+        progressText.textContent = "Penggabungan selesai.";
+
+        mergedFileId =
+            mergeData?.output?.file_id ||
+            mergeData?.file?.id ||
+            mergeData?.output?.id ||
+            null;
+
+        let outputPath = mergeData?.output?.path || mergeData?.file?.output_path || "";
+
+        if (!mergedFileId && outputPath) {
+            resultText.textContent = "PDF berhasil digabung. File hasil siap diunduh.";
+        } else {
+            resultText.textContent = selectedFiles.length + " PDF berhasil digabung menjadi satu file.";
+        }
+
+        result.style.display = "block";
+        result.scrollIntoView({ behavior: "smooth" });
+
+    } catch (error) {
+        console.error("MERGE ERROR:", error);
+        showStatus(error.message || "Terjadi kesalahan saat menggabungkan PDF.", true);
+    } finally {
+        mergeButton.disabled = false;
+    }
+}
+
+/* EXTRACT FILE IDS */
+function extractFileIds(data) {
+    const ids = [];
+
+    if (Array.isArray(data)) {
+        data.forEach(item => {
+            if (typeof item === "number") ids.push(item);
+            else if (item && typeof item.id === "number") ids.push(item.id);
+        });
+    }
+
+    if (Array.isArray(data?.files)) {
+        data.files.forEach(item => {
+            if (typeof item === "number") ids.push(item);
+            else if (item && typeof item.id === "number") ids.push(item.id);
+        });
+    }
+
+    if (Array.isArray(data?.data)) {
+        data.data.forEach(item => {
+            if (typeof item === "number") ids.push(item);
+            else if (item && typeof item.id === "number") ids.push(item.id);
+        });
+    }
+
+    return [...new Set(ids)];
+}
+
+/* DOWNLOAD */
+downloadButton.addEventListener("click", async function() {
+    if (!mergedFileId) {
+        showStatus("ID file hasil belum tersedia dari server.", true);
+        return;
+    }
+
+    try {
+        const headers = getAuthHeaders();
+        const response = await fetch(DOWNLOAD_ENDPOINT + encodeURIComponent(mergedFileId), {
+            headers
+        });
+
+        if (!response.ok) {
+            throw new Error("Unduh gagal (" + response.status + ")");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "merged.pdf";
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        URL.revokeObjectURL(url);
+
+    } catch (error) {
+        showStatus(error.message, true);
+    }
+});
+
+/* STATUS & HELPERS */
+function showStatus(message, error = false) {
+    statusBox.textContent = message;
+    statusBox.className = "status " + (error ? "error" : "success");
+}
+
+function hideStatus() {
+    statusBox.textContent = "";
+    statusBox.className = "status";
+}
+
+function formatBytes(bytes) {
+    if (bytes === 0) return "0 Bytes";
+    const units = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + " " + units[i];
+}
+
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// INITIAL
+renderFiles();
+</script>
+
+</body>
+</html>

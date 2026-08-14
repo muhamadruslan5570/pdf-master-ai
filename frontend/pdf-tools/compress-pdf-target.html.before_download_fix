@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Perkecil Ukuran PDF | PDF Master AI</title>
+<meta name="description" content="Perkecil ukuran PDF secara otomatis dengan PDF Master AI sambil menjaga kualitas dokumen.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#5b5cf0;--pd:#4748d7;--text:#111827;--muted:#6b7280;--bg:#f7f8fc;--border:#e5e7eb;--green:#16a34a;--red:#dc2626}
+body{font-family:Arial,Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer}
+.container{width:min(calc(100% - 40px),1180px);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#fffffff5;border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+nav{min-height:70px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}.logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#5b5cf0,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:900}.logo-title{font-size:17px;font-weight:800;display:block}.logo-sub{font-size:9px;color:var(--muted);display:block}
+.nav{display:flex;gap:25px;font-size:13px;color:#374151}.nav a:hover{color:var(--p)}.actions{display:flex;gap:8px}.btn{min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:12px;font-weight:750;display:inline-flex;align-items:center}.primary{background:var(--p);border-color:var(--p);color:#fff}.logout-btn{color:#dc2626;border-color:#fecaca;background:#fff}.logout-btn:hover{background:#fef2f2}
+.menu{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:20px}.mobile{display:none;border-top:1px solid var(--border);padding:12px 0}.mobile a{display:block;padding:9px 0;font-size:13px}.mobile .logout-btn{margin-top:8px;width:100%;justify-content:center}
+.hero{padding:60px 0 42px;text-align:center;background:linear-gradient(135deg,#eef0ff,#f7f8fc 55%,#f0eaff)}.eyebrow{color:var(--p);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:1px}.hero h1{font-size:clamp(32px,5vw,50px);line-height:1.1;margin:8px 0 13px}.hero h1 span{color:var(--p)}.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:13px}
+.section{padding:35px 0 75px}.layout{display:grid;grid-template-columns:minmax(0,760px) 280px;gap:22px;justify-content:center}.card,.info{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 28px #1118270d}.card{padding:24px}
+.drop{min-height:225px;border:2px dashed #cfd2f5;border-radius:14px;background:#fafaff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px}.drop.drag{border-color:var(--p);background:#f4f4ff}.icon{width:62px;height:62px;border-radius:15px;background:#eef0ff;color:var(--p);display:grid;place-items:center;font-size:16px;font-weight:900;margin-bottom:14px}.drop h2{font-size:18px}.drop p{font-size:11px;color:var(--muted);margin:5px 0 15px}.file-input{display:none}.select{border:0;background:var(--p);color:#fff;border-radius:9px;padding:12px 20px;font-size:12px;font-weight:800}.limit{font-size:9px;color:#9ca3af;margin-top:10px}
+.preview{display:none;margin-top:18px;padding:13px;border:1px solid var(--border);border-radius:10px;background:#fafafa;align-items:center;gap:10px}.preview.show{display:flex}.pdf{width:42px;height:42px;border-radius:8px;background:#fee2e2;color:#dc2626;display:grid;place-items:center;font-size:9px;font-weight:900}.file-info{min-width:0;flex:1}.name{font-size:11px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.size{font-size:9px;color:var(--muted)}.remove{width:32px;height:32px;border:1px solid var(--border);border-radius:7px;background:#fff;color:var(--red);font-weight:900}
+.title{font-size:12px;font-weight:850;margin-bottom:10px}.target{margin-top:20px}.presets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.preset{border:1px solid var(--border);border-radius:9px;background:#fff;padding:12px 6px;text-align:center;font-size:10px;font-weight:800;color:#374151}.preset:hover,.preset.active{border-color:var(--p);background:#f5f5ff;color:var(--p)}.profile{display:flex;flex-direction:column;gap:3px}.profile strong{font-size:11px}.profile span{font-size:9px;color:var(--muted);font-weight:600}.profile small{font-size:9px;color:var(--p);font-weight:850}
+.custom{margin-top:12px;padding:15px;border:1px solid var(--border);border-radius:10px;background:#fafafa}.custom-row{display:grid;grid-template-columns:1fr 120px 85px;gap:8px;align-items:end}.field label{display:block;font-size:9px;font-weight:750;margin-bottom:5px}.field input,.field select{width:100%;height:42px;padding:0 10px;border:1px solid var(--border);border-radius:8px;background:#fff;outline:none;font-size:11px}.target-note{font-size:8px;color:var(--muted);margin-top:8px}
+.action{margin-top:20px}.compress{width:100%;min-height:48px;border:0;border-radius:9px;background:var(--p);color:#fff;font-size:12px;font-weight:850}.compress:disabled{opacity:.5;cursor:not-allowed}
+.error,.progress,.result{display:none;margin-top:15px;padding:13px;border-radius:10px;font-size:10px}.error.show{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.progress.show{display:block;background:#fafafa;border:1px solid var(--border)}.result.show{display:block;background:#f0fdf4;border:1px solid #bbf7d0}
+.phead{display:flex;justify-content:space-between;font-weight:750}.bar-bg{height:8px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#5b5cf0,#7c3aed);transition:.25s}.pmsg{font-size:9px;color:var(--muted)}
+.result-title{color:#166534;font-size:14px;font-weight:850;margin-bottom:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#fff;border:1px solid #dcfce7;border-radius:8px;padding:10px}.stat small{display:block;color:var(--muted);font-size:8px}.stat strong{font-size:12px}.saving{color:var(--green)!important}.result-actions{display:flex;gap:8px;margin-top:14px}.download,.again{flex:1;min-height:42px;border-radius:8px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}.download{background:var(--green);color:#fff}.again{border:1px solid var(--border);background:#fff}
+.info{padding:20px}.info h3{font-size:14px;margin-bottom:12px}.info ul{list-style:none;display:grid;gap:10px}.info li{font-size:10px;color:#374151;padding-left:20px;position:relative}.info li:before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:900}.divider{height:1px;background:var(--border);margin:18px 0}.info p{font-size:9px;color:var(--muted)}
+footer{background:#111827;color:#fff;padding:35px 0 22px}.footer-links{display:flex;gap:18px;flex-wrap:wrap;color:#d1d5db;font-size:10px;margin-bottom:20px}.footer-bottom{border-top:1px solid #374151;padding-top:20px;display:flex;justify-content:space-between;color:#6b7280;font-size:10px}
+@media(max-width:900px){.nav,.actions{display:none}.menu{display:block}.layout{grid-template-columns:1fr;max-width:760px;margin:auto}}
+@media(max-width:600px){.container{width:calc(100% - 28px)}.hero{padding:45px 0 35px}.card{padding:16px}.presets{grid-template-columns:repeat(2,1fr)}.custom-row{grid-template-columns:1fr 1fr}.apply{grid-column:1/-1}.stats{grid-template-columns:1fr}.result-actions{flex-direction:column}.footer-bottom{flex-direction:column;gap:8px}}
+</style>
+</head>
+<body>
+<header>
+<nav class="container">
+<a href="../index.html" class="logo"><div class="logo-icon">P</div><div><span class="logo-title">PDF Master AI</span><span class="logo-sub">Smart PDF Workspace</span></div></a>
+<div class="nav"><a href="../index.html#tools">PDF Tools</a><a href="../dashboard.html">Dashboard</a><a href="../pricing.html">Harga</a><a href="../profile.html">Profil</a></div>
+<div class="actions"><button class="btn logout-btn" id="logoutTop" type="button">Logout</button></div>
+<button class="menu" id="menu">☰</button>
+</nav>
+<div class="mobile" id="mobile"><div class="container"><a href="../index.html#tools">PDF Tools</a><a href="../dashboard.html">Dashboard</a><a href="../pricing.html">Harga</a><a href="../profile.html">Profil</a><button class="btn logout-btn" id="logoutMobile" type="button">Logout</button></div></div>
+</header>
+
+<main>
+<section class="hero"><div class="container"><div class="eyebrow">PDF Optimizer</div><h1>Perkecil Ukuran <span>PDF</span></h1><p>Upload PDF dan biarkan sistem secara otomatis memperkecil ukuran file dengan tetap menjaga kualitas dokumen.</p></div></section>
+<section class="section"><div class="container"><div class="layout">
+<div class="card">
+<div class="drop" id="drop">
+<div class="icon">PDF ↓</div><h2>Upload file PDF</h2><p>Tarik dan letakkan file PDF di sini, atau pilih file dari perangkat Anda.</p>
+<input id="input" class="file-input" type="file" accept="application/pdf,.pdf">
+<button class="select" id="select">Pilih File PDF</button><div class="limit">Format: PDF · Maksimal 100 MB</div>
+</div>
+
+<div class="preview" id="preview"><div class="pdf">PDF</div><div class="file-info"><div class="name" id="fileName">-</div><div class="size" id="fileSize">-</div></div><button class="remove" id="remove" type="button">×</button></div>
+<div class="target">
+<div class="title">Pilih tingkat kompresi</div>
+<div class="presets" id="profiles">
+<button class="preset profile active" type="button" data-profile="recommended"><strong>Recommended</strong><span>Seimbang</span><small id="recommendedTarget">500 KB</small></button>
+<button class="preset profile" type="button" data-profile="extreme"><strong>Extreme</strong><span>Ukuran terkecil</span><small id="extremeTarget">300 KB</small></button>
+<button class="preset profile" type="button" data-profile="less"><strong>Less</strong><span>Kualitas lebih tinggi</span><small id="lessTarget">1 MB</small></button>
+</div>
+<div class="custom">
+<div class="custom-row">
+<div class="field"><label for="target">Target manual</label><input id="target" type="number" min="100" max="102400" value="500"></div>
+<div class="field"><label for="unit">Satuan</label><select id="unit"><option value="KB">KB</option><option value="MB">MB</option></select></div>
+<button class="preset apply" id="apply" type="button">Gunakan Target</button>
+</div>
+<div class="target-note">Extreme mengejar sekitar 200–300 KB, Recommended sekitar 500 KB, dan Less mempertahankan kualitas lebih tinggi. Hasil akhir bergantung pada isi PDF.</div>
+</div>
+</div>
+<div class="action"><button class="compress" id="compress" disabled>Perkecil Ukuran PDF</button></div>
+<div class="error" id="error"></div>
+<div class="progress" id="progress"><div class="phead"><span>Mengompres PDF...</span><span id="percent">0%</span></div><div class="bar-bg"><div class="bar" id="bar"></div></div><div class="pmsg" id="message">Menyiapkan file...</div></div>
+<div class="result" id="result"><div class="result-title">✓ PDF berhasil diperkecil</div>
+<div class="stats"><div class="stat"><small>Ukuran awal</small><strong id="before">-</strong></div><div class="stat"><small>Ukuran hasil</small><strong id="after">-</strong></div><div class="stat"><small>Penghematan</small><strong class="saving" id="saving">-</strong></div></div>
+<div class="result-actions"><a class="download" id="download" href="#" download>Download PDF</a><button class="again" id="again">Kompres File Lain</button></div></div>
+</div>
+
+<aside class="info"><h3>Cara Menggunakan</h3><ul><li>Upload satu file PDF.</li><li>Pilih Extreme, Recommended, atau Less.</li><li>Klik Perkecil Ukuran PDF.</li><li>Backend mencari hasil yang mendekati target.</li><li>Download hasil kompresi.</li></ul>
+
+<div class="divider"></div><h3>Catatan</h3><p>Kompresi PDF bergantung pada isi dokumen. Sistem tidak menjamin ukuran hasil persis sama dengan target.</p>
+<div class="divider"></div><h3>Keamanan</h3><p>File diproses melalui backend PDF Master AI sesuai konfigurasi server.</p></aside>
+</div></div></section>
+</main>
+
+<footer><div class="container"><div class="footer-links"><a href="../about.html">Tentang Kami</a><a href="../pricing.html">Harga</a><a href="../contact.html">Kontak</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../terms-of-service.html">Terms of Service</a></div><div class="footer-bottom"><span>© 2026 PDF Master AI. All rights reserved.</span><span>Smart PDF Workspace</span></div></div></footer>
+
+<script>
+const API_ENDPOINT="http://127.0.0.1:8000/api/v1/pdf/compress";
+const MAX=100*1024*1024;
+let selectedFile=null,targetKB=null,selectedProfile="recommended";
+const $=id=>document.getElementById(id);
+const input=$("input"),drop=$("drop"),preview=$("preview"),compress=$("compress"),error=$("error"),progress=$("progress"),result=$("result");
+const ACCESS_TOKEN_KEY = "pdf_master_access_token";
+
+function getAccessToken(){
+    return (
+        localStorage.getItem(ACCESS_TOKEN_KEY) ||
+        sessionStorage.getItem(ACCESS_TOKEN_KEY)
+    );
+}
+
+function logout(){
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+    window.location.href="../login.html";
+}
+
+const accessToken = getAccessToken();
+
+if(!accessToken){
+    window.location.replace("../login.html");
+}
+
+if($("logoutTop")){
+    $("logoutTop").addEventListener("click",logout);
+}
+
+if($("logoutMobile")){
+    $("logoutMobile").addEventListener("click",logout);
+}
+
+
+$("menu").onclick=()=>{$("mobile").style.display=$("mobile").style.display==="block"?"none":"block"};
+$("select").addEventListener("click",function(event){
+    event.preventDefault();
+    input.click();
+});
+
+input.addEventListener("change",function(){
+    const file=input.files && input.files[0];
+    if(file){
+        handleFile(file);
+    }
+    input.value="";
+});
+document.querySelectorAll(".profile").forEach(button=>{
+    button.addEventListener("click",()=>{
+        selectProfile(button.dataset.profile);
+        updateProfileTargets();
+    });
+});
+
+$("apply").addEventListener("click",()=>{
+    const value=Number($("target").value);
+    const unit=$("unit").value;
+    if(!Number.isFinite(value) || value<100){
+        showError("Target minimal 100 KB.");
+        return;
+    }
+    targetKB=unit==="MB" ? value*1024 : value;
+    selectedProfile="custom";
+    document.querySelectorAll(".profile").forEach(b=>b.classList.remove("active"));
+    clearError();
+    updateButton();
+});
+
+function selectProfile(profile){
+    selectedProfile=profile;
+    document.querySelectorAll(".profile").forEach(b=>{
+        b.classList.toggle("active",b.dataset.profile===profile);
+    });
+    if(selectedFile){
+        targetKB=profileTarget(selectedFile.size,profile);
+        $("target").value=Math.round(targetKB);
+        $("unit").value="KB";
+    }
+}
+
+function profileTarget(size,profile){
+    const mb=size/(1024*1024);
+
+    if(profile==="extreme"){
+        if(mb<1) return Math.max(100,Math.min(200,Math.floor(size/1024*0.45)));
+        if(mb<5) return 250;
+        return 300;
+    }
+
+    if(profile==="less"){
+        if(mb<1) return Math.max(300,Math.floor(size/1024*0.80));
+        if(mb<5) return 1000;
+        if(mb<10) return 1500;
+        return 2000;
+    }
+
+    if(mb<1) return Math.max(250,Math.floor(size/1024*0.60));
+    if(mb<2) return 400;
+    return 500;
+}
+
+function updateProfileTargets(){
+    if(!selectedFile) return;
+    $("extremeTarget").textContent=formatTarget(profileTarget(selectedFile.size,"extreme"));
+    $("recommendedTarget").textContent=formatTarget(profileTarget(selectedFile.size,"recommended"));
+    $("lessTarget").textContent=formatTarget(profileTarget(selectedFile.size,"less"));
+    if(selectedProfile!=="custom"){
+        targetKB=profileTarget(selectedFile.size,selectedProfile);
+        $("target").value=Math.round(targetKB);
+        $("unit").value="KB";
+    }
+}
+
+function profileLabel(profile){
+    return profile==="extreme"?"Extreme":profile==="less"?"Less":profile==="custom"?"Custom":"Recommended";
+}
+
+function formatTarget(kb){
+    return kb>=1024 ? (kb/1024).toFixed(kb%1024?1:0)+" MB" : Math.round(kb)+" KB";
+}
+
+["dragenter","dragover"].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.add("drag")}));
+["dragleave","drop"].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.remove("drag")}));
+drop.ondrop=e=>{const f=[...e.dataTransfer.files][0];if(f)handleFile(f)};
+
+function handleFile(file){
+ clearError();result.classList.remove("show");
+ if(!(file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf"))){showError("File yang dipilih bukan PDF.");resetFile();return}
+ if(file.size>MAX){showError("Ukuran file terlalu besar. Maksimal 100 MB.");resetFile();return}
+ selectedFile=file;$("fileName").textContent=file.name;$("fileSize").textContent=bytes(file.size);preview.classList.add("show");
+ selectProfile("recommended"); updateProfileTargets(); updateButton();
+}
+$("remove").onclick=resetFile;
+
+
+
+
+
+compress.onclick=async()=>{
+    if(!selectedFile){
+        showError("Silakan pilih file PDF terlebih dahulu.");
+        return;
+    }
+
+    if(!targetKB || targetKB<50){
+        showError("Silakan pilih target ukuran PDF.");
+        return;
+    }
+
+    clearError();
+    result.classList.remove("show");
+    progress.classList.add("show");
+    compress.disabled=true;
+
+    const token = getAccessToken();
+
+if(!token){
+    progress.classList.remove("show");
+    showError("Sesi login tidak ditemukan. Silakan login terlebih dahulu.");
+    compress.disabled=false;
+    return;
+}
+
+    try{
+
+        // ==================================================
+        // STEP 1 — UPLOAD PDF
+        // ==================================================
+
+        setProgress(
+            10,
+            "Mengunggah PDF ke server..."
+        );
+
+        const uploadForm = new FormData();
+
+        uploadForm.append(
+            "file",
+            selectedFile
+        );
+
+        const uploadResponse = await fetch(
+            "http://127.0.0.1:8000/api/v1/storage/upload",
+            {
+                method:"POST",
+                headers:{
+                    "Authorization":"Bearer "+token
+                },
+                body:uploadForm
+            }
+        );
+
+        if(!uploadResponse.ok){
+
+            let message =
+                "Gagal mengunggah PDF.";
+
+            try{
+                const data =
+                    await uploadResponse.json();
+
+                message =
+                    data.detail ||
+                    data.message ||
+                    message;
+
+            }catch(_){}
+
+            throw new Error(
+                message
+            );
+        }
+
+        const uploadData =
+            await uploadResponse.json();
+
+        console.log(
+            "UPLOAD RESPONSE:",
+            uploadData
+        );
+
+        const fileId =
+            uploadData.file_id ||
+            uploadData.id ||
+            uploadData.file?.id;
+
+        if(!fileId){
+
+            throw new Error(
+                "File berhasil diunggah, tetapi file_id tidak ditemukan dari server."
+            );
+        }
+
+        // ==================================================
+        // STEP 2 — COMPRESS
+        // ==================================================
+
+        setProgress(
+            40,
+            "Menganalisis PDF..."
+        );
+
+        const compressUrl =
+            "http://127.0.0.1:8000/api/v1/pdf/compress" +
+            "?file_id=" +
+            encodeURIComponent(fileId) +
+            "&target_size_kb=" +
+            encodeURIComponent(Math.round(targetKB)) +
+            "&profile=" +
+            encodeURIComponent(selectedProfile);
+
+        setProgress(
+            60,
+            "Mengompres PDF dengan mode " + profileLabel(selectedProfile) + "..."
+        );
+
+        const response =
+            await fetch(
+                compressUrl,
+                {
+                    method:"POST",
+                    headers:{
+                        "Authorization":
+                            "Bearer "+token,
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+        if(!response.ok){
+
+            let message =
+                "Gagal memperkecil ukuran PDF.";
+
+            try{
+
+                const data =
+                    await response.json();
+
+                message =
+                    data.detail ||
+                    data.message ||
+                    message;
+
+            }catch(_){}
+
+            throw new Error(
+                message
+            );
+        }
+
+        const data =
+            await response.json();
+
+        console.log(
+            "COMPRESS RESPONSE:",
+            data
+        );
+
+        // ==================================================
+        // STEP 3 — HASIL
+        // ==================================================
+
+        const compression =
+            data.compression || {};
+
+        const beforeSize =
+            Number(
+                compression.before_size ||
+                selectedFile.size
+            );
+
+        const afterSize =
+            Number(
+                compression.after_size ||
+                0
+            );
+
+        const savedBytes =
+            Number(
+                compression.saved_bytes ||
+                0
+            );
+
+        if(!data.file){
+            throw new Error(
+                "Server tidak mengembalikan informasi file hasil."
+            );
+        }
+
+        setProgress(
+            100,
+            "PDF berhasil dikompres."
+        );
+
+        const saving =
+            beforeSize > 0
+            ? Math.max(
+                0,
+                savedBytes / beforeSize * 100
+            )
+            : 0;
+
+        $("before").textContent =
+            bytes(beforeSize);
+
+        $("after").textContent =
+            bytes(afterSize);
+
+        $("saving").textContent =
+            saving.toFixed(1) + "%";
+
+// ==================================================
+// DOWNLOAD HASIL PDF
+// ==================================================
+
+const downloadUrl =
+    "http://127.0.0.1:8000/api/v1/pdf/download-compressed" +
+    "?file_id=" +
+    encodeURIComponent(fileId) +
+    "&target_size_kb=" +
+    encodeURIComponent(Math.round(targetKB)) +
+    "&profile=" +
+    encodeURIComponent(selectedProfile);
+
+$("download").onclick = async function(event) {
+
+    event.preventDefault();
+
+    try {
+
+        const token = getAccessToken();
+
+        if (!token) {
+
+            showError(
+                "Sesi login tidak ditemukan. Silakan login kembali."
+            );
+
+            return;
+        }
+
+        $("download").textContent =
+            "Menyiapkan download...";
+
+        $("download").style.pointerEvents =
+            "none";
+
+        const downloadResponse =
+            await fetch(
+                downloadUrl,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        if (!downloadResponse.ok) {
+
+            let message =
+                "Gagal mengunduh PDF.";
+
+            try {
+
+                const responseData =
+                    await downloadResponse.json();
+
+                message =
+                    responseData.detail ||
+                    responseData.message ||
+                    message;
+
+            } catch (_) {}
+
+            throw new Error(message);
+        }
+
+        const blob =
+            await downloadResponse.blob();
+
+        const blobUrl =
+            window.URL.createObjectURL(blob);
+
+        const link =
+            document.createElement("a");
+
+        link.href =
+            blobUrl;
+
+        link.download =
+            (data.file && data.file.output_name) ||
+            selectedFile.name.replace(
+                /\.pdf$/i,
+                ""
+            ) + "-compressed.pdf";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(
+            blobUrl
+        );
+
+    } catch (error) {
+
+        console.error(
+            "DOWNLOAD ERROR:",
+            error
+        );
+
+        showError(
+            error.message ||
+            "Gagal mengunduh PDF hasil kompresi."
+        );
+
+    } finally {
+
+        $("download").textContent =
+            "Download PDF";
+
+        $("download").style.pointerEvents =
+            "auto";
+    }
+};
+
+
+
+        result.classList.add(
+            "show"
+        );
+
+    }catch(e){
+
+        progress.classList.remove(
+            "show"
+        );
+
+        showError(
+            e.message ||
+            "Terjadi kesalahan saat mengompres PDF."
+        );
+
+    }finally{
+
+        updateButton();
+
+    }
+};
+
+$("again").onclick=()=>{resetFile();window.scrollTo({top:0,behavior:"smooth"})};
+
+function updateButton(){compress.disabled=!selectedFile||!targetKB}
+function resetFile(){selectedFile=null;input.value="";targetKB=null;selectedProfile="recommended";document.querySelectorAll(".profile").forEach(b=>b.classList.toggle("active",b.dataset.profile==="recommended"));preview.classList.remove("show");compress.disabled=true;progress.classList.remove("show");result.classList.remove("show");clearError()}
+function setProgress(p,m){$("bar").style.width=p+"%";$("percent").textContent=p+"%";$("message").textContent=m}
+function showError(m){error.textContent=m;error.classList.add("show")}
+function clearError(){error.textContent="";error.classList.remove("show")}
+function bytes(s){if(!s)return"0 B";const u=["B","KB","MB","GB"],i=Math.min(Math.floor(Math.log(s)/Math.log(1024)),3);return(s/Math.pow(1024,i)).toFixed(i?2:0)+" "+u[i]}
+</script>
+</body>
+</html>

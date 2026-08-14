@@ -1,0 +1,1134 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <!-- ==================================================
+         BASIC SEO & META
+    ================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Master AI - Tools PDF Online Gratis | Compress, Merge, Split & Convert PDF</title>
+    <meta name="description" content="PDF Master AI adalah platform PDF online untuk compress PDF, merge PDF, split PDF, PDF to Word, PDF to JPG, JPG to PDF, rotate PDF, dan berbagai tools PDF lainnya.">
+    <meta name="keywords" content="compress pdf, merge pdf, split pdf, pdf to word, pdf to jpg, jpg to pdf, rotate pdf, unlock pdf, pdf tools, pdf online, edit pdf, convert pdf">
+    <meta name="author" content="PDF Master AI">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://pdfmasterai.com/">
+
+    <!-- ==================================================
+         THEME & OPEN GRAPH
+    ================================================== -->
+    <meta name="theme-color" content="#5b5cf0">
+    <meta name="color-scheme" content="light">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="PDF Master AI">
+    <meta property="og:title" content="PDF Master AI - Semua Tools PDF dalam Satu Tempat">
+    <meta property="og:description" content="Compress, merge, split, convert, dan kelola PDF secara online dengan PDF Master AI.">
+    <meta property="og:url" content="https://pdfmasterai.com/">
+    <meta property="og:image" content="https://pdfmasterai.com/assets/og-image.jpg">
+    <meta property="og:image:alt" content="PDF Master AI - PDF Tools Online">
+
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Master AI - PDF Tools Online">
+    <meta name="twitter:description" content="Gunakan berbagai tools PDF online seperti Compress PDF, Merge PDF, Split PDF dan PDF Converter.">
+    <meta name="twitter:image" content="https://pdfmasterai.com/assets/og-image.jpg">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- STRUCTURED DATA -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://pdfmasterai.com/#website",
+                "url": "https://pdfmasterai.com/",
+                "name": "PDF Master AI",
+                "description": "Platform PDF online untuk mengelola, memproses, mengompres, menggabungkan, memisahkan, dan mengonversi dokumen PDF.",
+                "inLanguage": "id-ID"
+            },
+            {
+                "@type": "SoftwareApplication",
+                "@id": "https://pdfmasterai.com/#application",
+                "name": "PDF Master AI",
+                "url": "https://pdfmasterai.com/",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Web",
+                "description": "Online PDF tools untuk compress PDF, merge PDF, split PDF, PDF conversion, dan pengelolaan dokumen PDF.",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- ==================================================
+         CSS STYLES
+    ================================================== -->
+    <style>
+        /* RESET & VARS */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4344d6;
+            --primary-light: #eef0ff;
+            --secondary: #7c3aed;
+            --text: #0f172a;
+            --text-soft: #334155;
+            --muted: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.1);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --container: 1200px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; }
+
+        .container {
+            width: min(100% - 40px, var(--container));
+            margin-inline: auto;
+        }
+
+        /* HEADER & NAVBAR */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .navbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(91, 92, 240, 0.3);
+        }
+
+        .logo-text { line-height: 1.2; }
+        .logo-title { display: block; font-size: 18px; font-weight: 800; color: var(--text); }
+        .logo-sub { display: block; color: var(--muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-soft);
+        }
+
+        .nav-links a { transition: color 0.2s ease; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        .btn-login, .btn-register {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login {
+            padding: 0 20px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-soft);
+        }
+
+        .btn-login:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-register {
+            padding: 0 22px;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(91, 92, 240, 0.25);
+        }
+
+        .btn-register:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(91, 92, 240, 0.35);
+        }
+
+        .menu-button {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu {
+            display: none;
+            border-top: 1px solid var(--border);
+            background: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .mobile-menu.active { display: block; }
+        .mobile-menu a { display: block; padding: 10px 0; color: var(--text-soft); font-size: 14px; font-weight: 600; }
+        .mobile-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .mobile-actions a { text-align: center; border-radius: 8px; padding: 10px; }
+        .mobile-login { border: 1px solid var(--border); }
+        .mobile-register { background: var(--primary); color: white !important; }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, #f8fafc 100%);
+            padding: 90px 0 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid #e0e3ff;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(8px);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin: 0 auto 20px;
+            font-size: clamp(38px, 5.5vw, 64px);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            max-width: 680px;
+            margin: 0 auto 36px;
+            color: var(--muted);
+            font-size: clamp(14px, 1.8vw, 17px);
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .hero-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 28px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+        }
+
+        .hero-button-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(91, 92, 240, 0.28);
+        }
+
+        .hero-button-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(91, 92, 240, 0.35);
+        }
+
+        .hero-button-secondary {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-soft);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-button-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* TOOLS SECTION */
+        .tools-section {
+            position: relative;
+            z-index: 2;
+            margin-top: -40px;
+            padding-bottom: 90px;
+        }
+
+        .section-header {
+            margin-bottom: 28px;
+        }
+
+        .section-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            position: relative;
+            min-height: 200px;
+            padding: 26px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            border-color: #c7c9ff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-light);
+            color: var(--primary);
+            margin-bottom: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.08);
+        }
+
+        .tool-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .tool-card h3 {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .tool-card p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .tool-link {
+            margin-top: auto;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* FEATURED CARD */
+        .featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #4f46e5 0%, var(--primary) 50%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 12px 30px rgba(91, 92, 240, 0.3);
+        }
+
+        .featured:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 36px rgba(91, 92, 240, 0.4);
+        }
+
+        .featured .tool-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(8px);
+        }
+
+        .featured p { color: rgba(255, 255, 255, 0.85); }
+        .featured .tool-link { color: white; }
+
+        /* WHY SECTION */
+        .why {
+            background: white;
+            border-block: 1px solid var(--border);
+            padding: 90px 0;
+        }
+
+        .why-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .why-title h2 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 10px;
+        }
+
+        .why-title p { color: var(--muted); font-size: 15px; }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 18px;
+            border-radius: 16px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .feature h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+        .feature p { color: var(--muted); font-size: 12px; line-height: 1.65; }
+
+        /* SEO CONTENT */
+        .seo-content {
+            padding: 80px 0;
+            background: var(--bg);
+        }
+
+        .seo-content-inner {
+            max-width: 860px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .seo-content h2 { font-size: 24px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
+        .seo-content h3 { font-size: 18px; font-weight: 700; margin: 28px 0 10px; }
+        .seo-content p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+
+        /* CTA SECTION */
+        .cta-wrapper {
+            padding: 30px 0 80px;
+        }
+
+        .cta {
+            padding: 60px 40px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            color: white;
+            background: linear-gradient(135deg, #312e81 0%, var(--primary) 50%, var(--secondary) 100%);
+            box-shadow: 0 20px 40px rgba(91, 92, 240, 0.25);
+        }
+
+        .cta h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 900; margin-bottom: 12px; }
+        .cta p { max-width: 600px; margin: 0 auto 28px; color: rgba(255, 255, 255, 0.85); font-size: 14px; line-height: 1.6; }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 28px;
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* ==================================================
+           BLACK SEO FOOTER (DASHBOARD STYLE)
+        ================================================== */
+        .main-footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .footer-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 3vw, 36px);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-brand .logo-title {
+            color: #ffffff;
+        }
+
+        .footer-brand p {
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 12px;
+            max-width: 320px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 9px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            transition: color 0.2s ease;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-address {
+            font-style: normal;
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .footer-address a {
+            color: #a5b4fc;
+        }
+
+        .footer-address a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .footer-socials a {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f8fafc;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 1024px) {
+            .tools-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .featured { grid-column: span 2; }
+            .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-actions { display: none; }
+            .menu-button { display: inline-flex; }
+            .hero { padding: 60px 0 80px; }
+            .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .featured { grid-column: span 2; }
+            .seo-content-inner { padding: 24px; }
+        }
+
+        @media (max-width: 540px) {
+            .tools-grid { grid-template-columns: 1fr; }
+            .featured { grid-column: span 1; }
+            .features { grid-template-columns: 1fr; gap: 20px; }
+            .hero-actions { flex-direction: column; }
+            .hero-button { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; align-items: center; }
+            .cta { padding: 40px 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<!-- ==================================================
+         HEADER / NAVBAR
+    ================================================== -->
+    <header class="site-header" id="top">
+        <nav class="navbar container" aria-label="Navigasi utama">
+            <a href="index.html" class="logo" aria-label="PDF Master AI - Beranda">
+                <div class="logo-icon" aria-hidden="true">P</div>
+                <div class="logo-text">
+                    <span class="logo-title">PDF Master AI</span>
+                    <span class="logo-sub">Smart PDF Workspace</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP NAV -->
+            <div class="nav-links" aria-label="Menu utama">
+                <a href="#tools">PDF Tools</a>
+                <a href="#features">Fitur</a>
+                <a href="#about">Tentang</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Daftar Gratis</a>
+            </div>
+
+            <!-- MOBILE MENU BUTTON -->
+            <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu" aria-expanded="false">
+                â˜°
+            </button>
+        </nav>
+
+        <!-- MOBILE MENU -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="container">
+                <a href="#tools">PDF Tools</a>
+                <a href="#features">Fitur</a>
+                <a href="#about">Tentang</a>
+                <div class="mobile-actions">
+                    <a href="login.html" class="mobile-login">Login</a>
+                    <a href="register.html" class="mobile-register">Daftar Gratis</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================================================
+             HERO SECTION
+        ================================================== -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-badge">
+                    <span class="badge-dot" aria-hidden="true"></span>
+                    PDF tools online yang mudah &amp; serba otomatis
+                </div>
+
+                <h1 id="hero-title">
+                    Semua kebutuhan PDF <span>dalam satu tempat.</span>
+                </h1>
+
+                <p class="hero-description">
+                    PDF Master AI membantu Anda mengompres PDF, menggabungkan PDF, memisahkan PDF, mengonversi PDF ke Word atau JPG, dan mengelola dokumen secara online dengan mudah. Gunakan tools dasar tanpa harus membuat akun.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#tools" class="hero-button hero-button-primary">
+                        Mulai Gunakan PDF Tools
+                    </a>
+                    <a href="register.html" class="hero-button hero-button-secondary">
+                        Buat Akun Gratis
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================
+             PDF TOOLS GRID
+        ================================================== -->
+        <section class="tools-section" id="tools" aria-labelledby="tools-title">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="tools-title">PDF Tools Online</h2>
+                    <p>Pilih tools PDF yang Anda butuhkan untuk memulai.</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- COMPRESS (FEATURED) -->
+                    <a href="pdf-tools/compress-pdf-target.html" class="tool-card featured" aria-label="Compress PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
+                        </div>
+                        <h3>Compress PDF</h3>
+                        <p>Kompres ukuran file PDF secara online agar lebih kecil dan mudah dibagikan tanpa mengurangi kualitas.</p>
+                        <span class="tool-link">Kompres PDF &rarr;</span>
+                    </a>
+
+                    <!-- MERGE -->
+                    <a href="pdf-tools/merge-pdf.html" class="tool-card" aria-label="Merge PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M8 7h11M8 12h11M8 17h11M4 7h.01M4 12h.01M4 17h.01"/></svg>
+                        </div>
+                        <h3>Merge PDF</h3>
+                        <p>Gabungkan beberapa file PDF menjadi satu dokumen dengan urutan rapi.</p>
+                        <span class="tool-link">Gabungkan PDF &rarr;</span>
+                    </a>
+
+                    <!-- SPLIT -->
+                    <a href="pdf-tools/split-pdf.html" class="tool-card" aria-label="Split PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+                        </div>
+                        <h3>Split PDF</h3>
+                        <p>Pisahkan halaman PDF atau ambil bagian tertentu sesuai kebutuhan Anda.</p>
+                        <span class="tool-link">Pisahkan PDF &rarr;</span>
+                    </a>
+
+                    <!-- PDF TO WORD -->
+                    <a href="pdf-tools/pdf-to-word.html" class="tool-card" aria-label="PDF to Word">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </div>
+                        <h3>PDF to Word</h3>
+                        <p>Konversikan dokumen PDF menjadi file Microsoft Word yang dapat diedit.</p>
+                        <span class="tool-link">PDF ke Word &rarr;</span>
+                    </a>
+
+                    <!-- PDF TO JPG -->
+                    <a href="pdf-tools/pdf-to-jpg.html" class="tool-card" aria-label="PDF to JPG">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <h3>PDF to JPG</h3>
+                        <p>Ubah halaman PDF menjadi gambar berformat JPG berkualitas tinggi.</p>
+                        <span class="tool-link">PDF ke JPG &rarr;</span>
+                    </a>
+
+                    <!-- JPG TO PDF -->
+                    <a href="pdf-tools/jpg-to-pdf.html" class="tool-card" aria-label="JPG to PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h3>JPG to PDF</h3>
+                        <p>Buat dokumen PDF dari sekumpulan foto atau gambar JPG Anda.</p>
+                        <span class="tool-link">JPG ke PDF &rarr;</span>
+                    </a>
+
+                    <!-- ROTATE -->
+                    <a href="pdf-tools/rotate-pdf.html" class="tool-card" aria-label="Rotate PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        </div>
+                        <h3>Rotate PDF</h3>
+                        <p>Putar orientasi halaman PDF (portrait/landscape) dengan presisi.</p>
+                        <span class="tool-link">Putar PDF &rarr;</span>
+                    </a>
+
+                    <!-- UNLOCK -->
+                    <a href="unlock.html" class="tool-card" aria-label="Unlock PDF">
+                        <div class="tool-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                        </div>
+                        <h3>Unlock PDF</h3>
+                        <p>Buka kata sandi dan proteksi file PDF yang Anda miliki.</p>
+                        <span class="tool-link">Unlock PDF &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================
+             FEATURES / WHY US
+        ================================================== -->
+        <section class="why" id="features" aria-labelledby="features-title">
+            <div class="container">
+                <div class="why-title">
+                    <h2 id="features-title">Kenapa PDF Master AI?</h2>
+                    <p>Dibuat untuk mempermudah alur kerja pemrosesan dokumen Anda.</p>
+                </div>
+
+                <div class="features">
+                    <article class="feature">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <h3>Proses Cepat</h3>
+                        <p>Workflow sederhana membantu Anda menyelesaikan pekerjaan PDF dalam hitungan detik.</p>
+                    </article>
+
+                    <article class="feature">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <h3>Sangat Aman</h3>
+                        <p>Sistem enkripsi otomatis memastikan file Anda terlindungi dan langsung dihapus otomatis.</p>
+                    </article>
+
+                    <article class="feature">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                        </div>
+                        <h3>Cloud Ready</h3>
+                        <p>Akses dokumen Anda secara fleksibel langsung dari browser tanpa perlu menginstal aplikasi.</p>
+                    </article>
+
+                    <article class="feature">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <h3>Ditenagai AI</h3>
+                        <p>Optimalisasi berbasis AI pintar memberikan kompresi dan hasil konversi tingkat tinggi.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================
+             SEO ARTICLE CONTENT
+        ================================================== -->
+        <section class="seo-content" id="about" aria-labelledby="about-title">
+            <div class="container">
+                <div class="seo-content-inner">
+                    <h2 id="about-title">PDF Tools Online untuk Berbagai Kebutuhan</h2>
+                    <p>PDF Master AI merupakan platform PDF online lengkap yang menyediakan berbagai alat untuk membantu pekerjaan dokumen Anda. Mulai dari Compress PDF untuk memperkecil ukuran file, Merge PDF untuk menggabungkan berkas, hingga Split PDF untuk memisahkan halaman tertentu.</p>
+
+                    <h3>Kompres PDF Secara Online</h3>
+                    <p>Gunakan fitur Compress PDF ketika ukuran dokumen terlalu besar untuk dikirimkan via email atau diunggah ke portal resmi. Algoritma cerdas kami memangkas ukuran berkas tanpa merusak kejelasan teks dan gambar.</p>
+
+                    <h3>Gabungkan dan Pisahkan Dokumen PDF</h3>
+                    <p>Merge PDF membantu Anda merapikan susunan laporan dengan menyatukan beberapa file PDF secara berurutan. Sementara Split PDF fleksibel digunakan saat Anda hanya membutuhkan beberapa lembar dokumen saja.</p>
+
+                    <h3>Konversi PDF dan Gambar Praktis</h3>
+                    <p>PDF Master AI juga mendukung konversi PDF to Word, PDF to JPG, serta JPG to PDF guna memenuhi berbagai format pengiriman berkas pekerjaan maupun pendidikan Anda.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================
+             CALL TO ACTION (CTA)
+        ================================================== -->
+        <section class="cta-wrapper">
+            <div class="container">
+                <div class="cta" aria-labelledby="cta-title">
+                    <h2 id="cta-title">Mulai Kelola PDF Anda Sekarang</h2>
+                    <p>Pilih tools PDF yang Anda perlukan dan mulai bekerja tanpa harus repot mendaftar. Atau buat akun gratis untuk menyimpan riwayat pemrosesan Anda.</p>
+                    <a href="#tools" class="cta-button">Lihat Semua PDF Tools</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================================================
+         SEO-FRIENDLY FOOTER (BLACK MODE DASHBOARD STYLE)
+    ================================================== -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                
+                <!-- KOLOM 1: BRAND & SOSIAL MEDIA -->
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">P</div>
+                        <div class="logo-text">
+                            <span class="logo-title">PDF Master AI</span>
+                            <span class="logo-sub">Smart PDF Workspace</span>
+                        </div>
+                    </a>
+                    <p>Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan.</p>
+                    
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" rel="noopener noreferrer" target="_blank">f</a>
+                        <a href="#" aria-label="Twitter" rel="noopener noreferrer" target="_blank">X</a>
+                        <a href="#" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank">in</a>
+                        <a href="#" aria-label="Instagram" rel="noopener noreferrer" target="_blank">ig</a>
+                    </div>
+                </div>
+
+                <!-- KOLOM 2: PDF TOOLS POPULER (INTERNAL LINKING SEO) -->
+                <div class="footer-column">
+                    <h3>PDF Tools Populer</h3>
+                    <ul class="footer-links">
+                        <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                        <li><a href="#tools">Lihat Semua PDF Tools</a></li>
+                    </ul>
+                </div>
+
+                <!-- KOLOM 3: PERUSAHAAN (E-E-A-T) -->
+                <div class="footer-column">
+                    <h3>Perusahaan</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                        <li><a href="help.html">Pusat Bantuan</a></li>
+                        <li><a href="contact.html">Kontak Kami</a></li>
+                        <li><a href="blog.html">Panduan &amp; Blog AI</a></li>
+                    </ul>
+                </div>
+
+                <!-- KOLOM 4: HUKUM & PRIVASI (E-E-A-T TRUST SIGNALS) -->
+                <div class="footer-column">
+                    <h3>Hukum &amp; Privasi</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                        <li><a href="security.html">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                    <address class="footer-address" style="margin-top:10px;">
+                        <strong>Email Support:</strong><br>
+                        <a href="mailto:support@pdfmasterai.com">support@pdfmasterai.com</a>
+                    </address>
+                </div>
+
+            </div>
+
+            <!-- FOOTER BOTTOM & COPYRIGHT -->
+            <div class="footer-bottom">
+                <p>Â© <span id="currentYear"></span> PDF Master AI. All Rights Reserved.</p>
+                <p>Ditenagai oleh Teknologi AI PDF Pintar.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
+    <script>
+        const menuButton = document.getElementById("menuButton");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        // Set Tahun Dinamis di Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        /* TOGGLE MOBILE MENU */
+        menuButton.addEventListener("click", function () {
+            const active = mobileMenu.classList.toggle("active");
+            menuButton.setAttribute("aria-expanded", active ? "true" : "false");
+            menuButton.setAttribute("aria-label", active ? "Tutup menu" : "Buka menu");
+            menuButton.textContent = active ? "âœ•" : "â˜°";
+        });
+
+        /* CLOSE MOBILE MENU ON LINK CLICK */
+        document.querySelectorAll("#mobileMenu a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                mobileMenu.classList.remove("active");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "Buka menu");
+                menuButton.textContent = "â˜°";
+            });
+        });
+
+        /* CLOSE MENU ON ESC KEY */
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && mobileMenu.classList.contains("active")) {
+                mobileMenu.classList.remove("active");
+                menuButton.setAttribute("aria-expanded", "false");
+                menuButton.setAttribute("aria-label", "Buka menu");
+                menuButton.textContent = "â˜°";
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+

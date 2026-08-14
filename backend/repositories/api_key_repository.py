@@ -1,0 +1,143 @@
+# ==========================================================
+# PDF MASTER AI
+# API Key Repository
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.api_key import ApiKey
+
+from repositories.base_repository import BaseRepository
+
+
+# ----------------------------------------------------------
+# API KEY REPOSITORY
+# ----------------------------------------------------------
+
+class ApiKeyRepository(
+    BaseRepository[ApiKey]
+):
+
+    """
+    API Key Repository.
+    """
+
+    def __init__(
+        self,
+        db: Session
+    ):
+
+        super().__init__(
+            db,
+            ApiKey
+        )
+
+    # ------------------------------------------------------
+    # GET API KEY
+    # ------------------------------------------------------
+
+    def get_by_key(
+        self,
+        api_key: str
+    ) -> ApiKey | None:
+
+        return (
+            self.db.query(ApiKey)
+            .filter(
+                ApiKey.api_key == api_key
+            )
+            .first()
+        )
+
+    # ------------------------------------------------------
+    # USER API KEYS
+    # ------------------------------------------------------
+
+    def get_user_keys(
+        self,
+        user_id: int
+    ) -> list[ApiKey]:
+
+        return (
+            self.db.query(ApiKey)
+            .filter(
+                ApiKey.user_id == user_id
+            )
+            .all()
+        )
+
+    # ------------------------------------------------------
+    # ACTIVE KEYS
+    # ------------------------------------------------------
+
+    def get_active_keys(
+        self,
+        user_id: int
+    ) -> list[ApiKey]:
+
+        return (
+            self.db.query(ApiKey)
+            .filter(
+                ApiKey.user_id == user_id,
+                ApiKey.is_active.is_(True)
+            )
+            .all()
+        )
+
+    # ------------------------------------------------------
+    # EXISTS
+    # ------------------------------------------------------
+
+    def key_exists(
+        self,
+        api_key: str
+    ) -> bool:
+
+        return (
+            self.get_by_key(
+                api_key
+            )
+            is not None
+        )
+
+    # ------------------------------------------------------
+    # ACTIVATE
+    # ------------------------------------------------------
+
+    def activate(
+        self,
+        api_key: ApiKey
+    ) -> ApiKey:
+
+        api_key.is_active = True
+
+        self.db.commit()
+
+        self.db.refresh(
+            api_key
+        )
+
+        return api_key
+
+    # ------------------------------------------------------
+    # DEACTIVATE
+    # ------------------------------------------------------
+
+    def deactivate(
+        self,
+        api_key: ApiKey
+    ) -> ApiKey:
+
+        api_key.is_active = False
+
+        self.db.commit()
+
+        self.db.refresh(
+            api_key
+        )
+
+        return api_key

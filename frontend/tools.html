@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <!-- ==================================================
+         SEO & METADATA
+    ================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>All PDF Tools - PDF Master AI</title>
+    <meta name="description" content="Kumpulan alat PDF online lengkap gratis dari PDF Master AI. Kompres, gabung, pisahkan, dan konversi PDF dengan cepat dan aman.">
+    <meta name="keywords" content="PDF tools, kompres PDF, gabung PDF, split PDF, konversi PDF, PDF Master AI">
+    <meta name="author" content="PDF Master AI">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="All PDF Tools - PDF Master AI">
+    <meta property="og:description" content="Solusi lengkap pemrosesan dokumen PDF berbasis AI.">
+    <meta property="og:site_name" content="PDF Master AI">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="All PDF Tools - PDF Master AI">
+    <meta name="twitter:description" content="Solusi lengkap pemrosesan dokumen PDF berbasis AI.">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4546d8;
+            --primary-soft: #eef0ff;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 25px rgba(17, 24, 39, 0.07);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Skip link tersembunyi */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 200;
+            transition: top 0.2s;
+            border-radius: 0 0 8px 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* =========================================================
+           CUSTOM FLOATING TOOLTIP
+        ========================================================= */
+        #floatingTooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #floatingTooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* LOGO HEADER STYLE */
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            flex-shrink: 0;
+        }
+
+        /* ==================================================
+           HEADER / NAVBAR
+        ================================================== */
+        .header-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-inner {
+            width: min(calc(100% - 40px), 1180px);
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .dashboard-btn {
+            padding: 9px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dashboard-btn:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        /* ==================================================
+           HERO & MAIN
+        ================================================== */
+        main {
+            flex: 1;
+        }
+
+        .hero {
+            padding: 55px 0 35px;
+            text-align: center;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), 1180px);
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin: 14px 0 10px;
+            font-size: 38px;
+            letter-spacing: -1px;
+            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ==================================================
+           SECTION & TOOLS GRID
+        ================================================== */
+        .section {
+            margin-bottom: 45px;
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .section-description {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .tool-card {
+            position: relative;
+            min-width: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: #c7c8ff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .pdf-jpg { background: #fef2f2; color: #dc2626; }
+        .pdf-word { background: #eff6ff; color: #2563eb; }
+        .compress { background: #fff7ed; color: #ea580c; }
+        .split { background: #f0fdf4; color: #16a34a; }
+        .merge { background: #f5f3ff; color: #7c3aed; }
+        .enhance { background: #fdf2f8; color: #db2777; }
+
+        .tool-name {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .tool-description {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .tool-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 16px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* VIP SECTION */
+        .vip {
+            position: relative;
+            overflow: hidden;
+            background: #fcfcfd;
+        }
+
+        .vip-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: #111827;
+            color: #fbbf24;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .vip .tool-icon {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        /* =========================================================
+           FOOTER (DARK THEME PRESI SESUAI GAMBAR)
+        ========================================================= */
+        .footer {
+            background: #090e1a;
+            color: #8fa0b5;
+            margin-top: 60px;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 60px), 1200px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #151d2a;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .footer-brand-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-subtitle {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #55657a;
+            max-width: 380px;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #8fa0b5;
+            margin-bottom: 20px;
+        }
+
+        .footer-email-support a {
+            color: #5b5cf0;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-socials a {
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: #151d2a;
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #1e293b;
+        }
+
+        .footer-socials a:hover {
+            background: #5b5cf0;
+            color: #ffffff;
+            border-color: #5b5cf0;
+        }
+
+        .footer-column-title {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links-list a {
+            color: #7b8ea5;
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #4a586d;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 1200px) {
+            .tools-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        @media(max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media(max-width: 760px) {
+            .hero { padding: 42px 0 28px; }
+            .hero h1 { font-size: 30px; }
+            .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .nav-links { display: none; }
+        }
+
+        @media(max-width: 550px) {
+            .hero h1 { font-size: 26px; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- FLOATING TOOLTIP -->
+    <div id="floatingTooltip"></div>
+
+    <a href="#main-content" class="skip-link">Lompat ke Konten Utama</a>
+
+    <!-- HEADER / NAVBAR -->
+    <header class="header-nav" role="banner">
+        <div class="nav-inner">
+            <a href="dashboard.html" class="brand">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div class="brand-text">
+                    <span>PDF Master AI</span>
+                    <span class="brand-sub">Smart PDF Workspace</span>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="tools.html" class="nav-link active">Tools</a>
+                <a href="pricing.html" class="nav-link">Harga</a>
+                <a href="about.html" class="nav-link">Tentang</a>
+            </nav>
+
+            <a href="dashboard.html" class="dashboard-btn">Buka Dashboard</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container">
+                <span class="badge">All PDF Tools</span>
+                <h1>Semua Alat PDF dalam <span>Satu Tempat</span></h1>
+                <p>Kelola, konversi, kompres, dan olah dokumen PDF Anda secara mudah, cepat, dan aman langsung dari browser Anda.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- FREE TOOLS SECTION -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Free Tools</h2>
+                    <p class="section-description">Tool pemrosesan PDF standar yang tersedia untuk seluruh pengguna gratis.</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- COMPRESS PDF -->
+                    <a href="pdf-tools/compress-pdf-target.html" class="tool-card">
+                        <div class="tool-icon compress" aria-hidden="true">↓</div>
+                        <div>
+                            <div class="tool-name">Compress PDF</div>
+                            <div class="tool-description">Kurangi ukuran file PDF tanpa mengurangi kualitas secara signifikan.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+
+                    <!-- PDF TO JPG -->
+                    <a href="pdf-tools/pdf-to-jpg.html" class="tool-card">
+                        <div class="tool-icon pdf-jpg" aria-hidden="true">JPG</div>
+                        <div>
+                            <div class="tool-name">PDF to JPG</div>
+                            <div class="tool-description">Ubah dan ekstrak halaman dokumen PDF menjadi gambar berformat JPG.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+
+                    <!-- PDF TO WORD -->
+                    <a href="pdf-tools/pdf-to-word.html" class="tool-card">
+                        <div class="tool-icon pdf-word" aria-hidden="true">W</div>
+                        <div>
+                            <div class="tool-name">PDF to Word</div>
+                            <div class="tool-description">Konversi dokumen PDF menjadi file Word (DOCX) yang dapat diedit.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+
+                    <!-- SPLIT PDF -->
+                    <a href="pdf-tools/split-pdf.html" class="tool-card">
+                        <div class="tool-icon split" aria-hidden="true">✂</div>
+                        <div>
+                            <div class="tool-name">Split PDF</div>
+                            <div class="tool-description">Pisahkan halaman PDF menjadi beberapa dokumen terpisah dengan mudah.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+
+                    <!-- MERGE PDF -->
+                    <a href="pdf-tools/merge-pdf.html" class="tool-card">
+                        <div class="tool-icon merge" aria-hidden="true">+</div>
+                        <div>
+                            <div class="tool-name">Merge PDF</div>
+                            <div class="tool-description">Gabungkan beberapa berkas dokumen PDF menjadi satu file utuh.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+
+                    <!-- PERCANTIK FOTO -->
+                    <a href="enhance-photo.html" class="tool-card">
+                        <div class="tool-icon enhance" aria-hidden="true">✨</div>
+                        <div>
+                            <div class="tool-name">Percantik Foto</div>
+                            <div class="tool-description">Tingkatkan kualitas, ketajaman, kontras, dan warna foto yang pecah atau buram.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Gunakan Tool →</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- VIP TOOLS SECTION -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">VIP Tools</h2>
+                    <p class="section-description">Fitur tingkat lanjut berbasis kecerdasan buatan (AI) khusus anggota VIP.</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- AI PDF ASSISTANT -->
+                    <div class="tool-card vip">
+                        <span class="vip-badge" aria-hidden="true">VIP</span>
+                        <div class="tool-icon" aria-hidden="true">AI</div>
+                        <div>
+                            <div class="tool-name">AI PDF Assistant</div>
+                            <div class="tool-description">Lakukan tanya jawab dan rangkum isi dokumen PDF secara otomatis dengan kecerdasan AI.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Segera Hadir →</span>
+                    </div>
+
+                    <!-- OCR PDF -->
+                    <div class="tool-card vip">
+                        <span class="vip-badge" aria-hidden="true">VIP</span>
+                        <div class="tool-icon" aria-hidden="true">OCR</div>
+                        <div>
+                            <div class="tool-name">OCR PDF</div>
+                            <div class="tool-description">Ekstrak teks secara presisi dari gambar atau PDF hasil pemindaian scan.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Segera Hadir →</span>
+                    </div>
+
+                    <!-- ADVANCED CONVERTER -->
+                    <div class="tool-card vip">
+                        <span class="vip-badge" aria-hidden="true">VIP</span>
+                        <div class="tool-icon" aria-hidden="true">PDF</div>
+                        <div>
+                            <div class="tool-name">Advanced PDF Converter</div>
+                            <div class="tool-description">Konversi PDF ke berbagai format kustom dengan pengaturan kompresi dan tata letak lanjutan.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Segera Hadir →</span>
+                    </div>
+
+                    <!-- SMART PDF TOOLS -->
+                    <div class="tool-card vip">
+                        <span class="vip-badge" aria-hidden="true">VIP</span>
+                        <div class="tool-icon" aria-hidden="true">✦</div>
+                        <div>
+                            <div class="tool-name">Smart PDF Tools</div>
+                            <div class="tool-description">Fitur alur kerja otomatis untuk mengatur watermark, proteksi kata sandi, dan proteksi dokumen.</div>
+                        </div>
+                        <span class="tool-arrow" aria-hidden="true">Segera Hadir →</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER PRESI SESUAI GAMBAR RUJUKAN -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Kolom 1: Brand, Support, Socials -->
+                <div class="footer-col-brand">
+                    <div class="footer-brand">
+                        <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                        <span class="footer-brand-title">PDF Master AI</span>
+                    </div>
+                    <div class="footer-subtitle">Smart PDF Workspace</div>
+                    <p class="footer-desc">
+                        Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                    </p>
+                    <div class="footer-email-support">
+                        Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                    </div>
+
+                    <div class="footer-socials">
+                        <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer">Facebook</a>
+                        <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer">X</a>
+                        <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer">TikTok</a>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: PDF Tools Populer -->
+                <nav class="footer-col">
+                    <div class="footer-column-title">PDF TOOLS POPULER</div>
+                    <ul class="footer-links-list">
+                        <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 3: Perusahaan -->
+                <nav class="footer-col">
+                    <div class="footer-column-title">PERUSAHAAN</div>
+                    <ul class="footer-links-list">
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                        <li><a href="help.html">Pusat Bantuan</a></li>
+                        <li><a href="blog.html">Blog &amp; Panduan</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                        <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 4: Hukum & Privasi -->
+                <nav class="footer-col">
+                    <div class="footer-column-title">HUKUM &amp; PRIVASI</div>
+                    <ul class="footer-links-list">
+                        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                        <li><a href="security.html">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom">
+                <div>
+                    © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                </div>
+                <div>
+                    Smart PDF Workspace Powered by AI
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const tooltip = document.getElementById("floatingTooltip");
+
+        // Set Tahun Dinamis untuk SEO Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        function attachFloatingTooltip(element) {
+            element.addEventListener("mouseenter", (e) => {
+                e.stopPropagation();
+                let text = element.innerText || element.textContent;
+                text = text.replace(/\s+/g, " ").trim();
+
+                if (!text) return;
+
+                tooltip.textContent = text;
+                tooltip.classList.add("visible");
+            });
+
+            element.addEventListener("mousemove", (e) => {
+                let x = e.clientX + 15;
+                let y = e.clientY + 15;
+
+                if (x + tooltip.offsetWidth > window.innerWidth - 10) {
+                    x = e.clientX - tooltip.offsetWidth - 10;
+                }
+                if (y + tooltip.offsetHeight > window.innerHeight - 10) {
+                    y = e.clientY - tooltip.offsetHeight - 10;
+                }
+
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+            });
+
+            element.addEventListener("mouseleave", (e) => {
+                e.stopPropagation();
+                tooltip.classList.remove("visible");
+            });
+        }
+
+        function initFloatingTooltips() {
+            const selector = "h1, h2, h3, p, a, button, .tool-card, .badge, .footer-column-title";
+            document.querySelectorAll(selector).forEach(attachFloatingTooltip);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            initFloatingTooltips();
+        });
+    </script>
+</body>
+
+</html>

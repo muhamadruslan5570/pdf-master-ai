@@ -1,0 +1,984 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Verifikasi Email | PDF Master AI</title>
+
+<meta name="description" content="Verifikasi alamat email akun PDF Master AI.">
+<meta name="robots" content="noindex, nofollow">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+    --primary:#5b5cf0;
+    --primary-dark:#4748d7;
+    --secondary:#7c3aed;
+    --text:#111827;
+    --soft:#374151;
+    --muted:#6b7280;
+    --bg:#f7f8fc;
+    --white:#fff;
+    --border:#e5e7eb;
+    --success:#16a34a;
+    --danger:#dc2626;
+}
+
+html,body{
+    min-height:100%;
+}
+
+body{
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",
+    Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:min(calc(100% - 40px),1180px);
+    margin:auto;
+}
+
+/* HEADER */
+
+.site-header{
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+.navbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.logo-title{
+    display:block;
+    font-size:17px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.logo-sub{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:27px;
+    color:var(--soft);
+    font-size:13px;
+}
+
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:9px;
+}
+
+.btn{
+    min-height:40px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    font-size:12px;
+    font-weight:750;
+    transition:.2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    font-size:20px;
+}
+
+.mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:#fff;
+    padding:14px 0 20px;
+}
+
+.mobile-menu.active{
+    display:block;
+}
+
+.mobile-menu a{
+    display:block;
+    padding:11px 0;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* HERO */
+
+.page{
+    min-height:calc(100vh - 70px);
+    display:flex;
+    flex-direction:column;
+}
+
+.verify-section{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:65px 0;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(91,92,240,.09),transparent 30%),
+        radial-gradient(circle at 80% 80%,rgba(124,58,237,.08),transparent 30%),
+        var(--bg);
+}
+
+.verify-card{
+    width:min(100%,540px);
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:38px;
+    box-shadow:0 18px 45px rgba(17,24,39,.08);
+    text-align:center;
+}
+
+.verify-icon{
+    width:76px;
+    height:76px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    background:#eef0ff;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+}
+
+.verify-icon.success{
+    background:#ecfdf5;
+    color:var(--success);
+}
+
+.verify-icon.error{
+    background:#fef2f2;
+    color:var(--danger);
+}
+
+.verify-card h1{
+    font-size:30px;
+    line-height:1.15;
+    letter-spacing:-1px;
+    margin-bottom:11px;
+}
+
+.verify-card p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.8;
+}
+
+.email-box{
+    margin:23px 0;
+    padding:13px 16px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--bg);
+    color:var(--text);
+    font-size:12px;
+    font-weight:700;
+    word-break:break-word;
+}
+
+.status-message{
+    display:none;
+    margin-top:20px;
+    padding:12px 14px;
+    border-radius:9px;
+    font-size:11px;
+    text-align:left;
+}
+
+.status-message.show{
+    display:block;
+}
+
+.status-message.success{
+    color:#166534;
+    background:#ecfdf5;
+    border:1px solid #bbf7d0;
+}
+
+.status-message.error{
+    color:#991b1b;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+}
+
+.status-message.info{
+    color:#1e40af;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+}
+
+.action-row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:23px;
+}
+
+.action-row .btn{
+    min-width:145px;
+}
+
+.token-input{
+    width:100%;
+    margin-top:20px;
+    min-height:42px;
+    padding:9px 11px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+    font-size:11px;
+    outline:none;
+}
+
+.token-input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(91,92,240,.08);
+}
+
+.manual-box{
+    margin-top:25px;
+    padding-top:22px;
+    border-top:1px solid var(--border);
+    text-align:left;
+}
+
+.manual-box summary{
+    cursor:pointer;
+    color:var(--primary);
+    font-size:11px;
+    font-weight:750;
+}
+
+.manual-box p{
+    margin-top:10px;
+    font-size:10px;
+}
+
+.footer{
+    background:#111827;
+    color:#fff;
+    padding:24px 0;
+}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    color:#6b7280;
+    font-size:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+    .nav-links,
+    .nav-actions{
+        display:none;
+    }
+
+    .menu-button{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+}
+
+@media(max-width:550px){
+    .container{
+        width:calc(100% - 28px);
+    }
+
+    .verify-section{
+        padding:35px 0;
+    }
+
+    .verify-card{
+        padding:28px 20px;
+        border-radius:16px;
+    }
+
+    .verify-card h1{
+        font-size:26px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+}
+</style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<header class="site-header">
+
+<nav class="navbar container">
+
+<a href="index.html" class="logo">
+<div class="logo-icon">P</div>
+<div>
+<span class="logo-title">PDF Master AI</span>
+<span class="logo-sub">Smart PDF Workspace</span>
+</div>
+</a>
+
+<div class="nav-links">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="profile.html">Profil</a>
+<a href="contact.html">Kontak</a>
+</div>
+
+<div class="nav-actions">
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-primary">Daftar Gratis</a>
+</div>
+
+<button
+type="button"
+class="menu-button"
+id="menuButton"
+aria-expanded="false"
+aria-label="Buka menu">â˜°</button>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<div class="container">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="profile.html">Profil</a>
+<a href="contact.html">Kontak</a>
+<a href="login.html">Login</a>
+<a href="register.html">Daftar Gratis</a>
+</div>
+</div>
+
+</header>
+
+
+<div class="page">
+
+<main class="verify-section">
+
+<div class="container">
+
+<div class="verify-card" id="verifyCard">
+
+<div class="verify-icon" id="verifyIcon">
+âœ‰
+</div>
+
+<h1 id="pageTitle">
+Verifikasi Email
+</h1>
+
+<p id="pageDescription">
+Sedang memverifikasi alamat email Anda.
+Silakan tunggu beberapa saat.
+</p>
+
+<div class="email-box" id="emailBox" style="display:none;"></div>
+
+<div
+class="status-message"
+id="statusMessage"
+role="status"
+aria-live="polite">
+</div>
+
+<div class="action-row" id="actionRow" style="display:none;">
+
+<a href="dashboard.html"
+class="btn btn-primary"
+id="dashboardButton">
+Ke Dashboard
+</a>
+
+<a href="login.html"
+class="btn">
+Login
+</a>
+
+</div>
+
+<details class="manual-box" id="manualBox">
+
+<summary>
+Tidak berhasil? Masukkan token secara manual
+</summary>
+
+<p>
+Gunakan token verifikasi yang diberikan oleh sistem.
+Token akan dikirim ke API verifikasi email.
+</p>
+
+<input
+type="text"
+id="tokenInput"
+class="token-input"
+placeholder="Tempel token verifikasi di sini"
+autocomplete="off">
+
+<div class="action-row" style="justify-content:flex-start;">
+<button
+type="button"
+class="btn btn-primary"
+id="manualVerifyButton">
+Verifikasi Token
+</button>
+</div>
+
+</details>
+
+</div>
+
+</div>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+
+</div>
+
+</footer>
+
+</div>
+
+
+<script>
+/*
+ * ==========================================================
+ * PDF MASTER AI
+ * EMAIL VERIFICATION PAGE
+ * ==========================================================
+ *
+ * Backend endpoint:
+ * POST /api/v1/auth/verify-email
+ *
+ * Request:
+ * {
+ *     "token": "..."
+ * }
+ *
+ * Token dapat berasal dari:
+ * 1. ?token=...
+ * 2. localStorage verification_token
+ * 3. input manual
+ * ==========================================================
+ */
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+
+const pageTitle =
+    document.getElementById("pageTitle");
+
+const pageDescription =
+    document.getElementById("pageDescription");
+
+const verifyIcon =
+    document.getElementById("verifyIcon");
+
+const statusMessage =
+    document.getElementById("statusMessage");
+
+const actionRow =
+    document.getElementById("actionRow");
+
+const manualBox =
+    document.getElementById("manualBox");
+
+const emailBox =
+    document.getElementById("emailBox");
+
+const tokenInput =
+    document.getElementById("tokenInput");
+
+const manualVerifyButton =
+    document.getElementById("manualVerifyButton");
+
+
+function getTokenFromUrl() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("token");
+}
+
+
+function getTokenFromStorage() {
+
+    const keys = [
+        "verification_token",
+        "verify_token",
+        "email_verification_token"
+    ];
+
+    for (const key of keys) {
+
+        const value =
+            localStorage.getItem(key);
+
+        if (value) {
+            return value;
+        }
+    }
+
+    return null;
+}
+
+
+function showStatus(
+    message,
+    type = "info"
+) {
+
+    statusMessage.textContent =
+        message;
+
+    statusMessage.className =
+        "status-message show " + type;
+}
+
+
+function setLoading() {
+
+    verifyIcon.textContent = "â€¦";
+
+    pageTitle.textContent =
+        "Memverifikasi Email...";
+
+    pageDescription.textContent =
+        "Sistem sedang memeriksa token verifikasi Anda.";
+
+    manualBox.style.display =
+        "none";
+}
+
+
+function setSuccess(message) {
+
+    verifyIcon.textContent =
+        "âœ“";
+
+    verifyIcon.className =
+        "verify-icon success";
+
+    pageTitle.textContent =
+        "Email Berhasil Diverifikasi";
+
+    pageDescription.textContent =
+        message ||
+        "Alamat email akun Anda berhasil diverifikasi.";
+
+    showStatus(
+        "Verifikasi email berhasil. Anda sekarang dapat menggunakan akun Anda.",
+        "success"
+    );
+
+    actionRow.style.display =
+        "flex";
+
+    manualBox.style.display =
+        "none";
+}
+
+
+function setError(message) {
+
+    verifyIcon.textContent =
+        "!";
+
+    verifyIcon.className =
+        "verify-icon error";
+
+    pageTitle.textContent =
+        "Verifikasi Email Gagal";
+
+    pageDescription.textContent =
+        "Token verifikasi tidak dapat diproses.";
+
+    showStatus(
+        message ||
+        "Token tidak valid atau sudah kedaluwarsa.",
+        "error"
+    );
+
+    actionRow.style.display =
+        "flex";
+
+    manualBox.style.display =
+        "block";
+}
+
+
+function clearVerificationToken() {
+
+    [
+        "verification_token",
+        "verify_token",
+        "email_verification_token"
+    ].forEach(function(key) {
+
+        localStorage.removeItem(key);
+
+    });
+}
+
+
+function decodeJwtPayload(token) {
+
+    try {
+
+        const parts =
+            token.split(".");
+
+        if (parts.length !== 3) {
+            return null;
+        }
+
+        const base64 =
+            parts[1]
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
+
+        const json =
+            decodeURIComponent(
+                atob(base64)
+                    .split("")
+                    .map(function(char) {
+
+                        return "%" +
+                            ("00" +
+                            char.charCodeAt(0)
+                            .toString(16))
+                            .slice(-2);
+
+                    })
+                    .join("")
+            );
+
+        return JSON.parse(json);
+
+    } catch (_) {
+
+        return null;
+    }
+}
+
+
+function showEmailFromToken(token) {
+
+    const payload =
+        decodeJwtPayload(token);
+
+    if (
+        payload &&
+        payload.email
+    ) {
+
+        emailBox.textContent =
+            payload.email;
+
+        emailBox.style.display =
+            "block";
+    }
+}
+
+
+async function verifyEmail(token) {
+
+    if (!token) {
+
+        setError(
+            "Token verifikasi tidak ditemukan. Gunakan tautan dari email atau masukkan token secara manual."
+        );
+
+        return;
+    }
+
+
+    setLoading();
+
+    showEmailFromToken(token);
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/api/v1/auth/verify-email",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        token: token
+                    })
+                }
+            );
+
+
+        let result = null;
+
+        try {
+
+            result =
+                await response.json();
+
+        } catch (_) {
+
+            result = null;
+        }
+
+
+        if (!response.ok) {
+
+            const message =
+                result &&
+                (
+                    result.message ||
+                    result.detail
+                )
+                ? (
+                    result.message ||
+                    result.detail
+                )
+                : "Verifikasi email gagal.";
+
+            throw new Error(
+                String(message)
+            );
+        }
+
+
+        if (
+            result &&
+            result.success === false
+        ) {
+
+            throw new Error(
+                result.message ||
+                "Verifikasi email gagal."
+            );
+        }
+
+
+        clearVerificationToken();
+
+        setSuccess(
+            result &&
+            result.message
+                ? result.message
+                : "Alamat email Anda berhasil diverifikasi."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Email verification error:",
+            error
+        );
+
+        setError(
+            error.message ||
+            "Tidak dapat terhubung ke server."
+        );
+    }
+}
+
+
+manualVerifyButton.addEventListener(
+    "click",
+    function() {
+
+        const token =
+            tokenInput.value.trim();
+
+        if (!token) {
+
+            showStatus(
+                "Masukkan token verifikasi terlebih dahulu.",
+                "error"
+            );
+
+            return;
+        }
+
+        verifyEmail(token);
+    }
+);
+
+
+/* MOBILE MENU */
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+
+menuButton.addEventListener(
+    "click",
+    function() {
+
+        const active =
+            mobileMenu.classList.toggle(
+                "active"
+            );
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            active
+                ? "true"
+                : "false"
+        );
+
+        menuButton.textContent =
+            active
+                ? "Ã—"
+                : "â˜°";
+    }
+);
+
+
+/*
+ * START VERIFICATION
+ */
+
+const urlToken =
+    getTokenFromUrl();
+
+const storedToken =
+    getTokenFromStorage();
+
+const verificationToken =
+    urlToken ||
+    storedToken;
+
+if (verificationToken) {
+
+    verifyEmail(
+        verificationToken
+    );
+
+} else {
+
+    setError(
+        "Token verifikasi tidak ditemukan."
+    );
+
+}
+</script>
+
+</body>
+</html>
+
+
+

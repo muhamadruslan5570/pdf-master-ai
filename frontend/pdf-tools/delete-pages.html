@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hapus Halaman PDF | PDF Master AI</title>
+<meta name="description" content="Hapus halaman tertentu dari file PDF dengan PDF Master AI. Pilih halaman atau rentang halaman lalu download PDF hasilnya.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#5b5cf0;--pd:#4748d7;--text:#111827;--muted:#6b7280;--bg:#f7f8fc;--border:#e5e7eb;--green:#16a34a;--red:#dc2626}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{text-decoration:none;color:inherit}button,input{font:inherit}button{cursor:pointer}
+.container{width:min(calc(100% - 40px),1180px);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#fffffff5;border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+nav{min-height:70px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}.logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#5b5cf0,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:900}.logo-title{font-size:17px;font-weight:800;display:block;line-height:1.2}.logo-sub{font-size:9px;color:var(--muted)}
+.nav{display:flex;gap:25px;font-size:13px;color:#374151}.nav a:hover{color:var(--p)}.actions{display:flex;gap:8px}.btn{min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:12px;font-weight:750;display:inline-flex;align-items:center}.primary{background:var(--p);border-color:var(--p);color:#fff}
+.menu{display:none;width:42px;height:42px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:20px}
+.mobile{display:none;border-top:1px solid var(--border);padding:12px 0}.mobile a{display:block;padding:9px 0;font-size:13px}
+.hero{padding:60px 0 42px;text-align:center;background:linear-gradient(135deg,#eef0ff,#f7f8fc 55%,#f0eaff)}.eyebrow{color:var(--p);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:1px}.hero h1{font-size:clamp(32px,5vw,50px);line-height:1.1;letter-spacing:-1.8px;margin:8px 0 13px}.hero h1 span{color:var(--p)}.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:13px}
+.section{padding:35px 0 75px}.layout{display:grid;grid-template-columns:minmax(0,760px) 280px;gap:22px;justify-content:center}.card,.info{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 28px #1118270d}.card{padding:24px}
+.drop{min-height:225px;border:2px dashed #cfd2f5;border-radius:14px;background:#fafaff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px;transition:.2s}.drop.drag{border-color:var(--p);background:#f4f4ff}.icon{width:62px;height:62px;border-radius:15px;background:#eef0ff;color:var(--p);display:grid;place-items:center;font-size:19px;font-weight:900;margin-bottom:14px}.drop h2{font-size:18px}.drop p{font-size:11px;color:var(--muted);margin:5px 0 15px}.file-input{display:none}.select{border:0;background:var(--p);color:#fff;border-radius:9px;padding:12px 20px;font-size:12px;font-weight:800}.select:hover{background:var(--pd)}.limit{font-size:9px;color:#9ca3af;margin-top:10px}
+.file-preview{display:none;margin-top:18px;padding:13px;border:1px solid var(--border);border-radius:10px;background:#fafafa}.file-preview.show{display:flex;align-items:center;gap:10px}.pdf{width:42px;height:42px;border-radius:8px;background:#fee2e2;color:#dc2626;display:grid;place-items:center;font-size:9px;font-weight:900}.file-info{min-width:0;flex:1}.name{font-size:11px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.size{font-size:9px;color:var(--muted)}.remove{width:32px;height:32px;border:1px solid var(--border);border-radius:7px;background:#fff;color:var(--red);font-weight:900}
+.options{margin-top:20px}.title{font-size:12px;font-weight:850;margin-bottom:10px}.page-box{padding:15px;border:1px solid var(--border);border-radius:10px;background:#fafafa}.page-box label{display:block;font-size:10px;font-weight:750;margin-bottom:6px}.pages{width:100%;min-height:43px;padding:0 11px;border:1px solid var(--border);border-radius:8px;background:#fff;outline:none;font-size:11px}.pages:focus{border-color:var(--p);box-shadow:0 0 0 3px #5b5cf014}.hint{font-size:8px;color:var(--muted);margin-top:6px}.examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.example{padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:#fff;color:#4b5563;font-size:8px;cursor:pointer}.example:hover{border-color:var(--p);color:var(--p)}
+.action{margin-top:20px}.delete{width:100%;min-height:48px;border:0;border-radius:9px;background:var(--p);color:#fff;font-size:12px;font-weight:850}.delete:disabled{opacity:.5;cursor:not-allowed}.delete:hover:not(:disabled){background:var(--pd)}
+.error,.progress,.result{display:none;margin-top:15px;padding:13px;border-radius:10px;font-size:10px}.error.show{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.progress.show{display:block;background:#fafafa;border:1px solid var(--border)}.result.show{display:block;background:#f0fdf4;border:1px solid #bbf7d0}
+.phead{display:flex;justify-content:space-between;font-weight:750}.bar-bg{height:8px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#5b5cf0,#7c3aed);transition:.25s}.pmsg{font-size:9px;color:var(--muted)}
+.result-title{color:#166534;font-size:14px;font-weight:850;margin-bottom:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#fff;border:1px solid #dcfce7;border-radius:8px;padding:10px}.stat small{display:block;color:var(--muted);font-size:8px}.stat strong{font-size:12px}.result-actions{display:flex;gap:8px;margin-top:14px}.download,.again{flex:1;min-height:42px;border-radius:8px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}.download{background:var(--green);color:#fff}.again{border:1px solid var(--border);background:#fff}
+.info{padding:20px}.info h3{font-size:14px;margin-bottom:12px}.info ul{list-style:none;display:grid;gap:10px}.info li{font-size:10px;color:#374151;padding-left:20px;position:relative}.info li:before{content:"âœ“";position:absolute;left:0;color:var(--green);font-weight:900}.divider{height:1px;background:var(--border);margin:18px 0}.info p{font-size:9px;color:var(--muted)}
+footer{background:#111827;color:#fff;padding:35px 0 22px}.footer-links{display:flex;gap:18px;flex-wrap:wrap;color:#d1d5db;font-size:10px;margin-bottom:20px}.footer-links a:hover{color:#fff}.footer-bottom{border-top:1px solid #374151;padding-top:20px;display:flex;justify-content:space-between;color:#6b7280;font-size:10px}
+@media(max-width:900px){.nav,.actions{display:none}.menu{display:block}.layout{grid-template-columns:1fr;max-width:760px;margin:auto}}
+@media(max-width:600px){.container{width:calc(100% - 28px)}.hero{padding:45px 0 35px}.card{padding:16px}.stats{grid-template-columns:1fr}.result-actions{flex-direction:column}.footer-bottom{flex-direction:column;gap:8px}}
+</style>
+<link rel="icon" type="image/png" href="../assets/logo.png">
+</head>
+<body>
+<header>
+<nav class="container">
+<a href="index.html" class="logo"><div class="logo-icon">P</div><div><span class="logo-title">PDF Master AI</span><span class="logo-sub">Smart PDF Workspace</span></div></a>
+<div class="nav"><a href="index.html#tools">PDF Tools</a><a href="dashboard.html">Dashboard</a><a href="pricing.html">Harga</a><a href="profile.html">Profil</a></div>
+<div class="actions"><a href="login.html" class="btn">Login</a><a href="register.html" class="btn primary">Daftar Gratis</a></div>
+<button class="menu" id="menu">â˜°</button>
+</nav>
+<div class="mobile" id="mobile"><div class="container"><a href="index.html#tools">PDF Tools</a><a href="dashboard.html">Dashboard</a><a href="pricing.html">Harga</a><a href="profile.html">Profil</a><a href="login.html">Login</a><a href="register.html">Daftar Gratis</a></div></div>
+</header>
+
+<main>
+<section class="hero"><div class="container"><div class="eyebrow">PDF Page Remover</div><h1>Hapus Halaman <span>PDF</span></h1><p>Pilih halaman yang tidak diperlukan dan buat file PDF baru tanpa halaman tersebut.</p></div></section>
+
+<section class="section"><div class="container"><div class="layout">
+
+<div class="card">
+
+<div class="drop" id="drop">
+<div class="icon">âˆ’PDF</div>
+<h2>Upload file PDF</h2>
+<p>Tarik dan letakkan file PDF di sini, atau pilih file dari perangkat Anda.</p>
+<input id="input" class="file-input" type="file" accept="application/pdf,.pdf">
+<button class="select" id="select">Pilih File PDF</button>
+<div class="limit">Format: PDF Â· Maksimal 100 MB</div>
+</div>
+
+<div class="file-preview" id="preview">
+<div class="pdf">PDF</div>
+<div class="file-info"><div class="name" id="fileName">-</div><div class="size" id="fileSize">-</div></div>
+<button class="remove" id="remove" type="button">Ã—</button>
+</div>
+
+<div class="options">
+<div class="title">Halaman yang ingin dihapus</div>
+
+<div class="page-box">
+<label for="pages">Nomor halaman</label>
+<input id="pages" class="pages" type="text" placeholder="Contoh: 2,4,7 atau 2-5">
+<div class="hint">Masukkan nomor halaman yang ingin dihapus. Anda dapat menggabungkan nomor dan rentang.</div>
+<div class="examples">
+<button type="button" class="example" data-value="2">Halaman 2</button>
+<button type="button" class="example" data-value="2-5">Halaman 2-5</button>
+<button type="button" class="example" data-value="2,4,7">2, 4, 7</button>
+</div>
+</div>
+</div>
+
+<div class="action">
+<button class="delete" id="delete" disabled>Hapus Halaman</button>
+</div>
+
+<div class="error" id="error"></div>
+
+<div class="progress" id="progress">
+<div class="phead"><span>Memproses PDF...</span><span id="percent">0%</span></div>
+<div class="bar-bg"><div class="bar" id="bar"></div></div>
+<div class="pmsg" id="message">Menyiapkan file...</div>
+</div>
+
+<div class="result" id="result">
+<div class="result-title">âœ“ Halaman berhasil dihapus</div>
+<div class="stats">
+<div class="stat"><small>File sumber</small><strong id="rName">-</strong></div>
+<div class="stat"><small>Halaman dihapus</small><strong id="rPages">-</strong></div>
+<div class="stat"><small>Ukuran hasil</small><strong id="rSize">-</strong></div>
+</div>
+<div class="result-actions">
+<a class="download" id="download" href="#" download>Download PDF</a>
+<button class="again" id="again">Edit File Lain</button>
+</div>
+</div>
+
+</div>
+
+<aside class="info">
+<h3>Cara Menggunakan</h3>
+<ul>
+<li>Upload satu file PDF.</li>
+<li>Masukkan nomor halaman yang ingin dihapus.</li>
+<li>Gunakan nomor atau rentang halaman.</li>
+<li>Klik Hapus Halaman.</li>
+<li>Download PDF hasilnya.</li>
+</ul>
+
+<div class="divider"></div>
+
+<h3>Contoh</h3>
+<p><b>2</b> menghapus halaman 2.</p>
+<p style="margin-top:6px"><b>2,4,7</b> menghapus halaman 2, 4, dan 7.</p>
+<p style="margin-top:6px"><b>2-5</b> menghapus halaman 2 sampai 5.</p>
+
+<div class="divider"></div>
+
+<h3>Catatan</h3>
+<p>Jangan menghapus seluruh halaman PDF. Minimal satu halaman harus tersisa pada dokumen hasil.</p>
+
+<div class="divider"></div>
+
+<h3>Keamanan</h3>
+<p>File diproses melalui backend PDF Master AI sesuai konfigurasi pemrosesan server.</p>
+</aside>
+
+</div></div></section>
+</main>
+
+<footer>
+<div class="container">
+<div class="footer-links">
+<a href="about.html">Tentang Kami</a>
+<a href="pricing.html">Harga</a>
+<a href="contact.html">Kontak</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms-of-service.html">Terms of Service</a>
+</div>
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+</div>
+</footer>
+
+<script>
+const API_ENDPOINT="http://127.0.0.1:8000/api/v1/pdf/delete-pages";
+const MAX=100*1024*1024;
+let selectedFile=null;
+
+const $=id=>document.getElementById(id);
+const input=$("input"),drop=$("drop"),preview=$("preview"),deleteButton=$("delete"),error=$("error"),progress=$("progress"),result=$("result"),pagesInput=$("pages");
+
+$("menu").onclick=()=>{
+    $("mobile").style.display=$("mobile").style.display==="block"?"none":"block";
+};
+
+$("select").onclick=()=>input.click();
+
+input.onchange=()=>{
+    if(input.files[0])handleFile(input.files[0]);
+    input.value="";
+};
+
+["dragenter","dragover"].forEach(e=>drop.addEventListener(e,x=>{
+    x.preventDefault();
+    drop.classList.add("drag");
+}));
+
+["dragleave","drop"].forEach(e=>drop.addEventListener(e,x=>{
+    x.preventDefault();
+    drop.classList.remove("drag");
+}));
+
+drop.ondrop=e=>{
+    const file=[...e.dataTransfer.files][0];
+    if(file)handleFile(file);
+};
+
+function handleFile(file){
+    clearError();
+    result.classList.remove("show");
+
+    if(!(file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf"))){
+        showError("File yang dipilih bukan PDF.");
+        resetFile();
+        return;
+    }
+
+    if(file.size>MAX){
+        showError("Ukuran file terlalu besar. Maksimal 100 MB.");
+        resetFile();
+        return;
+    }
+
+    selectedFile=file;
+    $("fileName").textContent=file.name;
+    $("fileSize").textContent=bytes(file.size);
+    preview.classList.add("show");
+    deleteButton.disabled=false;
+}
+
+$("remove").onclick=resetFile;
+
+document.querySelectorAll(".example").forEach(button=>{
+    button.onclick=()=>{
+        pagesInput.value=button.dataset.value;
+        pagesInput.focus();
+        clearError();
+    };
+});
+
+deleteButton.onclick=async()=>{
+    if(!selectedFile){
+        showError("Silakan pilih file PDF terlebih dahulu.");
+        return;
+    }
+
+    const pages=pagesInput.value.trim();
+
+    if(!pages){
+        showError("Masukkan halaman yang ingin dihapus.");
+        pagesInput.focus();
+        return;
+    }
+
+    if(!/^\d+(\s*-\s*\d+|\s*,\s*\d+)*$/.test(pages)){
+        showError("Format halaman tidak valid. Contoh: 2,4,7 atau 2-5.");
+        pagesInput.focus();
+        return;
+    }
+
+    clearError();
+    result.classList.remove("show");
+    progress.classList.add("show");
+    deleteButton.disabled=true;
+    setProgress(10,"Menyiapkan PDF...");
+
+    const form=new FormData();
+    form.append("file",selectedFile);
+    form.append("pages",pages);
+
+    try{
+        setProgress(25,"Mengunggah PDF ke server...");
+
+        const response=await fetch(API_ENDPOINT,{
+            method:"POST",
+            body:form
+        });
+
+        setProgress(60,"Server sedang menghapus halaman...");
+
+        if(!response.ok){
+            let message="Gagal menghapus halaman PDF.";
+
+            try{
+                const data=await response.json();
+                message=data.detail||data.message||message;
+            }catch(_){}
+
+            throw new Error(message);
+        }
+
+        const type=response.headers.get("content-type")||"";
+        let url;
+        let outputSize=0;
+
+        if(type.includes("application/json")){
+            const data=await response.json();
+
+            url=data.download_url||
+                data.url||
+                data.file_url||
+                data.result_url;
+
+            outputSize=Number(
+                data.output_size||
+                data.result_size||
+                data.size||
+                0
+            );
+
+            if(!url){
+                throw new Error("URL file hasil tidak ditemukan.");
+            }
+        }else{
+            const blob=await response.blob();
+
+            url=URL.createObjectURL(blob);
+            outputSize=blob.size;
+        }
+
+        setProgress(100,"Selesai.");
+
+        $("rName").textContent=selectedFile.name;
+        $("rPages").textContent=pages;
+        $("rSize").textContent=outputSize?bytes(outputSize):"Siap diunduh";
+
+        $("download").href=url;
+        $("download").download=outputName(selectedFile.name);
+
+        result.classList.add("show");
+
+    }catch(e){
+
+        progress.classList.remove("show");
+
+        showError(
+            e.message||
+            "Terjadi kesalahan saat menghapus halaman PDF."
+        );
+
+    }finally{
+
+        deleteButton.disabled=!selectedFile;
+
+    }
+};
+
+$("again").onclick=()=>{
+    resetFile();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+};
+
+function resetFile(){
+    selectedFile=null;
+    input.value="";
+    preview.classList.remove("show");
+    deleteButton.disabled=true;
+    progress.classList.remove("show");
+    result.classList.remove("show");
+    pagesInput.value="";
+    clearError();
+}
+
+function setProgress(percent,message){
+    $("bar").style.width=percent+"%";
+    $("percent").textContent=percent+"%";
+    $("message").textContent=message;
+}
+
+function showError(message){
+    error.textContent=message;
+    error.classList.add("show");
+}
+
+function clearError(){
+    error.textContent="";
+    error.classList.remove("show");
+}
+
+function bytes(size){
+    if(!size)return"0 B";
+
+    const units=["B","KB","MB","GB"];
+    const index=Math.min(
+        Math.floor(Math.log(size)/Math.log(1024)),
+        3
+    );
+
+    return(
+        size/Math.pow(1024,index)
+    ).toFixed(index?2:0)+" "+units[index];
+}
+
+function outputName(name){
+    return name.replace(/\.pdf$/i,"")+"-edited.pdf";
+}
+</script>
+
+</body>
+</html>
+
+

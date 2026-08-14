@@ -1,0 +1,892 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terms of Service | PDF Master AI</title>
+
+<meta name="description" content="Syarat dan Ketentuan penggunaan layanan PDF Master AI.">
+<meta name="robots" content="index, follow">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+    --primary:#5b5cf0;
+    --primary-dark:#4748d7;
+    --secondary:#7c3aed;
+    --text:#111827;
+    --soft:#374151;
+    --muted:#6b7280;
+    --bg:#f7f8fc;
+    --white:#fff;
+    --border:#e5e7eb;
+    --danger:#dc2626;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",
+    Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.7;
+}
+
+a{text-decoration:none;color:inherit}
+
+.container{
+    width:min(calc(100% - 40px),1180px);
+    margin:auto;
+}
+
+/* HEADER */
+.site-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+.navbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.logo-title{
+    display:block;
+    font-size:17px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.logo-sub{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:27px;
+    color:var(--soft);
+    font-size:13px;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:9px;
+}
+
+.btn{
+    min-height:40px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    color:var(--text);
+    font-size:12px;
+    font-weight:750;
+    transition:.2s ease;
+}
+
+.btn:hover{transform:translateY(-1px)}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{background:var(--primary-dark)}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    font-size:20px;
+}
+
+.mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:#fff;
+    padding:14px 0 20px;
+}
+
+.mobile-menu.active{display:block}
+
+.mobile-menu a{
+    display:block;
+    padding:11px 0;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* HERO */
+.page-hero{
+    padding:65px 0 45px;
+    background:linear-gradient(135deg,#eef0ff,#f7f8fc 55%,#f0eaff);
+}
+
+.eyebrow{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.9px;
+    margin-bottom:9px;
+}
+
+.page-hero h1{
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.1;
+    letter-spacing:-1.6px;
+    margin-bottom:12px;
+}
+
+.page-hero p{
+    color:var(--muted);
+    max-width:720px;
+    font-size:13px;
+}
+
+.updated{
+    display:inline-block;
+    margin-top:16px;
+    padding:6px 10px;
+    border:1px solid #dfe1ff;
+    border-radius:7px;
+    background:#fff;
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* CONTENT */
+.terms-section{
+    padding:40px 0 80px;
+}
+
+.terms-layout{
+    display:grid;
+    grid-template-columns:240px minmax(0,1fr);
+    gap:24px;
+    align-items:start;
+}
+
+.toc{
+    position:sticky;
+    top:95px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 7px 24px rgba(17,24,39,.04);
+}
+
+.toc-title{
+    font-size:11px;
+    font-weight:850;
+    margin-bottom:10px;
+}
+
+.toc a{
+    display:block;
+    padding:7px 8px;
+    border-radius:6px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.toc a:hover{
+    background:#f1f2ff;
+    color:var(--primary);
+}
+
+.terms-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:34px;
+    box-shadow:0 8px 28px rgba(17,24,39,.04);
+}
+
+.terms-card h2{
+    margin-top:32px;
+    margin-bottom:10px;
+    font-size:19px;
+    line-height:1.3;
+    letter-spacing:-.3px;
+    scroll-margin-top:95px;
+}
+
+.terms-card h2:first-child{margin-top:0}
+
+.terms-card h3{
+    margin-top:20px;
+    margin-bottom:7px;
+    font-size:13px;
+}
+
+.terms-card p{
+    margin-bottom:11px;
+    color:var(--soft);
+    font-size:11px;
+}
+
+.terms-card ul,
+.terms-card ol{
+    margin:8px 0 14px 21px;
+    color:var(--soft);
+}
+
+.terms-card li{
+    margin-bottom:7px;
+    font-size:11px;
+}
+
+.highlight{
+    margin:20px 0;
+    padding:14px 16px;
+    border-left:4px solid var(--primary);
+    border-radius:7px;
+    background:#f1f2ff;
+    color:var(--soft);
+    font-size:11px;
+}
+
+.warning{
+    margin:20px 0;
+    padding:14px 16px;
+    border-left:4px solid #f59e0b;
+    border-radius:7px;
+    background:#fffbeb;
+    color:#78350f;
+    font-size:11px;
+}
+
+/* FOOTER */
+.footer{
+    background:#111827;
+    color:#fff;
+    padding:35px 0 22px;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:20px;
+    color:#d1d5db;
+    font-size:10px;
+}
+
+.footer-links a:hover{color:#fff}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding-top:20px;
+    border-top:1px solid #374151;
+    color:#6b7280;
+    font-size:10px;
+}
+
+/* RESPONSIVE */
+@media(max-width:850px){
+    .nav-links,.nav-actions{display:none}
+
+    .menu-button{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .terms-layout{
+        grid-template-columns:1fr;
+    }
+
+    .toc{
+        position:static;
+    }
+}
+
+@media(max-width:550px){
+    .container{width:calc(100% - 28px)}
+
+    .page-hero{
+        padding:45px 0 35px;
+    }
+
+    .terms-section{
+        padding:28px 0 55px;
+    }
+
+    .terms-card{
+        padding:23px 18px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+}
+</style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<header class="site-header">
+<nav class="navbar container">
+
+<a href="index.html" class="logo">
+<div class="logo-icon">P</div>
+<div>
+<span class="logo-title">PDF Master AI</span>
+<span class="logo-sub">Smart PDF Workspace</span>
+</div>
+</a>
+
+<div class="nav-links">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+<a href="terms-of-service.html" class="active">Terms</a>
+</div>
+
+<div class="nav-actions">
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-primary">Daftar Gratis</a>
+</div>
+
+<button
+    type="button"
+    class="menu-button"
+    id="menuButton"
+    aria-expanded="false"
+    aria-label="Buka menu">
+    â˜°
+</button>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<div class="container">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+<a href="terms-of-service.html">Terms</a>
+<a href="login.html">Login</a>
+<a href="register.html">Daftar Gratis</a>
+</div>
+</div>
+</header>
+
+
+<main>
+
+<section class="page-hero">
+<div class="container">
+
+<div class="eyebrow">Legal</div>
+
+<h1>Terms of Service</h1>
+
+<p>
+Syarat dan Ketentuan yang mengatur penggunaan layanan,
+akun, fitur PDF, subscription, dan layanan terkait PDF Master AI.
+</p>
+
+<span class="updated">
+Terakhir diperbarui: 9 Agustus 2026
+</span>
+
+</div>
+</section>
+
+
+<section class="terms-section">
+<div class="container">
+
+<div class="terms-layout">
+
+<aside class="toc">
+
+<div class="toc-title">
+Daftar Isi
+</div>
+
+<a href="#acceptance">1. Penerimaan Ketentuan</a>
+<a href="#service">2. Layanan</a>
+<a href="#account">3. Akun Pengguna</a>
+<a href="#files">4. File & Konten Pengguna</a>
+<a href="#acceptable-use">5. Penggunaan yang Dilarang</a>
+<a href="#subscription">6. Paket & Subscription</a>
+<a href="#payment">7. Pembayaran</a>
+<a href="#intellectual">8. Hak Kekayaan Intelektual</a>
+<a href="#availability">9. Ketersediaan Layanan</a>
+<a href="#privacy">10. Privasi</a>
+<a href="#termination">11. Penghentian Akun</a>
+<a href="#disclaimer">12. Penyangkalan</a>
+<a href="#liability">13. Batas Tanggung Jawab</a>
+<a href="#changes">14. Perubahan Ketentuan</a>
+<a href="#contact">15. Kontak</a>
+
+</aside>
+
+
+<article class="terms-card">
+
+<div class="highlight">
+Dengan membuat akun atau menggunakan PDF Master AI, Anda menyatakan
+bahwa Anda telah membaca, memahami, dan menyetujui Syarat dan Ketentuan
+ini. Jika Anda tidak menyetujuinya, jangan gunakan layanan kami.
+</div>
+
+
+<h2 id="acceptance">
+1. Penerimaan Ketentuan
+</h2>
+
+<p>
+Terms of Service ini merupakan perjanjian antara pengguna layanan
+("Pengguna", "Anda") dan pengelola PDF Master AI ("PDF Master AI",
+"Kami").
+</p>
+
+<p>
+Dengan mengakses website, membuat akun, mengunggah file, menggunakan
+alat PDF, atau menggunakan layanan berbayar, Anda menyetujui ketentuan
+yang berlaku pada saat penggunaan layanan.
+</p>
+
+
+<h2 id="service">
+2. Layanan
+</h2>
+
+<p>
+PDF Master AI menyediakan platform pemrosesan dokumen PDF dan fitur
+pendukung yang dapat mencakup kompresi, penggabungan, pemisahan,
+konversi, penyimpanan, serta fitur lainnya yang tersedia pada platform.
+</p>
+
+<p>
+Fitur, kapasitas, batas penggunaan, dan ketersediaan layanan dapat
+berbeda berdasarkan jenis akun atau paket yang digunakan.
+</p>
+
+<p>
+Kami dapat menambah, mengubah, mengurangi, atau menghentikan fitur
+tertentu apabila diperlukan untuk pengembangan, keamanan, pemeliharaan,
+atau alasan operasional lainnya.
+</p>
+
+
+<h2 id="account">
+3. Akun Pengguna
+</h2>
+
+<p>
+Beberapa fitur membutuhkan akun. Anda bertanggung jawab untuk
+memberikan informasi pendaftaran yang benar, akurat, dan diperbarui.
+</p>
+
+<ul>
+<li>Jaga kerahasiaan password dan kredensial akun Anda.</li>
+<li>Jangan membagikan access token atau informasi autentikasi kepada pihak lain.</li>
+<li>Segera beri tahu pengelola apabila Anda mengetahui adanya akses tidak sah.</li>
+<li>Anda bertanggung jawab atas aktivitas yang dilakukan melalui akun Anda.</li>
+</ul>
+
+<p>
+Kami berhak membatasi atau menonaktifkan akun yang digunakan dengan
+cara yang melanggar ketentuan ini atau membahayakan keamanan layanan.
+</p>
+
+
+<h2 id="files">
+4. File & Konten Pengguna
+</h2>
+
+<p>
+Anda tetap memiliki hak atas file dan konten yang Anda unggah ke
+PDF Master AI. Anda bertanggung jawab memastikan bahwa Anda memiliki
+hak untuk mengunggah dan memproses file tersebut.
+</p>
+
+<p>
+Anda tidak boleh menggunakan layanan untuk memproses konten yang
+melanggar hukum, hak pihak lain, atau ketentuan yang berlaku.
+</p>
+
+<div class="warning">
+Jangan mengunggah dokumen yang tidak boleh Anda proses atau bagikan.
+Anda bertanggung jawab memastikan bahwa penggunaan layanan terhadap
+dokumen tersebut memiliki dasar dan izin yang sesuai.
+</div>
+
+
+<h2 id="acceptable-use">
+5. Penggunaan yang Dilarang
+</h2>
+
+<p>
+Anda dilarang menggunakan PDF Master AI untuk aktivitas yang melanggar
+hukum atau merugikan pihak lain, termasuk namun tidak terbatas pada:
+</p>
+
+<ul>
+<li>Melanggar hukum atau peraturan yang berlaku.</li>
+<li>Melanggar hak cipta, merek, privasi, atau hak pihak lain.</li>
+<li>Mengunggah malware atau kode berbahaya.</li>
+<li>Mencoba mendapatkan akses tidak sah ke sistem atau akun.</li>
+<li>Mengganggu, membebani, atau menyalahgunakan infrastruktur layanan.</li>
+<li>Menggunakan layanan untuk penipuan atau aktivitas berbahaya.</li>
+<li>Mencoba melewati batas penggunaan atau sistem keamanan.</li>
+</ul>
+
+
+<h2 id="subscription">
+6. Paket & Subscription
+</h2>
+
+<p>
+PDF Master AI dapat menyediakan paket Free, Pro, VIP, atau paket lain
+yang ditampilkan pada halaman pricing.
+</p>
+
+<p>
+Fitur dan batas masing-masing paket dapat berubah. Informasi paket yang
+berlaku adalah informasi yang ditampilkan pada saat pembelian atau
+perpanjangan, kecuali dinyatakan lain.
+</p>
+
+<p>
+Subscription berbayar dapat memiliki periode penagihan bulanan atau
+tahunan sesuai pilihan pengguna dan konfigurasi layanan.
+</p>
+
+
+<h2 id="payment">
+7. Pembayaran
+</h2>
+
+<p>
+Untuk paket berbayar, pembayaran dapat diproses melalui payment gateway
+atau metode pembayaran yang disediakan pada halaman checkout.
+</p>
+
+<p>
+Detail harga, biaya, periode pembayaran, dan status transaksi akan
+ditampilkan pada proses pembayaran.
+</p>
+
+<p>
+Apabila transaksi gagal, dibatalkan, atau tidak dapat diverifikasi,
+aktivasi paket berbayar dapat ditunda sampai status pembayaran
+terkonfirmasi.
+</p>
+
+<p>
+Ketentuan refund, pembatalan, dan biaya pembayaran dapat mengikuti
+kebijakan yang ditampilkan pada proses transaksi dan ketentuan payment
+gateway yang digunakan.
+</p>
+
+
+<h2 id="intellectual">
+8. Hak Kekayaan Intelektual
+</h2>
+
+<p>
+Nama, merek, desain, antarmuka, kode, logo, dan elemen lain yang
+merupakan bagian dari PDF Master AI dapat dilindungi oleh hak kekayaan
+intelektual.
+</p>
+
+<p>
+Pengguna tidak memperoleh hak kepemilikan atas elemen layanan hanya
+karena menggunakan PDF Master AI.
+</p>
+
+<p>
+File milik pengguna tetap menjadi tanggung jawab dan hak pengguna,
+sepanjang pengguna memiliki hak yang sah atas file tersebut.
+</p>
+
+
+<h2 id="availability">
+9. Ketersediaan Layanan
+</h2>
+
+<p>
+Kami berusaha menyediakan layanan secara stabil, tetapi tidak menjamin
+bahwa layanan akan selalu tersedia tanpa gangguan.
+</p>
+
+<p>
+Layanan dapat mengalami gangguan karena pemeliharaan, pembaruan,
+masalah jaringan, gangguan pihak ketiga, atau keadaan lain di luar
+kendali kami.
+</p>
+
+
+<h2 id="privacy">
+10. Privasi
+</h2>
+
+<p>
+Penggunaan data pribadi Anda diatur oleh kebijakan privasi PDF Master AI.
+Kami menyarankan Anda membaca Privacy Policy sebelum menggunakan
+layanan secara aktif.
+</p>
+
+<p>
+Tautan Privacy Policy dapat ditambahkan pada footer setelah halaman
+kebijakan privasi selesai dibuat.
+</p>
+
+
+<h2 id="termination">
+11. Penghentian Akun
+</h2>
+
+<p>
+Anda dapat berhenti menggunakan layanan kapan saja. Kami juga dapat
+membatasi, menangguhkan, atau menghentikan akses apabila terdapat
+pelanggaran terhadap ketentuan, risiko keamanan, penyalahgunaan layanan,
+atau alasan operasional yang wajar.
+</p>
+
+<p>
+Penghentian akses tidak otomatis menghapus kewajiban yang telah timbul
+sebelum penghentian, termasuk kewajiban pembayaran yang sah.
+</p>
+
+
+<h2 id="disclaimer">
+12. Penyangkalan
+</h2>
+
+<p>
+Layanan disediakan sebagaimana tersedia. Kami berupaya menjaga kualitas
+dan keamanan layanan, tetapi tidak menjamin bahwa setiap hasil pemrosesan
+akan selalu bebas dari kesalahan atau memenuhi kebutuhan tertentu.
+</p>
+
+<p>
+Pengguna bertanggung jawab memeriksa hasil pemrosesan sebelum digunakan
+untuk tujuan penting atau diserahkan kepada pihak lain.
+</p>
+
+
+<h2 id="liability">
+13. Batas Tanggung Jawab
+</h2>
+
+<p>
+Sejauh diizinkan oleh hukum yang berlaku, PDF Master AI tidak
+bertanggung jawab atas kerugian yang timbul akibat penggunaan layanan
+yang tidak sesuai ketentuan, kesalahan pengguna, kehilangan kredensial,
+atau penggunaan file yang tidak semestinya.
+</p>
+
+<p>
+Ketentuan ini tidak dimaksudkan untuk menghilangkan hak atau tanggung
+jawab yang tidak dapat dikesampingkan berdasarkan hukum yang berlaku.
+</p>
+
+
+<h2 id="changes">
+14. Perubahan Ketentuan
+</h2>
+
+<p>
+Kami dapat memperbarui Terms of Service dari waktu ke waktu untuk
+mencerminkan perubahan layanan, fitur, keamanan, atau persyaratan hukum.
+</p>
+
+<p>
+Tanggal pembaruan akan ditampilkan pada bagian atas halaman ini.
+Penggunaan layanan setelah perubahan dipublikasikan dapat dianggap
+sebagai penerimaan terhadap ketentuan yang diperbarui, sejauh diizinkan
+oleh hukum yang berlaku.
+</p>
+
+
+<h2 id="contact">
+15. Kontak
+</h2>
+
+<p>
+Jika Anda memiliki pertanyaan mengenai Terms of Service, silakan
+hubungi kami melalui halaman kontak PDF Master AI.
+</p>
+
+<div class="highlight">
+<strong>Penting:</strong> Halaman ini merupakan template Terms of Service
+untuk aplikasi PDF Master AI dan sebaiknya ditinjau oleh profesional
+hukum sebelum digunakan sebagai dokumen hukum final, terutama sebelum
+layanan komersial diluncurkan secara publik.
+</div>
+
+<div style="margin-top:25px">
+<a href="contact.html" class="btn btn-primary">
+Hubungi Kami
+</a>
+<a href="index.html" class="btn" style="margin-left:6px">
+Kembali ke Beranda
+</a>
+</div>
+
+</article>
+
+</div>
+</div>
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-links">
+<a href="about.html">Tentang Kami</a>
+<a href="pricing.html">Harga</a>
+<a href="contact.html">Kontak</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms-of-service.html">Terms of Service</a>
+</div>
+
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+const menuButton =
+    document.getElementById("menuButton");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+menuButton.addEventListener(
+    "click",
+    function(){
+
+        const active =
+            mobileMenu.classList.toggle(
+                "active"
+            );
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            active ? "true" : "false"
+        );
+
+        menuButton.textContent =
+            active ? "Ã—" : "â˜°";
+    }
+);
+
+document
+    .querySelectorAll("#mobileMenu a")
+    .forEach(function(link){
+
+        link.addEventListener(
+            "click",
+            function(){
+
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuButton.textContent = "â˜°";
+            }
+        );
+    });
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            mobileMenu.classList.remove(
+                "active"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuButton.textContent = "â˜°";
+        }
+    }
+);
+</script>
+
+</body>
+</html>
+
+
+

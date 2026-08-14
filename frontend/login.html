@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PDF Master AI</title>
+
+    <meta name="description" content="Login ke PDF Master AI untuk mengakses dashboard dan menggunakan berbagai tools PDF online.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow">
+    <meta name="theme-color" content="#5b5cf0">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4748d7;
+            --secondary: #7c3aed;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f5f7fb;
+            --white: #ffffff;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+            --focus: rgba(91, 92, 240, 0.15);
+        }
+
+        html {
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid rgba(91, 92, 240, 0.3) !important;
+            outline-offset: 2px;
+        }
+
+        /* PAGE LAYOUT */
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        /* LEFT PANEL */
+        .left {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #3730a3, #5b5cf0 55%, #7c3aed);
+            color: white;
+            padding: 45px clamp(30px, 5vw, 70px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .left::before {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            right: -130px;
+            top: -100px;
+        }
+
+        .left::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            left: -120px;
+            bottom: -100px;
+        }
+
+        .brand, .left-content, .copyright {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* BRAND */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 2px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* LEFT CONTENT */
+        .left-content {
+            max-width: 510px;
+        }
+
+        .mini-title {
+            margin-bottom: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .left-content h1 {
+            margin-bottom: 18px;
+            font-size: clamp(34px, 4vw, 56px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+            font-weight: 850;
+        }
+
+        .left-content h1 span {
+            color: rgba(255, 255, 255, 0.76);
+        }
+
+        .left-content p {
+            max-width: 470px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        /* BENEFITS LIST */
+        .benefits {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 13px;
+        }
+
+        .benefit-icon {
+            width: 29px;
+            height: 29px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 11px;
+        }
+
+        /* RIGHT PANEL */
+        .right {
+            min-width: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px clamp(20px, 5vw, 70px);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 30px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .back-home:hover {
+            color: var(--primary);
+        }
+
+        .login-header {
+            margin-bottom: 24px;
+        }
+
+        .login-header h2 {
+            margin-bottom: 7px;
+            font-size: clamp(27px, 3vw, 32px);
+            line-height: 1.2;
+            letter-spacing: -0.8px;
+        }
+
+        .login-header p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* NOTIFICATION MESSAGE */
+        .message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 11px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            display: block;
+            color: var(--success);
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            color: var(--danger);
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .message.warning {
+            display: block;
+            color: var(--warning);
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+        }
+
+        /* FORM FIELD STYLES */
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 46px;
+            padding: 0 13px 0 39px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 13px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-input:hover {
+            border-color: #d1d5db;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--focus);
+        }
+
+        .form-input.error {
+            border-color: var(--danger);
+        }
+
+        .form-input.valid {
+            border-color: var(--success);
+        }
+
+        .password-input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .password-toggle:hover {
+            background: #f3f4f6;
+            color: var(--primary);
+        }
+
+        .field-error {
+            display: none;
+            margin-top: 5px;
+            color: var(--danger);
+            font-size: 11px;
+        }
+
+        .field-error.show {
+            display: block;
+        }
+
+        /* OPTIONS */
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 5px 0 20px;
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--muted);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .forgot {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* BUTTONS */
+        .login-button {
+            width: 100%;
+            min-height: 46px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .login-button:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.68;
+            cursor: not-allowed;
+        }
+
+        .button-content {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .spinner {
+            display: none;
+            width: 17px;
+            height: 17px;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .spinner.active {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .register-link {
+            margin-top: 21px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .register-link a {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .guest-box {
+            margin-top: 24px;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #fafafa;
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .guest-box a {
+            color: var(--primary);
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 15px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 950px) {
+            .page { grid-template-columns: 0.85fr 1.15fr; }
+            .left { padding: 35px; }
+            .left-content h1 { font-size: clamp(32px, 4vw, 46px); }
+            .right { padding: 35px 25px; }
+        }
+
+        @media (max-width: 780px) {
+            .page { display: block; }
+            .left { display: none; }
+            .right { min-height: 100vh; padding: 30px 18px; align-items: flex-start; }
+            .login-card { max-width: 520px; margin: 0 auto; }
+        }
+
+        @media (max-width: 480px) {
+            .right { padding: 24px 15px; }
+            .login-header h2 { font-size: 26px; }
+            .login-header p { font-size: 12px; }
+            .form-input { height: 45px; }
+            .login-button { min-height: 46px; }
+            .form-options { font-size: 11px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <!-- LEFT PANEL -->
+        <section class="left" aria-label="Informasi PDF Master AI">
+            <a href="index.html" class="brand" aria-label="PDF Master AI Home">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-name">PDF Master AI</div>
+                    <span class="brand-subtitle">Smart PDF Workspace</span>
+                </div>
+            </a>
+
+            <div class="left-content">
+                <div class="mini-title">SMART PDF WORKSPACE</div>
+                <h1>Semua PDF Anda, <span>lebih terorganisir.</span></h1>
+                <p>Login ke PDF Master AI untuk mengakses pengalaman pengelolaan PDF yang lebih lengkap dari satu tempat.</p>
+
+                <div class="benefits">
+                    <div class="benefit">
+                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        Kelola file PDF Anda secara terpusat
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        Lihat riwayat aktivitas & alur berkas
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        Akses dashboard pribadi yang intuitif
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon" aria-hidden="true">✓</div>
+                        Gunakan tools PDF cerdas kapan saja
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                © <span id="currentYear">2026</span> PDF Master AI. All rights reserved.
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL -->
+        <section class="right" aria-labelledby="login-title">
+            <div class="login-card">
+
+                <!-- BACK LINK -->
+                <a href="index.html" class="back-home" aria-label="Kembali ke halaman utama">← Kembali ke Home</a>
+
+                <!-- HEADER -->
+                <header class="login-header">
+                    <h2 id="login-title">Selamat datang kembali</h2>
+                    <p>Login ke akun PDF Master AI untuk melanjutkan.</p>
+                </header>
+
+                <!-- MESSAGE ALERT -->
+                <div id="message" class="message" role="alert" aria-live="polite"></div>
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" novalidate>
+
+                    <!-- EMAIL FIELD -->
+                    <div class="form-group">
+                        <label for="email">Alamat Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">✉</span>
+                            <input 
+                                id="email" 
+                                name="email" 
+                                type="email" 
+                                class="form-input" 
+                                placeholder="nama@email.com" 
+                                autocomplete="email" 
+                                inputmode="email" 
+                                autocapitalize="none" 
+                                maxlength="254" 
+                                required
+                                aria-describedby="emailError"
+                            >
+                        </div>
+                        <div id="emailError" class="field-error" role="alert"></div>
+                    </div>
+
+                    <!-- PASSWORD FIELD -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon" aria-hidden="true">🔒</span>
+                            <input 
+                                id="password" 
+                                name="password" 
+                                type="password" 
+                                class="form-input password-input" 
+                                placeholder="Masukkan password" 
+                                autocomplete="current-password" 
+                                minlength="8" 
+                                maxlength="100" 
+                                required
+                                aria-describedby="passwordError"
+                            >
+                            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password">👁</button>
+                        </div>
+                        <div id="passwordError" class="field-error" role="alert"></div>
+                    </div>
+
+                    <!-- OPTIONS -->
+                    <div class="form-options">
+                        <label class="remember">
+                            <input type="checkbox" id="remember">
+                            Ingat saya
+                        </label>
+                        <a href="forgot-password.html" class="forgot">Lupa password?</a>
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="login-button" id="loginButton">
+                        <span class="button-content">
+                            <span id="buttonText">Login</span>
+                            <span id="spinner" class="spinner" aria-hidden="true"></span>
+                        </span>
+                    </button>
+
+                </form>
+
+                <!-- REGISTER LINK -->
+                <div class="register-link">
+                    Belum memiliki akun? <a href="register.html">Daftar gratis</a>
+                </div>
+
+                <!-- GUEST BOX -->
+                <div class="guest-box">
+                    Tidak ingin login? Anda tetap dapat menggunakan tools PDF dasar.
+                    <br>
+                    <a href="index.html">← Gunakan PDF Master AI sebagai Guest</a>
+                </div>
+
+                <!-- SECURITY NOTE -->
+                <div class="security-note">
+                    🔒 Login terenkripsi dengan aman via API PDF Master AI
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        // Dynamic Year
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        // Elements
+        const loginForm = document.getElementById("loginForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const rememberInput = document.getElementById("remember");
+        const message = document.getElementById("message");
+        const loginButton = document.getElementById("loginButton");
+        const buttonText = document.getElementById("buttonText");
+        const spinner = document.getElementById("spinner");
+        const passwordToggle = document.getElementById("passwordToggle");
+
+        /* PASSWORD TOGGLE FUNCTION */
+        passwordToggle.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
+            passwordToggle.textContent = isPassword ? "🙈" : "👁";
+            passwordToggle.setAttribute("aria-label", isPassword ? "Sembunyikan password" : "Tampilkan password");
+        });
+
+        /* NOTIFICATION MESSAGES */
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = "message " + type;
+            message.style.display = "block";
+        }
+
+        function hideMessage() {
+            message.textContent = "";
+            message.className = "message";
+            message.style.display = "none";
+        }
+
+        /* FIELD ERROR HELPERS */
+        function fieldError(input, errorElement, text) {
+            input.classList.add("error");
+            input.classList.remove("valid");
+            errorElement.textContent = text;
+            errorElement.classList.add("show");
+        }
+
+        function clearFieldError(input, errorElement) {
+            input.classList.remove("error");
+            errorElement.textContent = "";
+            errorElement.classList.remove("show");
+        }
+
+        function isValidEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+
+        /* LOADING STATE */
+        function setLoading(loading) {
+            loginButton.disabled = loading;
+            if (loading) {
+                buttonText.textContent = "Memproses...";
+                spinner.classList.add("active");
+            } else {
+                buttonText.textContent = "Login";
+                spinner.classList.remove("active");
+            }
+        }
+
+        /* CLIENT-SIDE FORM VALIDATION */
+        function validateLogin() {
+            let valid = true;
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            const emailError = document.getElementById("emailError");
+            const passwordError = document.getElementById("passwordError");
+
+            if (!isValidEmail(email)) {
+                fieldError(emailInput, emailError, "Masukkan alamat email yang valid.");
+                valid = false;
+            } else {
+                clearFieldError(emailInput, emailError);
+                emailInput.classList.add("valid");
+            }
+
+            if (password.length < 8) {
+                fieldError(passwordInput, passwordError, "Password minimal 8 karakter.");
+                valid = false;
+            } else {
+                clearFieldError(passwordInput, passwordError);
+                passwordInput.classList.add("valid");
+            }
+
+            return valid;
+        }
+
+        /* FORM SUBMISSION LOGIC */
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            hideMessage();
+
+            if (!validateLogin()) return;
+
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            setLoading(true);
+
+            try {
+                // 1. Coba Request JSON terlebih dahulu (Standar Custom API)
+                let response = await fetch(`${API_URL}/api/v1/auth/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                // 2. Fallback ke FormData jika backend FastAPI menggunakan OAuth2PasswordRequestForm
+                if (response.status === 422) {
+                    const formData = new URLSearchParams();
+                    formData.append("username", email);
+                    formData.append("password", password);
+
+                    const fallbackResp = await fetch(`${API_URL}/api/v1/auth/login`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Accept": "application/json"
+                        },
+                        body: formData
+                    });
+
+                    if (fallbackResp.ok) {
+                        response = fallbackResp;
+                    }
+                }
+
+                let result = null;
+                try {
+                    result = await response.json();
+                } catch (_) {}
+
+                /* RESPONSE HANDLING */
+                if (response.ok && result && result.access_token) {
+                    const accessToken = result.access_token;
+                    const refreshToken = result.refresh_token || "";
+                    const tokenType = result.token_type || "Bearer";
+
+                    if (rememberInput.checked) {
+                        localStorage.setItem("pdf_master_access_token", accessToken);
+                        localStorage.setItem("pdf_master_refresh_token", refreshToken);
+                        localStorage.setItem("pdf_master_token_type", tokenType);
+
+                        sessionStorage.removeItem("pdf_master_access_token");
+                        sessionStorage.removeItem("pdf_master_refresh_token");
+                        sessionStorage.removeItem("pdf_master_token_type");
+                    } else {
+                        sessionStorage.setItem("pdf_master_access_token", accessToken);
+                        sessionStorage.setItem("pdf_master_refresh_token", refreshToken);
+                        sessionStorage.setItem("pdf_master_token_type", tokenType);
+
+                        localStorage.removeItem("pdf_master_access_token");
+                        localStorage.removeItem("pdf_master_refresh_token");
+                        localStorage.removeItem("pdf_master_token_type");
+                    }
+
+                    showMessage("Login berhasil. Mengarahkan ke dashboard...", "success");
+
+                    setTimeout(function () {
+                        window.location.href = "dashboard.html";
+                    }, 900);
+
+                    return;
+                }
+
+                if (response.status === 401) {
+                    showMessage("Email atau password salah.", "error");
+                    return;
+                }
+
+                if (response.status === 403) {
+                    showMessage("Akun Anda belum aktif. Silakan verifikasi email Anda terlebih dahulu.", "warning");
+                    return;
+                }
+
+                let errorMessage = "Login gagal. Silakan coba lagi.";
+                if (result && result.detail) {
+                    errorMessage = typeof result.detail === "string" ? result.detail : "Data login tidak sesuai.";
+                } else if (result && result.message) {
+                    errorMessage = result.message;
+                }
+
+                showMessage(errorMessage, "error");
+
+            } catch (error) {
+                console.error("LOGIN ERROR:", error);
+                showMessage("Tidak dapat terhubung ke server. Pastikan backend PDF Master AI sedang berjalan di port 8000.", "error");
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // Enter key navigation
+        emailInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                passwordInput.focus();
+            }
+        });
+    </script>
+</body>
+
+</html>

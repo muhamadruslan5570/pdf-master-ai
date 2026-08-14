@@ -1,0 +1,1436 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paket Harga | PDF Master AI</title>
+
+<meta name="description"
+      content="Pilih paket PDF Master AI yang sesuai dengan kebutuhan Anda. Mulai dari Free hingga Pro dan VIP.">
+
+<meta name="robots" content="index, follow">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#5b5cf0;
+    --primary-dark:#4748d7;
+    --secondary:#7c3aed;
+    --text:#111827;
+    --soft:#374151;
+    --muted:#6b7280;
+    --bg:#f7f8fc;
+    --white:#ffffff;
+    --border:#e5e7eb;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --gold:#b7791f;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font:inherit;
+    cursor:pointer;
+}
+
+.container{
+    width:min(calc(100% - 40px),1180px);
+    margin:auto;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.site-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+.navbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.logo-title{
+    display:block;
+    font-size:17px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.logo-sub{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:27px;
+    color:var(--soft);
+    font-size:13px;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:9px;
+}
+
+.btn{
+    min-height:40px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    color:var(--text);
+    font-size:12px;
+    font-weight:750;
+    transition:.2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    font-size:20px;
+}
+
+.mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:#fff;
+    padding:14px 0 20px;
+}
+
+.mobile-menu.active{
+    display:block;
+}
+
+.mobile-menu a{
+    display:block;
+    padding:11px 0;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.pricing-hero{
+    padding:65px 0 45px;
+    text-align:center;
+    background:
+        linear-gradient(
+            135deg,
+            #eef0ff,
+            #f7f8fc 55%,
+            #f0eaff
+        );
+}
+
+.eyebrow{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.9px;
+    margin-bottom:9px;
+}
+
+.pricing-hero h1{
+    font-size:clamp(32px,5vw,50px);
+    line-height:1.1;
+    letter-spacing:-1.8px;
+    margin-bottom:13px;
+}
+
+.pricing-hero h1 span{
+    color:var(--primary);
+}
+
+.pricing-hero p{
+    max-width:680px;
+    margin:auto;
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ==========================================================
+   BILLING
+========================================================== */
+
+.pricing-section{
+    padding:45px 0 80px;
+}
+
+.billing-switch{
+    display:flex;
+    justify-content:center;
+    margin-bottom:32px;
+}
+
+.billing-inner{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:4px;
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(17,24,39,.04);
+}
+
+.billing-button{
+    min-height:37px;
+    border:0;
+    border-radius:7px;
+    padding:0 16px;
+    background:transparent;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:750;
+}
+
+.billing-button.active{
+    background:var(--primary);
+    color:#fff;
+}
+
+.save-badge{
+    margin-left:3px;
+    color:var(--success);
+    font-size:9px;
+    font-weight:800;
+}
+
+/* ==========================================================
+   PRICING GRID
+========================================================== */
+
+.pricing-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+    gap:20px;
+    align-items:stretch;
+}
+
+.pricing-card{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:30px 25px 25px;
+    box-shadow:
+        0 8px 28px
+        rgba(17,24,39,.05);
+    display:flex;
+    flex-direction:column;
+}
+
+.pricing-card.featured{
+    border:
+        2px solid var(--primary);
+    box-shadow:
+        0 15px 38px
+        rgba(91,92,240,.14);
+    transform:translateY(-7px);
+}
+
+.popular{
+    position:absolute;
+    top:-13px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:5px 13px;
+    border-radius:30px;
+    background:var(--primary);
+    color:#fff;
+    font-size:9px;
+    font-weight:850;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    white-space:nowrap;
+}
+
+.plan-icon{
+    width:45px;
+    height:45px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f1f2ff;
+    color:var(--primary);
+    font-size:20px;
+    margin-bottom:17px;
+}
+
+.vip .plan-icon{
+    background:#fff7e6;
+    color:var(--gold);
+}
+
+.plan-name{
+    font-size:21px;
+    font-weight:850;
+}
+
+.plan-description{
+    color:var(--muted);
+    font-size:10px;
+    min-height:42px;
+    margin-top:4px;
+}
+
+.price{
+    margin:20px 0 4px;
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:-1px;
+    line-height:1.1;
+}
+
+.price small{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:0;
+}
+
+.price-note{
+    min-height:19px;
+    color:var(--muted);
+    font-size:9px;
+}
+
+.plan-button{
+    width:100%;
+    min-height:45px;
+    margin:20px 0 22px;
+    border-radius:9px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.plan-button.free{
+    border:1px solid var(--border);
+    background:#fff;
+}
+
+.plan-button.free:hover{
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.plan-button.pro{
+    border:1px solid var(--primary);
+    background:var(--primary);
+    color:#fff;
+}
+
+.plan-button.pro:hover{
+    background:var(--primary-dark);
+}
+
+.plan-button.vip{
+    border:1px solid #d69e2e;
+    background:#fffaf0;
+    color:#8b5e13;
+}
+
+.plan-button.vip:hover{
+    background:#fff4d6;
+}
+
+.features-title{
+    padding-top:18px;
+    border-top:1px solid var(--border);
+    margin-bottom:12px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.features{
+    list-style:none;
+    display:grid;
+    gap:9px;
+}
+
+.features li{
+    position:relative;
+    padding-left:20px;
+    color:var(--soft);
+    font-size:10px;
+}
+
+.features li::before{
+    content:"âœ“";
+    position:absolute;
+    left:0;
+    top:0;
+    color:var(--success);
+    font-weight:900;
+}
+
+.features li.disabled{
+    color:#9ca3af;
+    text-decoration:line-through;
+}
+
+.features li.disabled::before{
+    content:"â€”";
+    color:#9ca3af;
+}
+
+.current-plan{
+    display:none;
+    margin-top:11px;
+    text-align:center;
+    color:var(--success);
+    font-size:9px;
+    font-weight:800;
+}
+
+/* ==========================================================
+   FAQ
+========================================================== */
+
+.faq-section{
+    padding:20px 0 80px;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.section-heading h2{
+    font-size:28px;
+    letter-spacing:-.8px;
+}
+
+.section-heading p{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.faq-grid{
+    width:min(100%,800px);
+    margin:auto;
+    display:grid;
+    gap:10px;
+}
+
+.faq-item{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:11px;
+    overflow:hidden;
+}
+
+.faq-item summary{
+    cursor:pointer;
+    padding:16px 18px;
+    font-size:11px;
+    font-weight:750;
+    list-style:none;
+}
+
+.faq-item summary::-webkit-details-marker{
+    display:none;
+}
+
+.faq-item p{
+    padding:0 18px 17px;
+    color:var(--muted);
+    font-size:10px;
+    line-height:1.7;
+}
+
+/* ==========================================================
+   NOTICE
+========================================================== */
+
+.notice{
+    display:none;
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:3000;
+    max-width:350px;
+    padding:13px 16px;
+    border-radius:10px;
+    background:#111827;
+    color:#fff;
+    font-size:11px;
+    box-shadow:0 12px 30px rgba(0,0,0,.2);
+}
+
+.notice.show{
+    display:block;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.footer{
+    background:#111827;
+    color:#fff;
+    padding:35px 0 22px;
+}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding-top:20px;
+    border-top:1px solid #374151;
+    color:#6b7280;
+    font-size:10px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .nav-links,
+    .nav-actions{
+        display:none;
+    }
+
+    .menu-button{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .pricing-grid{
+        grid-template-columns:1fr;
+        width:min(100%,520px);
+        margin:auto;
+    }
+
+    .pricing-card.featured{
+        transform:none;
+    }
+}
+
+@media(max-width:520px){
+
+    .container{
+        width:calc(100% - 28px);
+    }
+
+    .pricing-hero{
+        padding:45px 0 35px;
+    }
+
+    .pricing-section{
+        padding:35px 0 60px;
+    }
+
+    .pricing-card{
+        padding:27px 20px 22px;
+    }
+
+    .billing-inner{
+        width:100%;
+    }
+
+    .billing-button{
+        flex:1;
+        padding:0 8px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .notice{
+        left:14px;
+        right:14px;
+        bottom:14px;
+        max-width:none;
+    }
+}
+</style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<header class="site-header">
+
+<nav class="navbar container">
+
+<a href="index.html" class="logo">
+<div class="logo-icon">P</div>
+<div>
+<span class="logo-title">PDF Master AI</span>
+<span class="logo-sub">Smart PDF Workspace</span>
+</div>
+</a>
+
+<div class="nav-links">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="profile.html">Profil</a>
+<a href="pricing.html" class="active">Harga</a>
+</div>
+
+<div class="nav-actions">
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-primary">Daftar Gratis</a>
+</div>
+
+<button
+    type="button"
+    class="menu-button"
+    id="menuButton"
+    aria-expanded="false"
+    aria-label="Buka menu">
+    â˜°
+</button>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<div class="container">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="profile.html">Profil</a>
+<a href="pricing.html">Harga</a>
+<a href="login.html">Login</a>
+<a href="register.html">Daftar Gratis</a>
+</div>
+</div>
+
+</header>
+
+
+<main>
+
+<section class="pricing-hero">
+
+<div class="container">
+
+<div class="eyebrow">
+Simple & Transparent
+</div>
+
+<h1>
+Pilih Paket <span>PDF Master AI</span>
+</h1>
+
+<p>
+Gunakan paket yang sesuai dengan kebutuhan Anda.
+Mulai gratis dan upgrade ketika kebutuhan pemrosesan PDF Anda meningkat.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="pricing-section">
+
+<div class="container">
+
+<div class="billing-switch">
+
+<div class="billing-inner">
+
+<button
+    type="button"
+    class="billing-button active"
+    data-cycle="monthly">
+    Bulanan
+</button>
+
+<button
+    type="button"
+    class="billing-button"
+    data-cycle="yearly">
+    Tahunan
+    <span class="save-badge">HEMAT</span>
+</button>
+
+</div>
+
+</div>
+
+
+<div class="pricing-grid">
+
+
+<!-- FREE -->
+
+<article
+    class="pricing-card"
+    data-plan="Free">
+
+<div class="plan-icon">
+PDF
+</div>
+
+<div class="plan-name">
+Free
+</div>
+
+<div class="plan-description">
+Untuk pengguna yang ingin mencoba fitur dasar PDF Master AI.
+</div>
+
+<div
+    class="price"
+    data-monthly="Rp0"
+    data-yearly="Rp0">
+    Rp0
+    <small>/selamanya</small>
+</div>
+
+<div class="price-note">
+Tidak perlu kartu pembayaran.
+</div>
+
+<button
+    type="button"
+    class="plan-button free"
+    data-plan="Free">
+    Gunakan Gratis
+</button>
+
+<div
+    class="current-plan"
+    data-current="Free">
+    âœ“ Paket Anda
+</div>
+
+<div class="features-title">
+Termasuk:
+</div>
+
+<ul class="features">
+
+<li>Kompres PDF dasar</li>
+<li>Gabungkan PDF</li>
+<li>Pisahkan PDF</li>
+<li>Penggunaan dasar</li>
+<li>Dashboard akun</li>
+
+<li class="disabled">
+Fitur premium
+</li>
+
+<li class="disabled">
+Prioritas pemrosesan
+</li>
+
+</ul>
+
+</article>
+
+
+<!-- PRO -->
+
+<article
+    class="pricing-card featured"
+    data-plan="Pro">
+
+<div class="popular">
+Paling Populer
+</div>
+
+<div class="plan-icon">
+âš¡
+</div>
+
+<div class="plan-name">
+Pro
+</div>
+
+<div class="plan-description">
+Untuk pengguna aktif yang membutuhkan lebih banyak fitur dan kapasitas.
+</div>
+
+<div
+    class="price"
+    data-monthly="Rp5.000"
+    data-yearly="Rp49.000">
+    Rp5.000
+    <small>/bulan</small>
+</div>
+
+<div
+    class="price-note"
+    data-monthly-note="Ditagihkan setiap bulan."
+    data-yearly-note="Ditagihkan setiap tahun.">
+    Ditagihkan setiap bulan.
+</div>
+
+<button
+    type="button"
+    class="plan-button pro"
+    data-plan="Pro">
+    Pilih Pro
+</button>
+
+<div
+    class="current-plan"
+    data-current="Pro">
+    âœ“ Paket Anda
+</div>
+
+<div class="features-title">
+Semua Free, plus:
+</div>
+
+<ul class="features">
+
+<li>Pemrosesan lebih banyak</li>
+<li>Ukuran file lebih besar</li>
+<li>Prioritas pemrosesan</li>
+<li>Fitur PDF premium</li>
+<li>Pengalaman tanpa gangguan</li>
+<li>Dukungan prioritas</li>
+
+</ul>
+
+</article>
+
+
+<!-- VIP -->
+
+<article
+    class="pricing-card vip"
+    data-plan="VIP">
+
+<div class="plan-icon">
+â˜…
+</div>
+
+<div class="plan-name">
+VIP
+</div>
+
+<div class="plan-description">
+Untuk pengguna intensif, profesional, dan kebutuhan bisnis.
+</div>
+
+<div
+    class="price"
+    data-monthly="Rp9.000"
+    data-yearly="Rp89.000">
+    Rp9.000
+    <small>/bulan</small>
+</div>
+
+<div
+    class="price-note"
+    data-monthly-note="Ditagihkan setiap bulan."
+    data-yearly-note="Ditagihkan setiap tahun.">
+    Ditagihkan setiap bulan.
+</div>
+
+<button
+    type="button"
+    class="plan-button vip"
+    data-plan="VIP">
+    Pilih VIP
+</button>
+
+<div
+    class="current-plan"
+    data-current="VIP">
+    âœ“ Paket Anda
+</div>
+
+<div class="features-title">
+Semua Pro, plus:
+</div>
+
+<ul class="features">
+
+<li>Kapasitas pemrosesan tinggi</li>
+<li>Prioritas tertinggi</li>
+<li>Fitur profesional</li>
+<li>Dukungan lebih cepat</li>
+<li>Cocok untuk kebutuhan bisnis</li>
+<li>Fitur VIP mendatang</li>
+
+</ul>
+
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="faq-section">
+
+<div class="container">
+
+<div class="section-heading">
+<h2>Pertanyaan Umum</h2>
+<p>Informasi singkat mengenai paket PDF Master AI.</p>
+</div>
+
+<div class="faq-grid">
+
+<details class="faq-item">
+<summary>Apakah paket Free bisa digunakan tanpa pembayaran?</summary>
+<p>
+Ya. Paket Free dapat digunakan tanpa memasukkan informasi kartu pembayaran.
+</p>
+</details>
+
+<details class="faq-item">
+<summary>Apa perbedaan Pro dan VIP?</summary>
+<p>
+Pro ditujukan untuk pengguna aktif dengan kebutuhan pemrosesan lebih tinggi.
+VIP ditujukan untuk pengguna intensif, profesional, dan kebutuhan bisnis.
+Detail limit dan fitur akan mengikuti konfigurasi subscription backend.
+</p>
+</details>
+
+<details class="faq-item">
+<summary>Apakah saya bisa upgrade kapan saja?</summary>
+<p>
+Ya. Tombol upgrade pada halaman ini akan diarahkan ke proses checkout
+setelah sistem pembayaran backend PDF Master AI diaktifkan.
+</p>
+</details>
+
+<details class="faq-item">
+<summary>Apakah harga di halaman ini sudah terhubung dengan payment gateway?</summary>
+<p>
+Belum. Halaman pricing ini merupakan frontend. Integrasi Midtrans atau Xendit
+akan kita sambungkan setelah endpoint subscription dan pembayaran siap.
+</p>
+</details>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<div
+    class="notice"
+    id="notice"
+    role="status"
+    aria-live="polite">
+</div>
+
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+
+/*
+ * ==========================================================
+ * PDF MASTER AI
+ * PRICING PAGE
+ * ==========================================================
+ *
+ * CATATAN:
+ * Halaman ini belum memanggil endpoint pembayaran.
+ * Kita hanya menyiapkan UI dan pemilihan paket.
+ *
+ * Nantinya tombol Pro/VIP dapat diarahkan ke:
+ *
+ * POST /api/v1/subscriptions/checkout
+ *
+ * atau endpoint payment yang akan kita buat.
+ * ==========================================================
+ */
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+
+menuButton.addEventListener(
+    "click",
+    function(){
+
+        const active =
+            mobileMenu.classList.toggle("active");
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            active ? "true" : "false"
+        );
+
+        menuButton.textContent =
+            active ? "Ã—" : "â˜°";
+
+    }
+);
+
+
+document
+    .querySelectorAll("#mobileMenu a")
+    .forEach(function(link){
+
+        link.addEventListener(
+            "click",
+            function(){
+
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuButton.textContent = "â˜°";
+
+            }
+        );
+
+    });
+
+
+/* ==========================================================
+   BILLING CYCLE
+========================================================== */
+
+const billingButtons =
+    document.querySelectorAll(
+        ".billing-button"
+    );
+
+const priceElements =
+    document.querySelectorAll(
+        ".price"
+    );
+
+const noteElements =
+    document.querySelectorAll(
+        ".price-note"
+    );
+
+
+function setBillingCycle(cycle){
+
+    billingButtons.forEach(
+        function(button){
+
+            button.classList.toggle(
+                "active",
+                button.dataset.cycle === cycle
+            );
+
+        }
+    );
+
+
+    priceElements.forEach(
+        function(price){
+
+            const value =
+                price.dataset[
+                    cycle
+                ];
+
+            const suffix =
+                cycle === "monthly"
+                    ? "/bulan"
+                    : "/tahun";
+
+            price.innerHTML =
+                value +
+                ' <small>' +
+                suffix +
+                '</small>';
+
+        }
+    );
+
+
+    noteElements.forEach(
+        function(note){
+
+            const key =
+                cycle === "monthly"
+                    ? "monthlyNote"
+                    : "yearlyNote";
+
+            if (
+                note.dataset[key]
+            ){
+
+                note.textContent =
+                    note.dataset[key];
+
+            }
+
+        }
+    );
+
+}
+
+
+billingButtons.forEach(
+    function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                setBillingCycle(
+                    button.dataset.cycle
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================================
+   CURRENT USER / PACKAGE
+========================================================== */
+
+function getCurrentUser(){
+
+    const possibleKeys = [
+        "user",
+        "current_user"
+    ];
+
+    for(
+        const key of possibleKeys
+    ){
+
+        try{
+
+            const raw =
+                localStorage.getItem(key);
+
+            if(!raw){
+                continue;
+            }
+
+            const user =
+                JSON.parse(raw);
+
+            if(user){
+                return user;
+            }
+
+        }catch(_){}
+
+    }
+
+    return null;
+}
+
+
+function getCurrentPlan(){
+
+    const user =
+        getCurrentUser();
+
+    if(
+        user &&
+        user.subscription &&
+        user.subscription.plan_name
+    ){
+
+        return user.subscription.plan_name;
+
+    }
+
+    return "Free";
+}
+
+
+function markCurrentPlan(){
+
+    const currentPlan =
+        getCurrentPlan();
+
+    document
+        .querySelectorAll(
+            ".current-plan"
+        )
+        .forEach(function(element){
+
+            element.style.display =
+                element.dataset.current ===
+                currentPlan
+                    ? "block"
+                    : "none";
+
+        });
+
+}
+
+
+markCurrentPlan();
+
+
+/* ==========================================================
+   PLAN BUTTON
+========================================================== */
+
+const planButtons =
+    document.querySelectorAll(
+        ".plan-button"
+    );
+
+
+function showNotice(message){
+
+    const notice =
+        document.getElementById(
+            "notice"
+        );
+
+    notice.textContent =
+        message;
+
+    notice.classList.add("show");
+
+    setTimeout(
+        function(){
+
+            notice.classList.remove(
+                "show"
+            );
+
+        },
+        3500
+    );
+
+}
+
+
+planButtons.forEach(
+    function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                const plan =
+                    button.dataset.plan;
+
+
+                if(plan === "Free"){
+
+                    window.location.href =
+                        "register.html";
+
+                    return;
+
+                }
+
+
+                /*
+                 * Belum mengarahkan ke payment gateway.
+                 * Kita sengaja tidak membuat endpoint palsu.
+                 */
+
+                const token =
+                    localStorage.getItem(
+                        "access_token"
+                    ) ||
+                    localStorage.getItem(
+                        "accessToken"
+                    );
+
+
+                if(!token){
+
+                    showNotice(
+                        "Silakan login terlebih dahulu untuk memilih paket " +
+                        plan +
+                        "."
+                    );
+
+                    setTimeout(
+                        function(){
+
+                            window.location.href =
+                                "login.html?redirect=pricing.html";
+
+                        },
+                        1000
+                    );
+
+                    return;
+
+                }
+
+
+                showNotice(
+                    "Paket " +
+                    plan +
+                    " siap diproses. Integrasi checkout akan kita sambungkan pada tahap payment."
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================================
+   ESCAPE
+========================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            mobileMenu.classList.remove(
+                "active"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuButton.textContent =
+                "â˜°";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+
+
+

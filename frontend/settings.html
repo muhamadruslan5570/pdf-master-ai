@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - PDF Master AI</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4546d8;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Skip link untuk Aksesibilitas Pembaca Layar */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 200;
+            transition: top 0.2s;
+            border-radius: 0 0 8px 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 68px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            width: min(calc(100% - 40px), 1100px);
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .back-button {
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* MAIN & CONTAINER */
+        main {
+            flex: 1;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), 1000px);
+            margin: auto;
+        }
+
+        .page-header {
+            padding: 42px 0 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            letter-spacing: -1px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* SETTINGS LAYOUT */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        /* SETTINGS NAV */
+        .settings-nav {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 8px;
+        }
+
+        .settings-nav button {
+            width: 100%;
+            min-height: 40px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #4b5563;
+            text-align: left;
+            padding: 0 11px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-nav button:hover {
+            background: #f5f6ff;
+            color: var(--primary);
+        }
+
+        .settings-nav button.active {
+            background: #eef0ff;
+            color: var(--primary);
+        }
+
+        /* SETTINGS CARD & SECTIONS */
+        .settings-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 22px;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .section-title {
+            margin: 0 0 5px;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .section-description {
+            margin: 0 0 22px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* SETTING ROW */
+        .setting-row {
+            min-height: 64px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .setting-row:first-of-type {
+            padding-top: 0;
+        }
+
+        .setting-row:last-of-type {
+            border-bottom: 0;
+        }
+
+        .setting-info {
+            min-width: 0;
+        }
+
+        .setting-name {
+            margin-bottom: 4px;
+            font-size: 12px;
+            font-weight: 850;
+        }
+
+        .setting-help {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* SELECT */
+        .setting-select {
+            width: 160px;
+            min-height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            padding: 0 10px;
+            color: #374151;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .setting-select:focus {
+            border-color: var(--primary);
+        }
+
+        /* TOGGLE SWITCH */
+        .toggle {
+            position: relative;
+            flex: 0 0 auto;
+            width: 42px;
+            height: 23px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            width: 17px;
+            height: 17px;
+            left: 3px;
+            top: 3px;
+            border-radius: 50%;
+            background: white;
+            transition: .2s;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: var(--primary);
+        }
+
+        .toggle input:checked + .toggle-slider::before {
+            transform: translateX(19px);
+        }
+
+        /* THEME OPTIONS */
+        .theme-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .theme-option {
+            min-width: 72px;
+            min-height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-option.active {
+            border-color: var(--primary);
+            background: #eef0ff;
+            color: var(--primary);
+        }
+
+        /* SECURITY BUTTONS */
+        .security-button {
+            min-height: 38px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .security-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* SAVE AREA */
+        .save-area {
+            margin-top: 18px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .reset-button,
+        .save-button {
+            min-height: 39px;
+            padding: 0 17px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 850;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reset-button {
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        .save-button {
+            border: 0;
+            background: var(--primary);
+            color: white;
+        }
+
+        .save-button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* MESSAGE NOTIFICATION */
+        .message {
+            display: none;
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            font-size: 12px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* FOOTER DARK THEME */
+        .footer {
+            background: #090e1a;
+            color: #8fa0b5;
+            margin-top: 60px;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 60px), 1200px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #151d2a;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .footer-brand-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-subtitle {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #55657a;
+            max-width: 380px;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #8fa0b5;
+            margin-bottom: 20px;
+        }
+
+        .footer-email-support a {
+            color: #5b5cf0;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-socials a {
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: #151d2a;
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #1e293b;
+        }
+
+        .footer-socials a:hover {
+            background: #5b5cf0;
+            color: #ffffff;
+            border-color: #5b5cf0;
+        }
+
+        .footer-column-title {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links-list a {
+            color: #7b8ea5;
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #4a586d;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media(max-width:900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media(max-width:760px) {
+            .container, .nav-inner { width: calc(100% - 30px); }
+            .settings-layout { grid-template-columns: 1fr; }
+            .settings-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+            .settings-nav button { text-align: center; }
+        }
+
+        @media(max-width:500px) {
+            .container, .nav-inner { width: calc(100% - 24px); }
+            .page-header { padding-top: 30px; }
+            .page-header h1 { font-size: 25px; }
+            .settings-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .settings-card { padding: 17px; }
+            .setting-row { align-items: flex-start; }
+            .setting-select { width: 125px; }
+            .theme-options { flex-wrap: wrap; }
+            .save-area { flex-direction: column; }
+            .reset-button, .save-button { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Skip Link untuk Pembaca Layar -->
+    <a href="#main-content" class="skip-link" data-i18n="skipLink">Lompat ke Konten Utama</a>
+
+    <!-- NAVBAR -->
+    <header class="navbar" role="banner">
+        <div class="nav-inner">
+            <a href="dashboard.html" class="brand" aria-label="PDF Master AI Dashboard">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-name">PDF Master AI</div>
+                    <span class="brand-subtitle">Smart PDF Workspace</span>
+                </div>
+            </a>
+            <a href="dashboard.html" class="back-button" aria-label="Kembali ke Dashboard" data-i18n="backDashboard">← Dashboard</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" role="main">
+        <div class="container">
+
+            <section class="page-header" aria-labelledby="settings-heading">
+                <h1 id="settings-heading" data-i18n="title">Settings</h1>
+                <p data-i18n="subtitle">Kelola preferensi dan pengaturan aplikasi PDF Master AI Anda.</p>
+            </section>
+
+            <div class="settings-layout">
+
+                <!-- SETTINGS NAVIGATION -->
+                <nav class="settings-nav" role="tablist" aria-label="Menu Pengaturan">
+                    <button class="active" data-section="general" id="tab-general" role="tab" aria-selected="true" aria-controls="general" data-i18n="tabGeneral">⚙ General</button>
+                    <button data-section="notifications" id="tab-notifications" role="tab" aria-selected="false" aria-controls="notifications" data-i18n="tabNotifications">🔔 Notifikasi</button>
+                    <button data-section="appearance" id="tab-appearance" role="tab" aria-selected="false" aria-controls="appearance" data-i18n="tabAppearance">◐ Tampilan</button>
+                    <button data-section="language" id="tab-language" role="tab" aria-selected="false" aria-controls="language" data-i18n="tabLanguage">🌐 Bahasa</button>
+                    <button data-section="security" id="tab-security" role="tab" aria-selected="false" aria-controls="security" data-i18n="tabSecurity">🔒 Keamanan</button>
+                </nav>
+
+                <!-- SETTINGS CONTENT -->
+                <section class="settings-card" aria-label="Area Pengaturan">
+
+                    <!-- GENERAL SECTION -->
+                    <div class="settings-section active" id="general" role="tabpanel" aria-labelledby="tab-general">
+                        <h2 class="section-title" data-i18n="genTitle">General</h2>
+                        <p class="section-description" data-i18n="genDesc">Atur preferensi dasar penggunaan PDF Master AI.</p>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="autoSave" class="setting-name" data-i18n="autoSaveTitle">Auto Save</label>
+                                <div class="setting-help" data-i18n="autoSaveHelp">Simpan hasil pekerjaan secara otomatis ke penyimpanan akun.</div>
+                            </div>
+                            <label class="toggle" aria-label="Sakelar Auto Save">
+                                <input type="checkbox" id="autoSave" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="confirmDelete" class="setting-name" data-i18n="confirmDeleteTitle">Konfirmasi Sebelum Menghapus</label>
+                                <div class="setting-help" data-i18n="confirmDeleteHelp">Tampilkan pesan konfirmasi sebelum berkas dihapus permanen.</div>
+                            </div>
+                            <label class="toggle" aria-label="Sakelar Konfirmasi Menghapus">
+                                <input type="checkbox" id="confirmDelete" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="pdfQuality" class="setting-name" data-i18n="pdfQualityTitle">Default PDF Quality</label>
+                                <div class="setting-help" data-i18n="pdfQualityHelp">Tingkat kualitas default saat memproses dokumen PDF.</div>
+                            </div>
+                            <select class="setting-select" id="pdfQuality" aria-label="Pilih Kualitas PDF Default">
+                                <option value="recommended" data-i18n="optRecommended">Recommended</option>
+                                <option value="high" data-i18n="optHigh">High</option>
+                                <option value="low" data-i18n="optLow">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- NOTIFICATIONS SECTION -->
+                    <div class="settings-section" id="notifications" role="tabpanel" aria-labelledby="tab-notifications">
+                        <h2 class="section-title" data-i18n="notifTitle">Notifikasi</h2>
+                        <p class="section-description" data-i18n="notifDesc">Tentukan jenis pemberitahuan yang ingin Anda terima.</p>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="processNotification" class="setting-name" data-i18n="processNotifTitle">Notifikasi Proses Selesai</label>
+                                <div class="setting-help" data-i18n="processNotifHelp">Beri tahu saat pemrosesan PDF atau gambar telah selesai.</div>
+                            </div>
+                            <label class="toggle" aria-label="Sakelar Notifikasi Proses Selesai">
+                                <input type="checkbox" id="processNotification" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="accountNotification" class="setting-name" data-i18n="accNotifTitle">Notifikasi Akun</label>
+                                <div class="setting-help" data-i18n="accNotifHelp">Informasi penting mengenai keamanan dan aktivitas akun Anda.</div>
+                            </div>
+                            <label class="toggle" aria-label="Sakelar Notifikasi Akun">
+                                <input type="checkbox" id="accountNotification" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="emailNotification" class="setting-name" data-i18n="emailNotifTitle">Email Notification</label>
+                                <div class="setting-help" data-i18n="emailNotifHelp">Kirim rangkuman dan pemberitahuan penting melalui email.</div>
+                            </div>
+                            <label class="toggle" aria-label="Sakelar Notifikasi Email">
+                                <input type="checkbox" id="emailNotification">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- APPEARANCE SECTION -->
+                    <div class="settings-section" id="appearance" role="tabpanel" aria-labelledby="tab-appearance">
+                        <h2 class="section-title" data-i18n="appTitle">Tampilan</h2>
+                        <p class="section-description" data-i18n="appDesc">Pilih tema antarmuka aplikasi yang nyaman untuk Anda.</p>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="themeTitle">Tema Aplikasi</div>
+                                <div class="setting-help" data-i18n="themeHelp">Pilih mode tampilan warna PDF Master AI.</div>
+                            </div>
+
+                            <div class="theme-options" role="radiogroup" aria-label="Pilihan Tema">
+                                <button type="button" class="theme-option active" data-theme="light" role="radio" aria-checked="true" data-i18n="themeLight">☀️ Light</button>
+                                <button type="button" class="theme-option" data-theme="dark" role="radio" aria-checked="false" data-i18n="themeDark">◐ Dark</button>
+                                <button type="button" class="theme-option" data-theme="system" role="radio" aria-checked="false" data-i18n="themeSystem">System</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LANGUAGE SECTION -->
+                    <div class="settings-section" id="language" role="tabpanel" aria-labelledby="tab-language">
+                        <h2 class="section-title" data-i18n="langTitle">Bahasa</h2>
+                        <p class="section-description" data-i18n="langDesc">Pilih bahasa pengantar pada antarmuka aplikasi.</p>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <label for="languageSelect" class="setting-name" data-i18n="langSelectTitle">Bahasa Aplikasi</label>
+                                <div class="setting-help" data-i18n="langSelectHelp">Pilih bahasa yang digunakan di seluruh sistem.</div>
+                            </div>
+
+                            <select class="setting-select" id="languageSelect" aria-label="Pilih Bahasa Aplikasi">
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- SECURITY SECTION -->
+                    <div class="settings-section" id="security" role="tabpanel" aria-labelledby="tab-security">
+                        <h2 class="section-title" data-i18n="secTitle">Keamanan</h2>
+                        <p class="section-description" data-i18n="secDesc">Kelola kredensial dan sesi login akun Anda.</p>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="changePassTitle">Ubah Password</div>
+                                <div class="setting-help" data-i18n="changePassHelp">Perbarui kata sandi secara berkala untuk menjaga keamanan akun.</div>
+                            </div>
+                            <button type="button" class="security-button" id="changePassword" data-i18n="btnChangePass">Ubah Password</button>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="activeSessionsTitle">Sesi Aktif</div>
+                                <div class="setting-help" data-i18n="activeSessionsHelp">Keluar dari perangkat lain untuk mengamankan akun Anda.</div>
+                            </div>
+                            <button type="button" class="security-button" id="logoutOther" data-i18n="btnManageSessions">Kelola Sesi</button>
+                        </div>
+                    </div>
+
+                    <!-- SAVE & RESET AREA -->
+                    <div class="save-area">
+                        <button type="button" class="reset-button" id="resetSettings" data-i18n="btnReset">Reset Default</button>
+                        <button type="button" class="save-button" id="saveSettings" data-i18n="btnSave">Simpan Pengaturan</button>
+                    </div>
+
+                    <!-- NOTIFICATION MESSAGE -->
+                    <div class="message" id="saveMessage" role="status" aria-live="polite" data-i18n="msgSaved">
+                        Pengaturan berhasil disimpan.
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER DARK THEME -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Kolom 1: Brand, Support, Socials -->
+                <div class="footer-col-brand">
+                    <div class="footer-brand">
+                        <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                        <span class="footer-brand-title">PDF Master AI</span>
+                    </div>
+                    <div class="footer-subtitle">Smart PDF Workspace</div>
+                    <p class="footer-desc" data-i18n="footerDesc">
+                        Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                    </p>
+                    <div class="footer-email-support">
+                        Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                    </div>
+
+                    <div class="footer-socials">
+                        <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile">Facebook</a>
+                        <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile">Instagram</a>
+                        <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer" aria-label="Twitter X Profile">X</a>
+                        <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact">WhatsApp</a>
+                        <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer" aria-label="TikTok Profile">TikTok</a>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: PDF Tools Populer -->
+                <nav class="footer-col" aria-label="PDF Tools Populer Footer Navigation">
+                    <div class="footer-column-title" data-i18n="footerCol1">PDF TOOLS POPULER</div>
+                    <ul class="footer-links-list">
+                        <li><a href="pdf-tools/compress-pdf-target.html" data-i18n="ftCompress">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html" data-i18n="ftMerge">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html" data-i18n="ftWord">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html" data-i18n="ftJpg">Konversi PDF ke Gambar</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 3: Perusahaan -->
+                <nav class="footer-col" aria-label="Perusahaan Footer Navigation">
+                    <div class="footer-column-title" data-i18n="footerCol2">PERUSAHAAN</div>
+                    <ul class="footer-links-list">
+                        <li><a href="about.html" data-i18n="ftAbout">Tentang Kami</a></li>
+                        <li><a href="pricing.html" data-i18n="ftPricing">Harga &amp; Langganan</a></li>
+                        <li><a href="help.html" data-i18n="ftHelp">Pusat Bantuan</a></li>
+                        <li><a href="blog.html" data-i18n="ftBlog">Blog &amp; Panduan</a></li>
+                        <li><a href="sitemap.html" data-i18n="ftSitemap">Sitemap</a></li>
+                        <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer" data-i18n="ftContact">Kontak Kami</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 4: Hukum & Privasi -->
+                <nav class="footer-col" aria-label="Hukum dan Privasi Footer Navigation">
+                    <div class="footer-column-title" data-i18n="footerCol3">HUKUM &amp; PRIVASI</div>
+                    <ul class="footer-links-list">
+                        <li><a href="privacy.html" data-i18n="ftPrivacy">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html" data-i18n="ftTerms">Syarat &amp; Ketentuan</a></li>
+                        <li><a href="security.html" data-i18n="ftSecurity">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html" data-i18n="ftDisclaimer">Disclaimer</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom">
+                <div>
+                    © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                </div>
+                <div>
+                    Smart PDF Workspace Powered by AI
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Set Tahun Dinamis Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        /* ==================================================
+           DICTIONARY MULTIBAHASA (i18n)
+        ================================================== */
+        const i18n = {
+            id: {
+                skipLink: "Lompat ke Konten Utama",
+                backDashboard: "← Dashboard",
+                title: "Settings",
+                subtitle: "Kelola preferensi dan pengaturan aplikasi PDF Master AI Anda.",
+                tabGeneral: "⚙ General",
+                tabNotifications: "🔔 Notifikasi",
+                tabAppearance: "◐ Tampilan",
+                tabLanguage: "🌐 Bahasa",
+                tabSecurity: "🔒 Keamanan",
+
+                // General
+                genTitle: "General",
+                genDesc: "Atur preferensi dasar penggunaan PDF Master AI.",
+                autoSaveTitle: "Auto Save",
+                autoSaveHelp: "Simpan hasil pekerjaan secara otomatis ke penyimpanan akun.",
+                confirmDeleteTitle: "Konfirmasi Sebelum Menghapus",
+                confirmDeleteHelp: "Tampilkan pesan konfirmasi sebelum berkas dihapus permanen.",
+                pdfQualityTitle: "Default PDF Quality",
+                pdfQualityHelp: "Tingkat kualitas default saat memproses dokumen PDF.",
+                optRecommended: "Rekomendasi",
+                optHigh: "Tinggi",
+                optLow: "Rendah",
+
+                // Notifications
+                notifTitle: "Notifikasi",
+                notifDesc: "Tentukan jenis pemberitahuan yang ingin Anda terima.",
+                processNotifTitle: "Notifikasi Proses Selesai",
+                processNotifHelp: "Beri tahu saat pemrosesan PDF atau gambar telah selesai.",
+                accNotifTitle: "Notifikasi Akun",
+                accNotifHelp: "Informasi penting mengenai keamanan dan aktivitas akun Anda.",
+                emailNotifTitle: "Email Notification",
+                emailNotifHelp: "Kirim rangkuman dan pemberitahuan penting melalui email.",
+
+                // Appearance
+                appTitle: "Tampilan",
+                appDesc: "Pilih tema antarmuka aplikasi yang nyaman untuk Anda.",
+                themeTitle: "Tema Aplikasi",
+                themeHelp: "Pilih mode tampilan warna PDF Master AI.",
+                themeLight: "☀️ Terang",
+                themeDark: "◐ Gelap",
+                themeSystem: "Sistem",
+
+                // Language
+                langTitle: "Bahasa",
+                langDesc: "Pilih bahasa pengantar pada antarmuka aplikasi.",
+                langSelectTitle: "Bahasa Aplikasi",
+                langSelectHelp: "Pilih bahasa yang digunakan di seluruh sistem.",
+
+                // Security
+                secTitle: "Keamanan",
+                secDesc: "Kelola kredensial dan sesi login akun Anda.",
+                changePassTitle: "Ubah Password",
+                changePassHelp: "Perbarui kata sandi secara berkala untuk menjaga keamanan akun.",
+                btnChangePass: "Ubah Password",
+                activeSessionsTitle: "Sesi Aktif",
+                activeSessionsHelp: "Keluar dari perangkat lain untuk mengamankan akun Anda.",
+                btnManageSessions: "Kelola Sesi",
+
+                // Save/Reset
+                btnReset: "Reset Default",
+                btnSave: "Simpan Pengaturan",
+                msgSaved: "Pengaturan berhasil disimpan.",
+                confirmReset: "Apakah Anda yakin ingin mengembalikan semua pengaturan ke default?",
+
+                // Footer
+                footerDesc: "Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.",
+                footerCol1: "PDF TOOLS POPULER",
+                ftCompress: "Kompres PDF",
+                ftMerge: "Gabung PDF (Merge)",
+                ftWord: "Konversi PDF ke Word",
+                ftJpg: "Konversi PDF ke Gambar",
+                footerCol2: "PERUSAHAAN",
+                ftAbout: "Tentang Kami",
+                ftPricing: "Harga & Langganan",
+                ftHelp: "Pusat Bantuan",
+                ftBlog: "Blog & Panduan",
+                ftSitemap: "Sitemap",
+                ftContact: "Kontak Kami",
+                footerCol3: "HUKUM & PRIVASI",
+                ftPrivacy: "Kebijakan Privasi",
+                ftTerms: "Syarat & Ketentuan",
+                ftSecurity: "Keamanan Data PDF",
+                ftDisclaimer: "Disclaimer"
+            },
+            en: {
+                skipLink: "Skip to Main Content",
+                backDashboard: "← Dashboard",
+                title: "Settings",
+                subtitle: "Manage your PDF Master AI app preferences and settings.",
+                tabGeneral: "⚙ General",
+                tabNotifications: "🔔 Notifications",
+                tabAppearance: "◐ Appearance",
+                tabLanguage: "🌐 Language",
+                tabSecurity: "🔒 Security",
+
+                // General
+                genTitle: "General",
+                genDesc: "Configure basic preferences for PDF Master AI.",
+                autoSaveTitle: "Auto Save",
+                autoSaveHelp: "Automatically save output files to your account storage.",
+                confirmDeleteTitle: "Confirm Before Deleting",
+                confirmDeleteHelp: "Show a confirmation prompt before files are permanently deleted.",
+                pdfQualityTitle: "Default PDF Quality",
+                pdfQualityHelp: "Default quality setting when processing PDF documents.",
+                optRecommended: "Recommended",
+                optHigh: "High",
+                optLow: "Low",
+
+                // Notifications
+                notifTitle: "Notifications",
+                notifDesc: "Choose which types of notifications you wish to receive.",
+                processNotifTitle: "Processing Completed Notification",
+                processNotifHelp: "Notify when PDF or image processing is completed.",
+                accNotifTitle: "Account Notifications",
+                accNotifHelp: "Important security updates and account activity alerts.",
+                emailNotifTitle: "Email Notification",
+                emailNotifHelp: "Send summary and important updates via email.",
+
+                // Appearance
+                appTitle: "Appearance",
+                appDesc: "Select an interface color theme that suits you.",
+                themeTitle: "App Theme",
+                themeHelp: "Choose the display color mode for PDF Master AI.",
+                themeLight: "☀️ Light",
+                themeDark: "◐ Dark",
+                themeSystem: "System",
+
+                // Language
+                langTitle: "Language",
+                langDesc: "Select interface language for the application.",
+                langSelectTitle: "App Language",
+                langSelectHelp: "Choose the system-wide application language.",
+
+                // Security
+                secTitle: "Security",
+                secDesc: "Manage credentials and login sessions.",
+                changePassTitle: "Change Password",
+                changePassHelp: "Update your password regularly to secure your account.",
+                btnChangePass: "Change Password",
+                activeSessionsTitle: "Active Sessions",
+                activeSessionsHelp: "Log out from other devices to secure your account.",
+                btnManageSessions: "Manage Sessions",
+
+                // Save/Reset
+                btnReset: "Reset Default",
+                btnSave: "Save Settings",
+                msgSaved: "Settings saved successfully.",
+                confirmReset: "Are you sure you want to reset all settings to default?",
+
+                // Footer
+                footerDesc: "AI-powered PDF document processing solution featuring high speed and robust security.",
+                footerCol1: "POPULAR PDF TOOLS",
+                ftCompress: "Compress PDF",
+                ftMerge: "Merge PDF",
+                ftWord: "PDF to Word",
+                ftJpg: "PDF to Images",
+                footerCol2: "COMPANY",
+                ftAbout: "About Us",
+                ftPricing: "Pricing & Subscription",
+                ftHelp: "Help Center",
+                ftBlog: "Blog & Guides",
+                ftSitemap: "Sitemap",
+                ftContact: "Contact Us",
+                footerCol3: "LEGAL & PRIVACY",
+                ftPrivacy: "Privacy Policy",
+                ftTerms: "Terms & Conditions",
+                ftSecurity: "PDF Data Security",
+                ftDisclaimer: "Disclaimer"
+            }
+        };
+
+        /* ==================================================
+           FUNGSI PENERAP BAHASA (LANGUAGE APPLIER)
+        ================================================== */
+        function applyLanguage(langCode) {
+            const lang = i18n[langCode] ? langCode : "id";
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const key = element.getAttribute("data-i18n");
+                if (i18n[lang] && i18n[lang][key]) {
+                    element.textContent = i18n[lang][key];
+                }
+            });
+
+            // Simpan bahasa ke localStorage terpisah untuk global app access
+            localStorage.setItem("pdf_master_language", lang);
+        }
+
+        /* ==================================================
+           SETTINGS NAVIGATION (TABS)
+        ================================================== */
+        const navButtons = document.querySelectorAll(".settings-nav button");
+        const sections = document.querySelectorAll(".settings-section");
+
+        navButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                navButtons.forEach(item => {
+                    item.classList.remove("active");
+                    item.setAttribute("aria-selected", "false");
+                });
+
+                sections.forEach(section => {
+                    section.classList.remove("active");
+                });
+
+                button.classList.add("active");
+                button.setAttribute("aria-selected", "true");
+
+                const targetSection = document.getElementById(button.dataset.section);
+                if (targetSection) {
+                    targetSection.classList.add("active");
+                }
+            });
+        });
+
+        /* ==================================================
+           THEME SWITCHER
+        ================================================== */
+        const themeButtons = document.querySelectorAll(".theme-option");
+
+        themeButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                themeButtons.forEach(item => {
+                    item.classList.remove("active");
+                    item.setAttribute("aria-checked", "false");
+                });
+
+                button.classList.add("active");
+                button.setAttribute("aria-checked", "true");
+            });
+        });
+
+        /* ==================================================
+           STORAGE & SETTINGS MANAGEMENT
+        ================================================== */
+        const settingIds = [
+            "autoSave",
+            "confirmDelete",
+            "pdfQuality",
+            "processNotification",
+            "accountNotification",
+            "emailNotification",
+            "languageSelect"
+        ];
+
+        function collectSettings() {
+            const settings = {};
+
+            settingIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (!element) return;
+
+                if (element.type === "checkbox") {
+                    settings[id] = element.checked;
+                } else {
+                    settings[id] = element.value;
+                }
+            });
+
+            const activeTheme = document.querySelector(".theme-option.active");
+            settings.theme = activeTheme ? activeTheme.dataset.theme : "light";
+
+            return settings;
+        }
+
+        function saveSettings() {
+            const settings = collectSettings();
+
+            localStorage.setItem("pdf_master_settings", JSON.stringify(settings));
+            applyLanguage(settings.languageSelect);
+
+            const message = document.getElementById("saveMessage");
+            message.classList.add("show");
+
+            setTimeout(() => {
+                message.classList.remove("show");
+            }, 2500);
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem("pdf_master_settings");
+            let currentLang = localStorage.getItem("pdf_master_language") || "id";
+
+            if (saved) {
+                try {
+                    const settings = JSON.parse(saved);
+
+                    settingIds.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (!element) return;
+
+                        if (element.type === "checkbox") {
+                            if (typeof settings[id] === "boolean") {
+                                element.checked = settings[id];
+                            }
+                        } else {
+                            if (settings[id] !== undefined) {
+                                element.value = settings[id];
+                            }
+                        }
+                    });
+
+                    if (settings.theme) {
+                        themeButtons.forEach(button => {
+                            const isActive = button.dataset.theme === settings.theme;
+                            button.classList.toggle("active", isActive);
+                            button.setAttribute("aria-checked", isActive ? "true" : "false");
+                        });
+                    }
+
+                    if (settings.languageSelect) {
+                        currentLang = settings.languageSelect;
+                    }
+                } catch (error) {
+                    console.error("SETTINGS LOAD ERROR:", error);
+                }
+            }
+
+            // Terapkan bahasa pilihan
+            const langSelect = document.getElementById("languageSelect");
+            if (langSelect) {
+                langSelect.value = currentLang;
+            }
+            applyLanguage(currentLang);
+        }
+
+        /* ==================================================
+           EVENT LISTENERS & BUTTON ACTIONS
+        ================================================== */
+        // Bahasa langsung berubah ketika dropdown diubah
+        document.getElementById("languageSelect").addEventListener("change", (e) => {
+            applyLanguage(e.target.value);
+        });
+
+        document.getElementById("saveSettings").addEventListener("click", saveSettings);
+
+        document.getElementById("resetSettings").addEventListener("click", () => {
+            const currentLang = document.getElementById("languageSelect").value || "id";
+            const confirmMsg = (i18n[currentLang] && i18n[currentLang].confirmReset) 
+                ? i18n[currentLang].confirmReset 
+                : i18n.id.confirmReset;
+
+            if (confirm(confirmMsg)) {
+                localStorage.removeItem("pdf_master_settings");
+                localStorage.removeItem("pdf_master_language");
+                location.reload();
+            }
+        });
+
+        document.getElementById("changePassword").addEventListener("click", () => {
+            alert("Fitur ubah password akan terhubung ke sistem keamanan akun.");
+        });
+
+        document.getElementById("logoutOther").addEventListener("click", () => {
+            alert("Manajemen sesi login akan terhubung ke sistem keamanan akun.");
+        });
+
+        // Inisialisasi awal saat halaman dibuka
+        loadSettings();
+    </script>
+</body>
+
+</html>

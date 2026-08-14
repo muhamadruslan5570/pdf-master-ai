@@ -1,0 +1,1040 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Privacy Policy | PDF Master AI</title>
+
+<meta name="description"
+      content="Kebijakan Privasi PDF Master AI mengenai pengumpulan, penggunaan, penyimpanan, dan perlindungan data pengguna.">
+
+<meta name="robots" content="index, follow">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+    --primary:#5b5cf0;
+    --primary-dark:#4748d7;
+    --secondary:#7c3aed;
+    --text:#111827;
+    --soft:#374151;
+    --muted:#6b7280;
+    --bg:#f7f8fc;
+    --white:#fff;
+    --border:#e5e7eb;
+    --success:#16a34a;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",
+    Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.7;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:min(calc(100% - 40px),1180px);
+    margin:auto;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.site-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+.navbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.logo-title{
+    display:block;
+    font-size:17px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.logo-sub{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:27px;
+    color:var(--soft);
+    font-size:13px;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:9px;
+}
+
+.btn{
+    min-height:40px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    color:var(--text);
+    font-size:12px;
+    font-weight:750;
+    transition:.2s ease;
+}
+
+.btn:hover{transform:translateY(-1px)}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    font-size:20px;
+}
+
+.mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:#fff;
+    padding:14px 0 20px;
+}
+
+.mobile-menu.active{
+    display:block;
+}
+
+.mobile-menu a{
+    display:block;
+    padding:11px 0;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.page-hero{
+    padding:65px 0 45px;
+    background:
+        linear-gradient(
+            135deg,
+            #eef0ff,
+            #f7f8fc 55%,
+            #f0eaff
+        );
+}
+
+.eyebrow{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.9px;
+    margin-bottom:9px;
+}
+
+.page-hero h1{
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.1;
+    letter-spacing:-1.6px;
+    margin-bottom:12px;
+}
+
+.page-hero p{
+    color:var(--muted);
+    max-width:750px;
+    font-size:13px;
+}
+
+.updated{
+    display:inline-block;
+    margin-top:16px;
+    padding:6px 10px;
+    border:1px solid #dfe1ff;
+    border-radius:7px;
+    background:#fff;
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.privacy-section{
+    padding:40px 0 80px;
+}
+
+.privacy-layout{
+    display:grid;
+    grid-template-columns:240px minmax(0,1fr);
+    gap:24px;
+    align-items:start;
+}
+
+.toc{
+    position:sticky;
+    top:95px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 7px 24px rgba(17,24,39,.04);
+}
+
+.toc-title{
+    font-size:11px;
+    font-weight:850;
+    margin-bottom:10px;
+}
+
+.toc a{
+    display:block;
+    padding:7px 8px;
+    border-radius:6px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.toc a:hover{
+    background:#f1f2ff;
+    color:var(--primary);
+}
+
+.privacy-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:34px;
+    box-shadow:0 8px 28px rgba(17,24,39,.04);
+}
+
+.privacy-card h2{
+    margin-top:32px;
+    margin-bottom:10px;
+    font-size:19px;
+    line-height:1.3;
+    letter-spacing:-.3px;
+    scroll-margin-top:95px;
+}
+
+.privacy-card h2:first-child{
+    margin-top:0;
+}
+
+.privacy-card h3{
+    margin-top:20px;
+    margin-bottom:7px;
+    font-size:13px;
+}
+
+.privacy-card p{
+    margin-bottom:11px;
+    color:var(--soft);
+    font-size:11px;
+}
+
+.privacy-card ul,
+.privacy-card ol{
+    margin:8px 0 14px 21px;
+    color:var(--soft);
+}
+
+.privacy-card li{
+    margin-bottom:7px;
+    font-size:11px;
+}
+
+.highlight{
+    margin:20px 0;
+    padding:14px 16px;
+    border-left:4px solid var(--primary);
+    border-radius:7px;
+    background:#f1f2ff;
+    color:var(--soft);
+    font-size:11px;
+}
+
+.success-box{
+    margin:20px 0;
+    padding:14px 16px;
+    border-left:4px solid var(--success);
+    border-radius:7px;
+    background:#ecfdf5;
+    color:#166534;
+    font-size:11px;
+}
+
+.data-table-wrap{
+    overflow-x:auto;
+    margin:18px 0 22px;
+}
+
+.data-table{
+    width:100%;
+    min-width:650px;
+    border-collapse:collapse;
+    font-size:10px;
+}
+
+.data-table th,
+.data-table td{
+    padding:11px 12px;
+    border:1px solid var(--border);
+    text-align:left;
+    vertical-align:top;
+}
+
+.data-table th{
+    background:#f7f8fc;
+    font-weight:800;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.footer{
+    background:#111827;
+    color:#fff;
+    padding:35px 0 22px;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:20px;
+    color:#d1d5db;
+    font-size:10px;
+}
+
+.footer-links a:hover{
+    color:#fff;
+}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding-top:20px;
+    border-top:1px solid #374151;
+    color:#6b7280;
+    font-size:10px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:850px){
+
+    .nav-links,
+    .nav-actions{
+        display:none;
+    }
+
+    .menu-button{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .privacy-layout{
+        grid-template-columns:1fr;
+    }
+
+    .toc{
+        position:static;
+    }
+}
+
+@media(max-width:550px){
+
+    .container{
+        width:calc(100% - 28px);
+    }
+
+    .page-hero{
+        padding:45px 0 35px;
+    }
+
+    .privacy-section{
+        padding:28px 0 55px;
+    }
+
+    .privacy-card{
+        padding:23px 18px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+}
+</style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<header class="site-header">
+
+<nav class="navbar container">
+
+<a href="index.html" class="logo">
+<div class="logo-icon">P</div>
+<div>
+<span class="logo-title">PDF Master AI</span>
+<span class="logo-sub">Smart PDF Workspace</span>
+</div>
+</a>
+
+<div class="nav-links">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+<a href="privacy-policy.html" class="active">Privacy</a>
+</div>
+
+<div class="nav-actions">
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-primary">Daftar Gratis</a>
+</div>
+
+<button
+    type="button"
+    class="menu-button"
+    id="menuButton"
+    aria-expanded="false"
+    aria-label="Buka menu">
+    â˜°
+</button>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<div class="container">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+<a href="privacy-policy.html">Privacy</a>
+<a href="login.html">Login</a>
+<a href="register.html">Daftar Gratis</a>
+</div>
+</div>
+
+</header>
+
+
+<main>
+
+<section class="page-hero">
+
+<div class="container">
+
+<div class="eyebrow">
+Privacy & Security
+</div>
+
+<h1>
+Privacy Policy
+</h1>
+
+<p>
+Kebijakan Privasi ini menjelaskan bagaimana PDF Master AI
+mengumpulkan, menggunakan, menyimpan, melindungi, dan mengelola
+informasi pengguna ketika Anda menggunakan layanan kami.
+</p>
+
+<span class="updated">
+Terakhir diperbarui: 9 Agustus 2026
+</span>
+
+</div>
+
+</section>
+
+
+<section class="privacy-section">
+
+<div class="container">
+
+<div class="privacy-layout">
+
+
+<aside class="toc">
+
+<div class="toc-title">
+Daftar Isi
+</div>
+
+<a href="#overview">1. Pendahuluan</a>
+<a href="#data-collected">2. Data yang Dikumpulkan</a>
+<a href="#account-data">3. Data Akun</a>
+<a href="#file-data">4. File & Dokumen</a>
+<a href="#usage-data">5. Data Penggunaan</a>
+<a href="#cookies">6. Cookies & Penyimpanan Lokal</a>
+<a href="#use-data">7. Penggunaan Data</a>
+<a href="#sharing">8. Berbagi Data</a>
+<a href="#third-party">9. Layanan Pihak Ketiga</a>
+<a href="#storage-security">10. Penyimpanan & Keamanan</a>
+<a href="#retention">11. Retensi Data</a>
+<a href="#rights">12. Hak Pengguna</a>
+<a href="#children">13. Privasi Anak</a>
+<a href="#changes">14. Perubahan Kebijakan</a>
+<a href="#contact">15. Kontak</a>
+
+</aside>
+
+
+<article class="privacy-card">
+
+<div class="highlight">
+Privasi pengguna merupakan bagian penting dari PDF Master AI.
+Kami berupaya menggunakan data hanya untuk menyediakan, mengamankan,
+dan meningkatkan layanan sesuai dengan tujuan yang dijelaskan dalam
+kebijakan ini.
+</div>
+
+
+<h2 id="overview">
+1. Pendahuluan
+</h2>
+
+<p>
+Privacy Policy ini berlaku untuk website, aplikasi web, API, dan
+layanan PDF Master AI yang terkait dengan platform kami.
+</p>
+
+<p>
+Dengan menggunakan layanan, Anda memahami bahwa informasi tertentu
+perlu diproses agar kami dapat menyediakan fitur seperti pendaftaran
+akun, login, pemrosesan PDF, reset password, verifikasi email,
+subscription, dan fitur lainnya.
+</p>
+
+
+<h2 id="data-collected">
+2. Data yang Dikumpulkan
+</h2>
+
+<p>
+Jenis data yang dikumpulkan dapat berbeda tergantung pada fitur yang
+Anda gunakan.
+</p>
+
+<div class="data-table-wrap">
+
+<table class="data-table">
+
+<thead>
+<tr>
+<th>Kategori</th>
+<th>Contoh</th>
+<th>Tujuan</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Identitas</td>
+<td>Nama lengkap, username</td>
+<td>Membuat dan mengelola akun.</td>
+</tr>
+
+<tr>
+<td>Kontak</td>
+<td>Alamat email</td>
+<td>Login, verifikasi, reset password, dan komunikasi layanan.</td>
+</tr>
+
+<tr>
+<td>Keamanan</td>
+<td>Password yang telah di-hash, token autentikasi</td>
+<td>Autentikasi dan keamanan akun.</td>
+</tr>
+
+<tr>
+<td>Dokumen</td>
+<td>File PDF yang diproses pengguna</td>
+<td>Menjalankan fitur pemrosesan PDF yang diminta pengguna.</td>
+</tr>
+
+<tr>
+<td>Teknis</td>
+<td>Alamat IP, browser, perangkat, log teknis</td>
+<td>Keamanan, debugging, performa, dan operasional layanan.</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<h2 id="account-data">
+3. Data Akun
+</h2>
+
+<p>
+Saat Anda membuat akun, kami dapat memproses nama lengkap, username,
+alamat email, password dalam bentuk hash, foto profil jika tersedia,
+role, status akun, dan informasi lain yang diperlukan untuk mengelola
+akun.
+</p>
+
+<p>
+Kami tidak memerlukan password dalam bentuk plaintext untuk menjalankan
+proses autentikasi normal. Password seharusnya disimpan menggunakan
+mekanisme hashing yang sesuai pada sisi backend.
+</p>
+
+
+<h2 id="file-data">
+4. File & Dokumen
+</h2>
+
+<p>
+PDF Master AI dapat memproses file yang Anda unggah untuk menjalankan
+fungsi yang Anda minta, misalnya kompresi, penggabungan, pemisahan,
+konversi, atau pemrosesan lainnya.
+</p>
+
+<p>
+Anda tetap bertanggung jawab atas isi dan hak penggunaan dokumen yang
+Anda unggah.
+</p>
+
+<div class="success-box">
+Kami tidak menyarankan Anda mengunggah dokumen yang tidak berhak Anda
+proses atau dokumen yang sangat sensitif apabila fitur tersebut tidak
+dibutuhkan.
+</div>
+
+
+<h2 id="usage-data">
+5. Data Penggunaan
+</h2>
+
+<p>
+Kami dapat memproses informasi teknis dan penggunaan seperti waktu
+permintaan, endpoint yang digunakan, status respons, informasi browser,
+perangkat, dan log error untuk menjaga stabilitas dan keamanan layanan.
+</p>
+
+<p>
+Data tersebut dapat membantu kami menemukan bug, mendeteksi aktivitas
+mencurigakan, mengoptimalkan performa, dan meningkatkan pengalaman
+pengguna.
+</p>
+
+
+<h2 id="cookies">
+6. Cookies & Penyimpanan Lokal
+</h2>
+
+<p>
+Website dapat menggunakan cookies, localStorage, session storage, atau
+teknologi browser lain untuk membantu menjalankan fitur tertentu.
+</p>
+
+<p>
+Contohnya dapat mencakup penyimpanan preferensi tampilan, status
+penggunaan antarmuka, atau informasi autentikasi sesuai implementasi
+aplikasi.
+</p>
+
+<p>
+Anda dapat mengelola cookies melalui pengaturan browser. Menonaktifkan
+teknologi tertentu dapat menyebabkan sebagian fitur tidak bekerja
+sebagaimana mestinya.
+</p>
+
+
+<h2 id="use-data">
+7. Penggunaan Data
+</h2>
+
+<p>
+Informasi dapat digunakan untuk tujuan berikut:
+</p>
+
+<ul>
+<li>Membuat dan mengelola akun pengguna.</li>
+<li>Melakukan autentikasi dan menjaga keamanan akun.</li>
+<li>Mengirim email verifikasi dan reset password.</li>
+<li>Memproses file sesuai permintaan pengguna.</li>
+<li>Mengelola subscription dan transaksi.</li>
+<li>Menyediakan dukungan pelanggan.</li>
+<li>Mendeteksi penyalahgunaan, penipuan, dan aktivitas berbahaya.</li>
+<li>Memperbaiki performa, stabilitas, dan fitur layanan.</li>
+<li>Memenuhi kewajiban hukum yang berlaku.</li>
+</ul>
+
+
+<h2 id="sharing">
+8. Berbagi Data
+</h2>
+
+<p>
+Kami tidak bermaksud menjual data pribadi pengguna sebagai produk.
+Namun, data tertentu dapat diproses oleh penyedia layanan yang membantu
+kami menjalankan platform.
+</p>
+
+<p>
+Contohnya dapat mencakup penyedia hosting, database, email, storage,
+payment gateway, monitoring, atau layanan teknis lainnya sesuai dengan
+fitur yang digunakan.
+</p>
+
+<p>
+Kami berupaya membatasi akses pihak ketiga pada informasi yang
+diperlukan untuk menjalankan layanan terkait.
+</p>
+
+
+<h2 id="third-party">
+9. Layanan Pihak Ketiga
+</h2>
+
+<p>
+PDF Master AI dapat terintegrasi dengan layanan pihak ketiga, misalnya
+penyedia email SMTP, Cloudflare R2, payment gateway, atau layanan AI.
+</p>
+
+<p>
+Ketika fitur tersebut digunakan, pemrosesan data juga dapat tunduk pada
+kebijakan privasi dan ketentuan penyedia pihak ketiga tersebut.
+</p>
+
+<p>
+Kami menyarankan pengguna membaca kebijakan masing-masing penyedia
+sebelum menggunakan fitur yang melibatkan layanan eksternal.
+</p>
+
+
+<h2 id="storage-security">
+10. Penyimpanan & Keamanan
+</h2>
+
+<p>
+Kami menerapkan langkah teknis dan operasional yang wajar untuk
+melindungi informasi pengguna dari akses tidak sah, kehilangan,
+perubahan, atau penyalahgunaan.
+</p>
+
+<p>
+Langkah keamanan dapat mencakup autentikasi, hashing password,
+penggunaan token, kontrol akses, validasi input, logging, dan
+perlindungan infrastruktur.
+</p>
+
+<p>
+Namun, tidak ada sistem elektronik yang dapat dijamin aman 100%.
+Karena itu, pengguna juga bertanggung jawab menjaga keamanan akun,
+password, dan perangkat yang digunakan.
+</p>
+
+
+<h2 id="retention">
+11. Retensi Data
+</h2>
+
+<p>
+Kami menyimpan data selama diperlukan untuk menyediakan layanan,
+menjaga keamanan, memenuhi tujuan operasional, menyelesaikan transaksi,
+atau memenuhi kewajiban hukum yang berlaku.
+</p>
+
+<p>
+Lama penyimpanan dapat berbeda berdasarkan jenis data dan kebutuhan
+layanan.
+</p>
+
+<p>
+File hasil pemrosesan dan file yang diunggah dapat memiliki periode
+penyimpanan yang berbeda berdasarkan konfigurasi fitur dan paket yang
+digunakan.
+</p>
+
+
+<h2 id="rights">
+12. Hak Pengguna
+</h2>
+
+<p>
+Bergantung pada hukum yang berlaku, pengguna dapat memiliki hak untuk
+meminta akses, koreksi, pembaruan, penghapusan, atau informasi mengenai
+data pribadi mereka.
+</p>
+
+<p>
+Untuk permintaan terkait data pribadi, pengguna dapat menghubungi kami
+melalui halaman kontak.
+</p>
+
+<p>
+Kami mungkin perlu melakukan verifikasi identitas sebelum memproses
+permintaan tertentu untuk mencegah akses tidak sah.
+</p>
+
+
+<h2 id="children">
+13. Privasi Anak
+</h2>
+
+<p>
+Layanan PDF Master AI tidak ditujukan untuk mengumpulkan data pribadi
+anak secara sengaja tanpa dasar atau persetujuan yang diperlukan
+berdasarkan hukum yang berlaku.
+</p>
+
+<p>
+Jika Anda mengetahui adanya data anak yang diberikan kepada kami secara
+tidak semestinya, silakan hubungi kami agar dapat ditinjau.
+</p>
+
+
+<h2 id="changes">
+14. Perubahan Kebijakan
+</h2>
+
+<p>
+Kami dapat memperbarui Privacy Policy dari waktu ke waktu untuk
+mencerminkan perubahan layanan, teknologi, keamanan, atau persyaratan
+hukum.
+</p>
+
+<p>
+Tanggal pembaruan terakhir akan selalu ditampilkan pada bagian atas
+halaman ini.
+</p>
+
+
+<h2 id="contact">
+15. Kontak
+</h2>
+
+<p>
+Jika Anda memiliki pertanyaan mengenai Privacy Policy, penggunaan data,
+atau ingin mengajukan permintaan terkait informasi pribadi, silakan
+hubungi PDF Master AI melalui halaman kontak.
+</p>
+
+<div style="margin-top:25px">
+
+<a href="contact.html" class="btn btn-primary">
+Hubungi Kami
+</a>
+
+<a
+    href="terms-of-service.html"
+    class="btn"
+    style="margin-left:6px">
+Terms of Service
+</a>
+
+<a
+    href="index.html"
+    class="btn"
+    style="margin-left:6px">
+Beranda
+</a>
+
+</div>
+
+<div class="highlight" style="margin-top:25px">
+
+<strong>Catatan:</strong>
+Kebijakan ini merupakan dasar/template untuk aplikasi PDF Master AI.
+Sebelum digunakan sebagai kebijakan privasi final untuk layanan publik
+dan komersial, isi sebaiknya ditinjau dan disesuaikan dengan praktik
+pengumpulan data aktual, penyedia pihak ketiga yang benar-benar
+digunakan, lokasi operasional, serta hukum perlindungan data yang
+berlaku.
+
+</div>
+
+</article>
+
+</div>
+</div>
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-links">
+<a href="about.html">Tentang Kami</a>
+<a href="pricing.html">Harga</a>
+<a href="contact.html">Kontak</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms-of-service.html">Terms of Service</a>
+</div>
+
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+
+menuButton.addEventListener(
+    "click",
+    function(){
+
+        const active =
+            mobileMenu.classList.toggle(
+                "active"
+            );
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            active ? "true" : "false"
+        );
+
+        menuButton.textContent =
+            active ? "Ã—" : "â˜°";
+    }
+);
+
+
+document
+    .querySelectorAll("#mobileMenu a")
+    .forEach(function(link){
+
+        link.addEventListener(
+            "click",
+            function(){
+
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuButton.textContent = "â˜°";
+            }
+        );
+    });
+
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            mobileMenu.classList.remove(
+                "active"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuButton.textContent = "â˜°";
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>
+
+
+

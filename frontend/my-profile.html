@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Saya - PDF Master AI</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        :root {
+            --p: #5b5cf0;
+            --pd: #4546d8;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f8fafc;
+            --white: #fff;
+            --green: #16a34a;
+            --red: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Skip link untuk Aksesibilitas Pembaca Layar */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--p);
+            color: white;
+            padding: 8px 16px;
+            z-index: 200;
+            transition: top 0.2s;
+            border-radius: 0 0 8px 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 68px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            width: min(calc(100% - 40px), 1100px);
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .brand-sub {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .back {
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+
+        .back:hover {
+            border-color: var(--p);
+            color: var(--p);
+        }
+
+        /* MAIN CONTAINER */
+        main {
+            flex: 1;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), 900px);
+            margin: auto;
+        }
+
+        .hero {
+            padding: 45px 0 25px;
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 20px;
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 92px;
+            height: 92px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: var(--p);
+            display: grid;
+            place-items: center;
+            font-size: 30px;
+            font-weight: 900;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .user-email {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+            word-break: break-word;
+        }
+
+        .plan {
+            display: inline-block;
+            margin-top: 13px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: var(--p);
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .edit-profile {
+            width: 100%;
+            margin-top: 18px;
+            min-height: 40px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--p);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 850;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .edit-profile:hover {
+            background: var(--pd);
+        }
+
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: span 2;
+        }
+
+        .field label {
+            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #374151;
+        }
+
+        .field input {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 11px;
+            outline: none;
+            font-size: 12px;
+            background: #fff;
+        }
+
+        .field input[type="file"] {
+            padding: 8px 11px;
+            cursor: pointer;
+        }
+
+        .field input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        .field input:focus:not(:disabled) {
+            border-color: var(--p);
+            box-shadow: 0 0 0 3px rgba(91, 92, 240, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .cancel {
+            min-height: 38px;
+            padding: 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .save {
+            min-height: 38px;
+            padding: 0 18px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--p);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .save:hover {
+            background: var(--pd);
+        }
+
+        .save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .message.error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: var(--red);
+        }
+
+        .account-info {
+            margin-top: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .info-value {
+            font-size: 12px;
+            font-weight: 800;
+            text-align: right;
+        }
+
+        /* FOOTER DARK THEME */
+        .footer {
+            background: #090e1a;
+            color: #8fa0b5;
+            margin-top: 60px;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 60px), 1200px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #151d2a;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .footer-brand-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-subtitle {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #55657a;
+            max-width: 380px;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #8fa0b5;
+            margin-bottom: 20px;
+        }
+
+        .footer-email-support a {
+            color: #5b5cf0;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-socials a {
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: #151d2a;
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #1e293b;
+        }
+
+        .footer-socials a:hover {
+            background: #5b5cf0;
+            color: #ffffff;
+            border-color: #5b5cf0;
+        }
+
+        .footer-column-title {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links-list a {
+            color: #7b8ea5;
+            font-size: 12px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #4a586d;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media(max-width:760px) {
+            .container, .nav-inner { width: calc(100% - 30px); }
+            .profile-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .field.full { grid-column: span 1; }
+        }
+
+        @media(max-width:550px) {
+            .container, .nav-inner { width: calc(100% - 24px); }
+            .hero h1 { font-size: 26px; }
+            .form-actions { flex-direction: column; }
+            .cancel, .save { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skip link untuk Pembaca Layar (Screen Reader) -->
+    <a href="#main-content" class="skip-link">Lompat ke Konten Utama</a>
+
+    <!-- NAVBAR -->
+    <header class="navbar" role="banner">
+        <div class="nav-inner">
+            <a href="dashboard.html" class="brand" aria-label="PDF Master AI Dashboard">
+                <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-name">PDF Master AI</div>
+                    <span class="brand-sub">Smart PDF Workspace</span>
+                </div>
+            </a>
+            <a href="dashboard.html" class="back" aria-label="Kembali ke Dashboard">← Dashboard</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" role="main">
+        <div class="container">
+            <section class="hero" aria-labelledby="profile-heading">
+                <h1 id="profile-heading">PROFILE SAYA</h1>
+                <p>Kelola informasi akun dan profil Anda secara mandiri.</p>
+            </section>
+
+            <div class="profile-grid">
+                <!-- PROFILE SUMMARY CARD -->
+                <section class="card profile-card" aria-label="Ringkasan Profil Pengguna">
+                    <div class="avatar" id="avatar" aria-hidden="true">U</div>
+                    <div class="user-name" id="profileName" aria-live="polite">Memuat...</div>
+                    <div class="user-email" id="profileEmail" aria-live="polite">-</div>
+                    <span class="plan" id="profilePlan" aria-live="polite">FREE</span>
+                    <button class="edit-profile" id="editButton" type="button" aria-label="Edit Profil Saya">✎ Edit Profile</button>
+                </section>
+
+                <!-- PROFILE FORM CARD -->
+                <section class="card" aria-labelledby="form-heading">
+                    <h2 class="section-title" id="form-heading">Informasi Profile</h2>
+                    <form id="profileForm">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="firstName">Nama Depan</label>
+                                <input id="firstName" type="text" placeholder="Nama depan" disabled autocomplete="given-name">
+                            </div>
+
+                            <div class="field">
+                                <label for="lastName">Nama Belakang</label>
+                                <input id="lastName" type="text" placeholder="Nama belakang" disabled autocomplete="family-name">
+                            </div>
+
+                            <div class="field full">
+                                <label for="email">Alamat Email</label>
+                                <input id="email" type="email" placeholder="Alamat email Anda" disabled autocomplete="email">
+                            </div>
+
+                            <div class="field full">
+                                <label for="avatarInput">Pilih Foto Profil Baru</label>
+                                <input id="avatarInput" type="file" accept="image/png, image/jpeg, image/webp" disabled aria-label="Unggah Foto Profil Baru">
+                            </div>
+                        </div>
+
+                        <div class="form-actions" id="formActions" style="display:none;">
+                            <button type="button" class="cancel" id="cancelButton">Batal</button>
+                            <button type="submit" class="save" id="saveButton">Simpan Perubahan</button>
+                        </div>
+
+                        <!-- Kotak Notifikasi -->
+                        <div class="message" id="message" role="status" aria-live="polite"></div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- ACCOUNT INFORMATION CARD -->
+            <section class="card account-info" aria-labelledby="account-heading">
+                <h2 class="section-title" id="account-heading">Informasi Akun</h2>
+                <div class="info-row">
+                    <span class="info-label">Status akun</span>
+                    <span class="info-value" id="accountStatus" aria-live="polite">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Subscription</span>
+                    <span class="info-value" id="subscription" aria-live="polite">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">User ID</span>
+                    <span class="info-value" id="userId" aria-live="polite">-</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER PRESI -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Kolom 1: Brand, Support, Socials -->
+                <div class="footer-col-brand">
+                    <div class="footer-brand">
+                        <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                        <span class="footer-brand-title">PDF Master AI</span>
+                    </div>
+                    <div class="footer-subtitle">Smart PDF Workspace</div>
+                    <p class="footer-desc">
+                        Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                    </p>
+                    <div class="footer-email-support">
+                        Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                    </div>
+
+                    <div class="footer-socials">
+                        <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile">Facebook</a>
+                        <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile">Instagram</a>
+                        <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer" aria-label="Twitter X Profile">X</a>
+                        <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Contact">WhatsApp</a>
+                        <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer" aria-label="TikTok Profile">TikTok</a>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: PDF Tools Populer -->
+                <nav class="footer-col" aria-label="PDF Tools Populer Footer Navigation">
+                    <div class="footer-column-title">PDF TOOLS POPULER</div>
+                    <ul class="footer-links-list">
+                        <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 3: Perusahaan -->
+                <nav class="footer-col" aria-label="Perusahaan Footer Navigation">
+                    <div class="footer-column-title">PERUSAHAAN</div>
+                    <ul class="footer-links-list">
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                        <li><a href="help.html">Pusat Bantuan</a></li>
+                        <li><a href="blog.html">Blog &amp; Panduan</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                        <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Kolom 4: Hukum & Privasi -->
+                <nav class="footer-col" aria-label="Hukum dan Privasi Footer Navigation">
+                    <div class="footer-column-title">HUKUM &amp; PRIVASI</div>
+                    <ul class="footer-links-list">
+                        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                        <li><a href="security.html">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="footer-bottom">
+                <div>
+                    © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+                </div>
+                <div>
+                    Smart PDF Workspace Powered by AI
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC PERBAIKAN -->
+    <script>
+        /* ==================================================
+           CONFIG & STATE
+        ================================================== */
+        const API_URL = "http://127.0.0.1:8000";
+        let currentUserData = null; 
+
+        // Set Tahun Dinamis di Footer
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        /* ==================================================
+           TOKEN MANAGEMENT
+        ================================================== */
+        function getToken() {
+            return localStorage.getItem("pdf_master_access_token") ||
+                   sessionStorage.getItem("pdf_master_access_token") ||
+                   localStorage.getItem("access_token") ||
+                   sessionStorage.getItem("access_token") || "";
+        }
+
+        /* ==================================================
+           ELEMENTS
+        ================================================== */
+        const editButton = document.getElementById("editButton");
+        const cancelButton = document.getElementById("cancelButton");
+        const formActions = document.getElementById("formActions");
+        const profileForm = document.getElementById("profileForm");
+        const messageBox = document.getElementById("message");
+        const saveButton = document.getElementById("saveButton");
+
+        const fields = [
+            document.getElementById("firstName"),
+            document.getElementById("lastName"),
+            document.getElementById("email"),
+            document.getElementById("avatarInput")
+        ];
+
+        /* ==================================================
+           HELPERS
+        ================================================== */
+        function showMessage(msg, isSuccess = true) {
+            messageBox.textContent = msg;
+            messageBox.className = `message show ${isSuccess ? 'success' : 'error'}`;
+        }
+
+        function hideMessage() {
+            messageBox.className = "message";
+        }
+
+        function setFieldsDisabled(disabled) {
+            fields.forEach(f => f.disabled = disabled);
+        }
+
+        /* ==================================================
+           EDIT & CANCEL ACTIONS
+        ================================================== */
+        editButton.onclick = () => {
+            setFieldsDisabled(false);
+            formActions.style.display = "flex";
+            editButton.style.display = "none";
+            hideMessage();
+        };
+
+        cancelButton.onclick = () => {
+            setFieldsDisabled(true);
+            formActions.style.display = "none";
+            editButton.style.display = "block";
+            hideMessage();
+            
+            if (currentUserData) {
+                renderProfileData(currentUserData);
+            }
+        };
+
+        /* ==================================================
+           LIVE PREVIEW FOTO PROFIL (LOCAL)
+        ================================================== */
+        document.getElementById("avatarInput").addEventListener("change", event => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Ukuran foto maksimal 5MB.");
+                event.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById("avatar").innerHTML = `<img src="${e.target.result}" alt="Preview Foto Profil">`;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        /* ==================================================
+           RENDER PROFILE DATA TO DOM
+        ================================================== */
+        function renderProfileData(user) {
+            const fullName = user.full_name || user.name || "";
+            const nameParts = fullName.trim().split(/\s+/);
+
+            document.getElementById("firstName").value = nameParts[0] || "";
+            document.getElementById("lastName").value = nameParts.slice(1).join(" ");
+            document.getElementById("email").value = user.email || "";
+
+            document.getElementById("profileName").textContent = user.full_name || user.name || user.username || "User";
+            document.getElementById("profileEmail").textContent = user.email || "-";
+            document.getElementById("userId").textContent = user.id ?? user.user_id ?? "-";
+            document.getElementById("accountStatus").textContent = user.is_active !== false ? "Aktif" : "Tidak Aktif";
+
+            const subscription = user.subscription;
+            document.getElementById("subscription").textContent = subscription?.plan_name || user.plan || "Free";
+            document.getElementById("profilePlan").textContent = (subscription?.plan_name || user.plan || "FREE").toUpperCase();
+
+            // Memuat Gambar Avatar Pengguna (dengan penanganan URL absolut)
+            let avatarUrl = user.profile_image || user.avatar || user.avatar_url;
+            if (avatarUrl) {
+                if (!avatarUrl.startsWith("http")) {
+                    avatarUrl = `${API_URL}${avatarUrl}`;
+                }
+                document.getElementById("avatar").innerHTML = `<img src="${avatarUrl}" alt="Foto Profil">`;
+            } else {
+                const initial = (user.full_name || user.name || user.username || "U").trim().charAt(0).toUpperCase();
+                document.getElementById("avatar").textContent = initial;
+            }
+        }
+
+        /* ==================================================
+           LOAD PROFILE (GET API)
+        ================================================== */
+        async function loadProfile() {
+            const token = getToken();
+
+            if (!token) {
+                console.warn("Token login tidak ditemukan.");
+                alert("Anda belum login! Mengalihkan ke halaman login...");
+                window.location.href = "login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/v1/users/me`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    let errorMsg = "Gagal mengambil data profile.";
+                    try {
+                        const errData = await response.json();
+                        errorMsg = errData.detail || errData.message || errorMsg;
+                    } catch (_) {}
+                    throw new Error(errorMsg);
+                }
+
+                const data = await response.json();
+                currentUserData = data.user || data.data || data;
+
+                if (!currentUserData) {
+                    throw new Error("Data user tidak ditemukan.");
+                }
+
+                renderProfileData(currentUserData);
+
+            } catch (error) {
+                console.error("LOAD PROFILE ERROR:", error);
+                showMessage(error.message || "Gagal memuat profil", false);
+            }
+        }
+
+        /* ==================================================
+           SAVE PROFILE & UPLOAD AVATAR (PROSES DUA TAHAP)
+        ================================================== */
+        profileForm.onsubmit = async event => {
+            event.preventDefault();
+
+            const token = getToken();
+            if (!token) {
+                alert("Sesi login berakhir. Silakan login kembali.");
+                return;
+            }
+
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const avatarFileInput = document.getElementById("avatarInput");
+
+            const fullName = [firstName, lastName].filter(Boolean).join(" ");
+
+            if (!fullName || !email) {
+                alert("Nama dan Email tidak boleh kosong.");
+                return;
+            }
+
+            saveButton.disabled = true;
+            saveButton.textContent = "Menyimpan...";
+            hideMessage();
+
+            try {
+                let updatedAvatarUrl = null;
+
+                // TAHAP 1: Unggah Foto Profil jika ada file baru yang dipilih
+                if (avatarFileInput.files && avatarFileInput.files[0]) {
+                    const formData = new FormData();
+                    formData.append("file", avatarFileInput.files[0]);
+
+                    const uploadResp = await fetch(`${API_URL}/api/v1/users/avatar`, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        },
+                        body: formData
+                    });
+
+                    const uploadData = await uploadResp.json();
+
+                    if (!uploadResp.ok) {
+                        throw new Error(uploadData.detail || uploadData.message || "Gagal mengunggah foto profil.");
+                    }
+
+                    updatedAvatarUrl = uploadData.avatar_url;
+                }
+
+                // TAHAP 2: Update Data Profil Teks ke /api/v1/users/me
+                const updatePayload = {
+                    full_name: fullName,
+                    username: fullName.toLowerCase().replace(/\s+/g, ""),
+                    email: email
+                };
+
+                if (updatedAvatarUrl) {
+                    updatePayload.avatar = updatedAvatarUrl;
+                    updatePayload.profile_image = updatedAvatarUrl;
+                }
+
+                const response = await fetch(`${API_URL}/api/v1/users/me`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatePayload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || data.message || "Gagal memperbarui profil.");
+                }
+
+                currentUserData = data.user || data.data || data;
+
+                // Jika server tidak mengembalikan avatar_url terbaru, set secara manual
+                if (updatedAvatarUrl && !currentUserData.profile_image && !currentUserData.avatar) {
+                    currentUserData.avatar = updatedAvatarUrl;
+                }
+
+                renderProfileData(currentUserData);
+                showMessage("Profile dan foto berhasil diperbarui!", true);
+
+                setFieldsDisabled(true);
+                formActions.style.display = "none";
+                editButton.style.display = "block";
+                avatarFileInput.value = ""; 
+
+            } catch (error) {
+                console.error("SAVE PROFILE ERROR:", error);
+                showMessage(error.message || "Gagal menyimpan perubahan profil.", false);
+            } finally {
+                saveButton.disabled = false;
+                saveButton.textContent = "Simpan Perubahan";
+            }
+        };
+
+        // Inisialisasi Memuat Profil
+        loadProfile();
+    </script>
+</body>
+
+</html>

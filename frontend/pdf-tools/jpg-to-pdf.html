@@ -1,0 +1,1002 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JPG ke PDF | PDF Master AI</title>
+<meta name="description" content="Gabungkan gambar JPG, JPEG, dan PNG menjadi satu file PDF dengan PDF Master AI. Atur urutan, ukuran halaman, orientasi, dan margin.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --p: #5b5cf0;
+  --pd: #4344d6;
+  --pl: #eef0ff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --border: #e2e8f0;
+  --green: #10b981;
+  --red: #ef4444;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --radius: 16px;
+}
+
+body {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+.container {
+  width: min(calc(100% - 32px), 1140px);
+  margin: auto;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--p), #7c3aed);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(91, 92, 240, 0.25);
+}
+
+.logo-title {
+  font-size: 17px;
+  font-weight: 800;
+  display: block;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.actions { display: flex; gap: 8px; }
+
+.btn-logout {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* HERO */
+.hero {
+  padding: 56px 0 36px;
+  text-align: center;
+  background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, var(--bg) 100%);
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--pl);
+  color: var(--p);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--p), #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* MAIN LAYOUT */
+.section { padding: 24px 0 60px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.card, .info {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.card { padding: 28px; }
+
+/* DROP AREA */
+.drop {
+  min-height: 210px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 20px;
+  transition: all 0.2s ease;
+}
+
+.drop.drag {
+  border-color: var(--p);
+  background: var(--pl);
+}
+
+.icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--pl);
+  color: var(--p);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(91, 92, 240, 0.12);
+}
+
+.drop h2 { font-size: 18px; font-weight: 800; }
+.drop p { font-size: 12px; color: var(--muted); margin: 6px 0 16px; }
+.file-input { display: none; }
+
+.select {
+  border: none;
+  background: var(--p);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(91, 92, 240, 0.25);
+  transition: all 0.2s ease;
+}
+
+.select:hover {
+  background: var(--pd);
+  transform: translateY(-1px);
+}
+
+.limit { font-size: 10px; color: #94a3b8; margin-top: 12px; }
+
+/* LIST HEAD */
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.title { font-size: 13px; font-weight: 800; color: var(--text); }
+.count { font-size: 11px; color: var(--muted); font-weight: 600; }
+
+/* IMAGE LIST */
+.image-list { display: grid; gap: 10px; }
+
+.empty {
+  padding: 30px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: #fafafa;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.image-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.image-item:hover { border-color: #cbd5e1; }
+
+.thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+}
+
+.item-info { flex: 1; min-width: 0; }
+.item-name { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.item-size { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+.move { display: flex; gap: 6px; }
+
+.small-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+.small-btn:hover:not(:disabled) {
+  border-color: var(--p);
+  color: var(--p);
+  background: var(--pl);
+}
+
+.small-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.remove { color: var(--red); }
+.remove:hover:not(:disabled) {
+  border-color: var(--red) !important;
+  color: #fff !important;
+  background: var(--red) !important;
+}
+
+/* OPTIONS */
+.options { margin-top: 24px; }
+
+.box {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+  margin-top: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.row:last-child { margin-bottom: 0; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.field select, .field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+  font-size: 12px;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.field select:focus, .field input:focus {
+  border-color: var(--p);
+  box-shadow: 0 0 0 3px rgba(91, 92, 240, 0.15);
+}
+
+/* CONVERT ACTION */
+.action { margin-top: 24px; }
+
+.convert {
+  width: 100%;
+  min-height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: var(--p);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(91, 92, 240, 0.25);
+  transition: all 0.2s ease;
+}
+
+.convert:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.convert:hover:not(:disabled) {
+  background: var(--pd);
+  transform: translateY(-1px);
+}
+
+/* STATUS MESSAGES */
+.error, .progress, .result {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.error.show {
+  display: block;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.progress.show {
+  display: block;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+}
+
+.result.show {
+  display: block;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.phead {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.bar-bg {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--p), #7c3aed);
+  transition: width 0.25s ease;
+}
+
+.pmsg { font-size: 11px; color: var(--muted); }
+
+.result-title {
+  color: #166534;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid #dcfce7;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.stat small { display: block; color: var(--muted); font-size: 10px; }
+.stat strong { font-size: 13px; color: var(--text); }
+
+.result-actions { display: flex; gap: 10px; margin-top: 16px; }
+
+.download, .again {
+  flex: 1;
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.download {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.download:hover { background: #059669; }
+
+.again {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+}
+
+.again:hover { background: #f8fafc; }
+
+/* SIDEBAR INFO */
+.info { padding: 24px; }
+.info h3 { font-size: 15px; font-weight: 800; margin-bottom: 14px; color: var(--text); }
+.info ul { list-style: none; display: grid; gap: 12px; }
+
+.info li {
+  font-size: 12px;
+  color: #334155;
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.info li::before {
+  content: "âœ“";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+.info p { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+/* FOOTER */
+footer {
+  background: #0f172a;
+  color: #fff;
+  padding: 40px 0 24px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+
+.footer-links a:hover { color: #fff; }
+
+.footer-bottom {
+  border-top: 1px solid #1e293b;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 40px 0 24px; }
+  .card { padding: 18px; }
+  .row { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .result-actions { flex-direction: column; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+<link rel="icon" type="image/png" href="../assets/logo.png">
+</head>
+<body>
+<header>
+  <nav class="container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">P</div>
+      <div>
+        <span class="logo-title">PDF Master AI</span>
+        <span class="logo-sub">Smart PDF Workspace</span>
+      </div>
+    </a>
+    <div class="actions">
+      <a href="logout.html" class="btn-logout">Logout</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">PDF Converter</div>
+      <h1>JPG ke <span>PDF</span></h1>
+      <p>Gabungkan gambar JPG, JPEG, dan PNG menjadi satu dokumen PDF dengan mudah.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout">
+
+        <!-- MAIN PROCESS CARD -->
+        <div class="card">
+          <div class="drop" id="drop">
+            <div class="icon">JPG â†’ PDF</div>
+            <h2>Upload gambar</h2>
+            <p>Tarik beberapa gambar ke sini, atau pilih gambar dari perangkat Anda.</p>
+            <input id="input" class="file-input" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png" multiple>
+            <button class="select" id="select" type="button">Pilih Gambar</button>
+            <div class="limit">Format: JPG, JPEG, PNG Â· Maksimal 20 file Â· 20 MB/file</div>
+          </div>
+
+          <div class="list-head">
+            <div class="title">Gambar yang dipilih</div>
+            <div class="count" id="count">0 gambar</div>
+          </div>
+
+          <div class="image-list" id="imageList">
+            <div class="empty" id="empty">Belum ada gambar. Pilih atau tarik gambar ke area upload.</div>
+          </div>
+
+          <div class="options">
+            <div class="title">Pengaturan PDF</div>
+            <div class="box">
+              <div class="row">
+                <div class="field">
+                  <label for="pageSize">Ukuran halaman</label>
+                  <select id="pageSize">
+                    <option value="a4" selected>A4</option>
+                    <option value="a5">A5</option>
+                    <option value="letter">Letter</option>
+                    <option value="fit">Sesuaikan dengan gambar</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="orientation">Orientasi</label>
+                  <select id="orientation">
+                    <option value="auto" selected>Otomatis</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="margin">Margin</label>
+                  <select id="margin">
+                    <option value="0">Tanpa margin</option>
+                    <option value="5">5 mm</option>
+                    <option value="10" selected>10 mm</option>
+                    <option value="15">15 mm</option>
+                    <option value="20">20 mm</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="imageFit">Penempatan gambar</label>
+                  <select id="imageFit">
+                    <option value="contain" selected>Sesuaikan halaman</option>
+                    <option value="cover">Isi halaman</option>
+                    <option value="original">Ukuran asli</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action">
+            <button class="convert" id="convert" disabled>Buat PDF</button>
+          </div>
+
+          <div class="error" id="error"></div>
+
+          <div class="progress" id="progress">
+            <div class="phead"><span>Membuat PDF...</span><span id="percent">0%</span></div>
+            <div class="bar-bg"><div class="bar" id="bar"></div></div>
+            <div class="pmsg" id="message">Menyiapkan gambar...</div>
+          </div>
+
+          <div class="result" id="result">
+            <div class="result-title">âœ“ PDF berhasil dibuat</div>
+            <div class="stats">
+              <div class="stat"><small>Jumlah gambar</small><strong id="rCount">-</strong></div>
+              <div class="stat"><small>Ukuran halaman</small><strong id="rPageSize">-</strong></div>
+              <div class="stat"><small>Ukuran hasil</small><strong id="rSize">-</strong></div>
+            </div>
+            <div class="result-actions">
+              <a class="download" id="download" href="#" download>Download PDF</a>
+              <button class="again" id="again" type="button">Buat File Lain</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR INFO -->
+        <aside class="info">
+          <h3>Cara Menggunakan</h3>
+          <ul>
+            <li>Upload satu atau beberapa gambar.</li>
+            <li>Atur urutan gambar menggunakan tombol panah.</li>
+            <li>Pilih ukuran dan orientasi halaman.</li>
+            <li>Atur margin dan penempatan gambar.</li>
+            <li>Klik Buat PDF.</li>
+            <li>Download PDF hasilnya.</li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <h3>Format yang Didukung</h3>
+          <p>JPG, JPEG, dan PNG dapat digunakan sebagai gambar sumber.</p>
+
+          <div class="divider"></div>
+
+          <h3>Urutan Gambar</h3>
+          <p>Gunakan tombol â†‘ dan â†“ pada setiap gambar untuk menentukan urutan halaman PDF.</p>
+
+          <div class="divider"></div>
+
+          <h3>Keamanan</h3>
+          <p>File diproses melalui backend PDF Master AI sesuai konfigurasi pemrosesan server.</p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="about.html">Tentang Kami</a>
+      <a href="pricing.html">Harga</a>
+      <a href="contact.html">Kontak</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+    </div>
+    <div class="footer-bottom">
+      <span>Â© 2026 PDF Master AI. All rights reserved.</span>
+      <span>Smart PDF Workspace</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const API_ENDPOINT="http://127.0.0.1:8000/api/v1/pdf/from-images";
+const MAX_FILES=20;
+const MAX_FILE_SIZE=20*1024*1024;
+
+let imageFiles=[];
+
+const $=id=>document.getElementById(id);
+const input=$("input");
+const drop=$("drop");
+const list=$("imageList");
+const empty=$("empty");
+const convert=$("convert");
+const error=$("error");
+const progress=$("progress");
+const result=$("result");
+
+$("select").onclick=()=>input.click();
+
+input.onchange=()=>{
+    addFiles([...input.files]);
+    input.value="";
+};
+
+["dragenter","dragover"].forEach(name=>{
+    drop.addEventListener(name,e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        drop.classList.add("drag");
+    });
+});
+
+["dragleave","drop"].forEach(name=>{
+    drop.addEventListener(name,e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        drop.classList.remove("drag");
+    });
+});
+
+drop.ondrop=e=>{
+    addFiles([...e.dataTransfer.files]);
+};
+
+function addFiles(files){
+    clearError();
+    result.classList.remove("show");
+
+    const valid=[];
+
+    for(const file of files){
+        const isImage=
+            file.type==="image/jpeg" ||
+            file.type==="image/png" ||
+            /\.(jpe?g|png)$/i.test(file.name);
+
+        if(!isImage){
+            showError("Hanya file JPG, JPEG, dan PNG yang dapat digunakan.");
+            continue;
+        }
+
+        if(file.size>MAX_FILE_SIZE){
+            showError(file.name + " terlalu besar. Maksimal 20 MB per file.");
+            continue;
+        }
+
+        valid.push(file);
+    }
+
+    if(imageFiles.length + valid.length > MAX_FILES){
+        showError("Maksimal "+MAX_FILES+" gambar.");
+        return;
+    }
+
+    imageFiles=[...imageFiles, ...valid];
+    renderList();
+}
+
+function renderList(){
+    list.innerHTML="";
+
+    if(!imageFiles.length){
+        list.appendChild(empty);
+        empty.style.display="block";
+    }else{
+        imageFiles.forEach((file,index)=>{
+            const item=document.createElement("div");
+            item.className="image-item";
+
+            const img=document.createElement("img");
+            img.className="thumb";
+            img.src=URL.createObjectURL(file);
+            img.alt="Preview "+(index+1);
+
+            const info=document.createElement("div");
+            info.className="item-info";
+            info.innerHTML=
+                '<div class="item-name">'+escapeHtml(file.name)+'</div>'+
+                '<div class="item-size">'+(index+1)+'. '+bytes(file.size)+'</div>';
+
+            const controls=document.createElement("div");
+            controls.className="move";
+
+            const up=document.createElement("button");
+            up.className="small-btn";
+            up.type="button";
+            up.title="Naikkan";
+            up.textContent="â†‘";
+            up.disabled=index===0;
+            up.onclick=()=>moveFile(index,index-1);
+
+            const down=document.createElement("button");
+            down.className="small-btn";
+            down.type="button";
+            down.title="Turunkan";
+            down.textContent="â†“";
+            down.disabled=index===imageFiles.length-1;
+            down.onclick=()=>moveFile(index,index+1);
+
+            const remove=document.createElement("button");
+            remove.className="small-btn remove";
+            remove.type="button";
+            remove.title="Hapus";
+            remove.textContent="Ã—";
+            remove.onclick=()=>{
+                imageFiles.splice(index,1);
+                renderList();
+            };
+
+            controls.append(up, down, remove);
+            item.append(img, info, controls);
+            list.appendChild(item);
+        });
+    }
+
+    $("count").textContent=imageFiles.length + " gambar";
+    convert.disabled = imageFiles.length === 0;
+}
+
+function moveFile(from,to){
+    if(to<0 || to>=imageFiles.length) return;
+    const item=imageFiles.splice(from,1)[0];
+    imageFiles.splice(to,0,item);
+    renderList();
+}
+
+convert.onclick=async()=>{
+    if(!imageFiles.length){
+        showError("Silakan pilih minimal satu gambar.");
+        return;
+    }
+
+    clearError();
+    result.classList.remove("show");
+    progress.classList.add("show");
+    convert.disabled=true;
+
+    setProgress(10, "Menyiapkan gambar...");
+
+    const form=new FormData();
+    imageFiles.forEach(file=>{
+        form.append("files", file);
+    });
+
+    form.append("page_size", $("pageSize").value);
+    form.append("orientation", $("orientation").value);
+    form.append("margin", $("margin").value);
+    form.append("image_fit", $("imageFit").value);
+
+    try{
+        setProgress(25, "Mengunggah gambar ke server...");
+
+        const response=await fetch(API_ENDPOINT,{
+            method:"POST",
+            body:form
+        });
+
+        setProgress(60, "Server sedang membuat PDF...");
+
+        if(!response.ok){
+            let message="Gagal membuat PDF.";
+            try{
+                const data=await response.json();
+                message=data.detail || data.message || message;
+            }catch(_){}
+            throw new Error(message);
+        }
+
+        const type=response.headers.get("content-type") || "";
+        let url;
+        let outputSize=0;
+
+        if(type.includes("application/json")){
+            const data=await response.json();
+            url=data.download_url || data.url || data.file_url || data.result_url;
+            outputSize=Number(data.output_size || data.result_size || data.size || 0);
+
+            if(!url) throw new Error("URL file hasil tidak ditemukan.");
+        }else{
+            const blob=await response.blob();
+            url=URL.createObjectURL(blob);
+            outputSize=blob.size;
+        }
+
+        setProgress(100, "Selesai.");
+
+        $("rCount").textContent=imageFiles.length+" gambar";
+        $("rPageSize").textContent=$("pageSize").value.toUpperCase();
+        $("rSize").textContent=outputSize ? bytes(outputSize) : "Siap diunduh";
+
+        $("download").href=url;
+        $("download").download="images-to-pdf.pdf";
+        result.classList.add("show");
+
+    }catch(e){
+        progress.classList.remove("show");
+        showError(e.message || "Terjadi kesalahan saat membuat PDF.");
+    }finally{
+        convert.disabled=imageFiles.length===0;
+    }
+};
+
+$("again").onclick=()=>{
+    imageFiles=[];
+    renderList();
+    progress.classList.remove("show");
+    result.classList.remove("show");
+    clearError();
+    window.scrollTo({top:0, behavior:"smooth"});
+};
+
+function setProgress(percent, message){
+    $("bar").style.width=percent+"%";
+    $("percent").textContent=percent+"%";
+    $("message").textContent=message;
+}
+
+function showError(message){
+    error.textContent=message;
+    error.classList.add("show");
+}
+
+function clearError(){
+    error.textContent="";
+    error.classList.remove("show");
+}
+
+function bytes(size){
+    if(!size) return "0 B";
+    const units=["B","KB","MB","GB"];
+    const index=Math.min(Math.floor(Math.log(size)/Math.log(1024)),3);
+    return (size/Math.pow(1024,index)).toFixed(index?2:0)+" "+units[index];
+}
+
+function escapeHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+renderList();
+</script>
+
+</body>
+</html>
+
+

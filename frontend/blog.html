@@ -1,0 +1,899 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan & Blog AI - PDF Master AI</title>
+    <meta name="description" content="Kumpulan artikel, panduan penggunaan PDF Tools, tutorial, serta berita terbaru seputar teknologi AI dan pengolahan dokumen.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#5b5cf0">
+    <link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        /* =========================================================
+           RESET & VARIABLES
+        ========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4344d6;
+            --primary-light: #eef0ff;
+            --purple: #7c3aed;
+            --text: #0f172a;
+            --text-soft: #475569;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --background: #f8fafc;
+            --white: #ffffff;
+            --radius: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(calc(100% - 32px), 1140px);
+            margin: 0 auto;
+        }
+
+        /* =========================================================
+           HEADER (NAVIGASI)
+        ========================================================= */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.88);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        nav {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(91, 92, 240, 0.25);
+        }
+
+        .logo-title {
+            font-size: 17px;
+            font-weight: 800;
+            display: block;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .nav-links a {
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            font-size: 18px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================================================
+           HERO SECTION
+        ========================================================= */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+            background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, var(--background) 100%);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 4px 14px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 4vw, 44px);
+            line-height: 1.2;
+            letter-spacing: -1px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           CATEGORY FILTER & SEARCH BAR
+        ========================================================= */
+        .controls-section {
+            margin-bottom: 40px;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .categories {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-soft);
+            transition: all 0.2s ease;
+        }
+
+        .category-btn:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 9px 14px 9px 36px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           BLOG GRID & CARDS
+        ========================================================= */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(91, 92, 240, 0.12);
+        }
+
+        .blog-thumb {
+            width: 100%;
+            height: 190px;
+            background: #cbd5e1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 900;
+        }
+
+        .thumb-bg-1 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .thumb-bg-2 { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
+        .thumb-bg-3 { background: linear-gradient(135deg, #10b981, #059669); }
+        .thumb-bg-4 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .thumb-bg-5 { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+        .thumb-bg-6 { background: linear-gradient(135deg, #64748b, #334155); }
+
+        .blog-tag {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--text);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .blog-content {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .blog-meta {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .blog-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            transition: color 0.2s ease;
+        }
+
+        .blog-card:hover .blog-title {
+            color: var(--primary);
+        }
+
+        .blog-excerpt {
+            font-size: 12px;
+            color: var(--text-soft);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            flex: 1;
+        }
+
+        .blog-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* =========================================================
+           BLACK SEO FOOTER
+        ========================================================= */
+        .main-footer {
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 25px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-brand .logo-title { color: #ffffff; }
+
+        .footer-brand p {
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 12px;
+            max-width: 320px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 9px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            transition: color 0.2s ease;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-address {
+            font-style: normal;
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .footer-address a {
+            color: #a5b4fc;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .footer-socials a {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f8fafc;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* =========================================================
+           CUSTOM FLOATING TOOLTIP (TEKS NGAMBANG IKUT KURSOR)
+        ========================================================= */
+        #floatingTooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #floatingTooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* =========================================================
+           RESPONSIVE BREAKPOINTS
+        ========================================================= */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu { display: inline-flex; }
+            .filter-container { flex-direction: column; align-items: stretch; }
+            .search-box { min-width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<!-- ELEMENT TEKS NGAMBANG (FLOATING TOOLTIP) -->
+    <div id="floatingTooltip"></div>
+
+    <!-- HEADER NAVIGASI -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">P</div>
+                <div>
+                    <span class="logo-title">PDF Master AI</span>
+                    <span class="logo-sub">Smart PDF Workspace</span>
+                </div>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html#tools">PDF Tools</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="pricing.html">Harga</a>
+                <a href="blog.html" class="active">Blog & Panduan</a>
+            </div>
+
+            <div class="actions">
+                <a href="dashboard.html" class="btn-primary">Ke Dashboard</a>
+                <button type="button" class="mobile-menu" id="menuButton" aria-label="Buka menu">â˜°</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <div class="eyebrow">Wawasan & Panduan AI</div>
+                <h1>Blog & <span>Panduan Pintar</span></h1>
+                <p>Jelajahi panduan penggunaan alat PDF, efisiensi kerja dokumen, serta wawasan teknologi AI terbaru.</p>
+            </div>
+        </section>
+
+        <!-- KONTEN BLOG & FILTER -->
+        <section class="container">
+            <div class="controls-section">
+                <div class="filter-container">
+                    <div class="categories" id="categoryFilter">
+                        <button type="button" class="category-btn active" data-category="all">Semua Artikel</button>
+                        <button type="button" class="category-btn" data-category="tutorial">Tutorial PDF</button>
+                        <button type="button" class="category-btn" data-category="ai">Teknologi AI</button>
+                        <button type="button" class="category-btn" data-category="produktif">Produktivitas</button>
+                    </div>
+
+                    <div class="search-box">
+                        <span class="search-icon">ðŸ”</span>
+                        <input type="text" id="searchInput" placeholder="Cari artikel atau panduan...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRID ARTIKEL -->
+            <div class="blog-grid" id="blogGrid">
+                
+                <!-- ARTIKEL 1 -->
+                <article class="blog-card" data-category="tutorial">
+                    <div class="blog-thumb thumb-bg-1">
+                        <span>ðŸ—œï¸</span>
+                        <span class="blog-tag">Tutorial PDF</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 12 Ags 2026</span>
+                            <span>â€¢ 4 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">Cara Memperkecil Ukuran File PDF Tanpa Mengurangi Kualitas</h2>
+                        <p class="blog-excerpt">Panduan lengkap kompresi PDF berbasis AI untuk menghemat kapasitas penyimpanan tanpa membuat teks atau gambar menjadi buram.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ARTIKEL 2 -->
+                <article class="blog-card" data-category="ai">
+                    <div class="blog-thumb thumb-bg-2">
+                        <span>ðŸ¤–</span>
+                        <span class="blog-tag">Teknologi AI</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 10 Ags 2026</span>
+                            <span>â€¢ 6 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">Masa Depan Pengolahan Dokumen: Bagaimana AI Mengubah Cara Kerja PDF</h2>
+                        <p class="blog-excerpt">Temukan bagaimana kecerdasan buatan mempercepat ekstraksi teks, otomatisasi ringkasan, dan ekstraksi data dari ribuan dokumen sekaligus.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ARTIKEL 3 -->
+                <article class="blog-card" data-category="produktif">
+                    <div class="blog-thumb thumb-bg-3">
+                        <span>âš¡</span>
+                        <span class="blog-tag">Produktivitas</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 08 Ags 2026</span>
+                            <span>â€¢ 5 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">5 Trik Efisiensi Kerja Kantoran Menggunakan PDF Master AI</h2>
+                        <p class="blog-excerpt">Pelajari cara menggabungkan puluhan laporan bulanan dan mengkonversinya ke format Word secara instan hanya dalam beberapa klik.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ARTIKEL 4 -->
+                <article class="blog-card" data-category="tutorial">
+                    <div class="blog-thumb thumb-bg-4">
+                        <span>ðŸ“</span>
+                        <span class="blog-tag">Tutorial PDF</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 05 Ags 2026</span>
+                            <span>â€¢ 3 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">Cara Konversi File PDF Scan Hasil Foto Menjadi Teks Word yang Bisa Diedit</h2>
+                        <p class="blog-excerpt">Gunakan fitur OCR pintar untuk mengenali tulisan gambar hasil pemindaian atau foto kamera secara presisi dan cepat.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ARTIKEL 5 -->
+                <article class="blog-card" data-category="ai">
+                    <div class="blog-thumb thumb-bg-5">
+                        <span>ðŸ”’</span>
+                        <span class="blog-tag">Teknologi AI</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 01 Ags 2026</span>
+                            <span>â€¢ 7 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">Standardisasi Keamanan dan Kebijakan Privasi File PDF di Era AI</h2>
+                        <p class="blog-excerpt">Memahami enkripsi data, otomatisasi penghapusan file sementara, serta perlindungan dokumen rahasia saat diproses di cloud.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ARTIKEL 6 -->
+                <article class="blog-card" data-category="produktif">
+                    <div class="blog-thumb thumb-bg-6">
+                        <span>ðŸ“Š</span>
+                        <span class="blog-tag">Produktivitas</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>ðŸ“… 28 Jul 2026</span>
+                            <span>â€¢ 4 Menit Baca</span>
+                        </div>
+                        <h2 class="blog-title">Manajemen Arsip Digital bagi Pelaku UMKM dan Freelancer</h2>
+                        <p class="blog-excerpt">Langkah mudah menyusun dan merapikan kuitansi, invoice, serta kontrak kerja agar mudah dicari kapan pun dibutuhkan.</p>
+                        <div class="blog-footer">
+                            <span>Baca Selengkapnya</span>
+                            <span>â†’</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER SEO -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">P</div>
+                        <div>
+                            <span class="logo-title">PDF Master AI</span>
+                            <span class="logo-sub">Smart PDF Workspace</span>
+                        </div>
+                    </a>
+                    <p>Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan.</p>
+                    
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">X</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                        <a href="#" aria-label="Instagram">ig</a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>PDF Tools Populer</h3>
+                    <ul class="footer-links">
+                        <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                        <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                        <li><a href="pdf-tools/pdf-to-word.html">Konversi PDF ke Word</a></li>
+                        <li><a href="pdf-tools/pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                        <li><a href="index.html#tools">Lihat Semua PDF Tools</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Perusahaan</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="pricing.html">Harga & Langganan</a></li>
+                        <li><a href="help.html">Pusat Bantuan</a></li>
+                        <li><a href="contact.html">Kontak Kami</a></li>
+                        <li><a href="blog.html">Panduan & Blog AI</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Hukum & Privasi</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        <li><a href="terms.html">Syarat & Ketentuan</a></li>
+                        <li><a href="security.html">Keamanan Data PDF</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                    <address class="footer-address" style="margin-top:10px;">
+                        <strong>Kontak Support:</strong><br>
+                        Email: <a href="mailto:support@pdfmaster.ai">support@pdfmaster.ai</a>
+                    </address>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>Â© <span id="currentYear"></span> PDF Master AI. All Rights Reserved.</p>
+                <p>Ditenagai oleh Teknologi AI PDF Pintar.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Set Tahun Dinamis
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        /* =========================================================
+           FLOATING TOOLTIP (TEKS NGAMBANG SAAT HOVER)
+        ========================================================= */
+        const tooltip = document.getElementById("floatingTooltip");
+
+        function attachFloatingTooltip(element) {
+            element.addEventListener("mouseenter", (e) => {
+                e.stopPropagation();
+                let text = element.innerText || element.textContent;
+                text = text.replace(/\s+/g, " ").trim();
+
+                if (!text) return;
+
+                tooltip.textContent = text;
+                tooltip.classList.add("visible");
+            });
+
+            element.addEventListener("mousemove", (e) => {
+                let x = e.clientX + 15;
+                let y = e.clientY + 15;
+
+                if (x + tooltip.offsetWidth > window.innerWidth - 10) {
+                    x = e.clientX - tooltip.offsetWidth - 10;
+                }
+                if (y + tooltip.offsetHeight > window.innerHeight - 10) {
+                    y = e.clientY - tooltip.offsetHeight - 10;
+                }
+
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+            });
+
+            element.addEventListener("mouseleave", (e) => {
+                e.stopPropagation();
+                tooltip.classList.remove("visible");
+            });
+        }
+
+        function initFloatingTooltips() {
+            const selector = "h1, h2, h3, p, a, button, .blog-tag, .category-btn, address";
+            document.querySelectorAll(selector).forEach(attachFloatingTooltip);
+        }
+
+        /* =========================================================
+           LOGIK FILTER KATEGORI & PENCARIAN ARTIKEL
+        ========================================================= */
+        const categoryBtns = document.querySelectorAll(".category-btn");
+        const blogCards = document.querySelectorAll(".blog-card");
+        const searchInput = document.getElementById("searchInput");
+
+        function filterArticles() {
+            const activeCategory = document.querySelector(".category-btn.active").getAttribute("data-category");
+            const searchQuery = searchInput.value.toLowerCase().trim();
+
+            blogCards.forEach(card => {
+                const cardCategory = card.getAttribute("data-category");
+                const cardTitle = card.querySelector(".blog-title").textContent.toLowerCase();
+                const cardExcerpt = card.querySelector(".blog-excerpt").textContent.toLowerCase();
+
+                const matchesCategory = activeCategory === "all" || cardCategory === activeCategory;
+                const matchesSearch = cardTitle.includes(searchQuery) || cardExcerpt.includes(searchQuery);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                categoryBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                filterArticles();
+            });
+        });
+
+        searchInput.addEventListener("input", filterArticles);
+
+        // Inisialisasi Tooltip
+        initFloatingTooltips();
+    </script>
+</body>
+
+</html>
+
+

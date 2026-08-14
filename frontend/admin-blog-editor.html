@@ -1,0 +1,1454 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogger Post Editor SEO Master - PDF Master AI</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#ff6f00">
+    <link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blogger-orange: #ff6f00;
+            --blogger-orange-dark: #e66400;
+            --text-color: #3c4043;
+            --text-muted: #5f6368;
+            --border-color: #dadce0;
+            --bg-body: #ffffff;
+            --google-blue: #1a0dab;
+            --google-url: #4d5156;
+            --success-green: #0f9d58;
+            --warning-amber: #f4b400;
+            --danger-red: #d93025;
+        }
+
+        body {
+            font-family: Roboto, Arial, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* 1. HEADER BAR */
+        .header-bar {
+            height: 60px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fff;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: #5f6368;
+            font-size: 20px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #f1f3f4;
+        }
+
+        .logo-blogger {
+            width: 32px;
+            height: 32px;
+            background: var(--blogger-orange);
+            color: #fff;
+            font-weight: 900;
+            font-size: 18px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .save-status {
+            font-size: 11px;
+            color: #80868b;
+            margin-right: 8px;
+        }
+
+        .btn-preview {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #3c4043;
+        }
+
+        .btn-preview:hover {
+            background: #f8f9fa;
+        }
+
+        .btn-publish {
+            background: var(--blogger-orange);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        .btn-publish:hover {
+            background: var(--blogger-orange-dark);
+        }
+
+        /* 2. TITLE CONTAINER */
+        .title-container {
+            padding: 12px 24px 4px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .title-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #3c4043;
+        }
+
+        .title-input::placeholder {
+            color: #80868b;
+        }
+
+        /* 3. TOOLBAR BAR */
+        .toolbar-bar {
+            height: 42px;
+            padding: 0 16px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            overflow-x: auto;
+            background: #fff;
+        }
+
+        .mode-select {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blogger-orange);
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .tb-btn {
+            background: transparent;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #5f6368;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 28px;
+        }
+
+        .tb-btn:hover {
+            background: #f1f3f4;
+            color: #202124;
+        }
+
+        .tb-divider {
+            width: 1px;
+            height: 18px;
+            background: #dadce0;
+            margin: 0 4px;
+        }
+
+        /* 4. MAIN LAYOUT */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .editor-area {
+            flex: 1;
+            display: flex;
+            background: #fff;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .line-numbers {
+            width: 32px;
+            padding: 16px 0;
+            text-align: center;
+            font-size: 11px;
+            color: #9aa0a6;
+            user-select: none;
+            border-right: 1px solid #f1f3f4;
+        }
+
+        .content-editable {
+            flex: 1;
+            padding: 16px 24px;
+            outline: none;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #202124;
+            min-height: 100%;
+        }
+
+        .content-editable[contenteditable="true"]:empty::before {
+            content: "Ketik teks atau buat konten artikel Anda di sini...";
+            color: #9aa0a6;
+        }
+
+        .content-editable figure {
+            margin: 16px 0;
+            position: relative;
+        }
+
+        .content-editable img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: outline 0.15s ease, transform 0.15s ease;
+        }
+
+        .content-editable img:hover {
+            outline: 2px solid var(--blogger-orange);
+            outline-offset: 3px;
+        }
+
+        .html-textarea {
+            width: 100%;
+            height: 100%;
+            padding: 16px 24px;
+            border: none;
+            outline: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #0f172a;
+            background: #f8fafc;
+            resize: none;
+            display: none;
+        }
+
+        /* 5. SIDEBAR SETTINGS */
+        .sidebar-settings {
+            width: 330px;
+            border-left: 1px solid #e0e0e0;
+            background: #fff;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #3c4043;
+            text-align: left;
+        }
+
+        .accordion-header:hover {
+            background: #f8f9fa;
+        }
+
+        .accordion-arrow {
+            font-size: 10px;
+            color: #5f6368;
+            transition: transform 0.2s ease;
+        }
+
+        .accordion-item.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 0 16px 16px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .accordion-item.active .accordion-body {
+            display: block;
+        }
+
+        .sidebar-input, .sidebar-textarea, .sidebar-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 12px;
+            outline: none;
+            margin-top: 6px;
+        }
+
+        .sidebar-input:focus, .sidebar-textarea:focus, .sidebar-select:focus {
+            border-color: var(--blogger-orange);
+        }
+
+        /* SEO AUDIT BADGE & SCORE */
+        .seo-score-box {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .score-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--success-green);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .seo-checklist {
+            list-style: none;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .seo-checklist li {
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .seo-checklist .icon-pass { color: var(--success-green); }
+        .seo-checklist .icon-fail { color: var(--danger-red); }
+
+        /* GOOGLE SERP PREVIEW CARD */
+        .serp-preview-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-family: Arial, sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .serp-toggle {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .serp-btn-mode {
+            padding: 3px 8px;
+            border: 1px solid #dadce0;
+            border-radius: 12px;
+            background: #f8f9fa;
+            font-size: 10px;
+            color: #5f6368;
+        }
+
+        .serp-btn-mode.active {
+            background: var(--blogger-orange);
+            color: #fff;
+            border-color: var(--blogger-orange);
+        }
+
+        .serp-site-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .serp-favicon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--blogger-orange);
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .serp-brand-name {
+            font-size: 12px;
+            color: #202124;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .serp-url-display {
+            font-size: 11px;
+            color: var(--google-url);
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        .serp-title-display {
+            color: var(--google-blue);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            word-wrap: break-word;
+        }
+
+        .serp-desc-display {
+            color: #4d5156;
+            font-size: 12px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .char-counter {
+            font-size: 10px;
+            color: #80868b;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .char-counter.warning {
+            color: #d93025;
+            font-weight: bold;
+        }
+
+        /* MODAL UPLOAD & REGULASI GAMBAR LENGKAP */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #fff;
+            width: 100%;
+            max-width: 520px;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: modalFadeIn 0.2s ease;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 16px;
+        }
+
+        .modal-tab {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #5f6368;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            cursor: pointer;
+        }
+
+        .modal-tab.active {
+            color: var(--blogger-orange);
+            border-bottom-color: var(--blogger-orange);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .file-drop-area {
+            border: 2px dashed #dadce0;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .file-drop-area:hover {
+            border-color: var(--blogger-orange);
+            background: #fff8f5;
+        }
+
+        .file-drop-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .file-drop-text {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .file-drop-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 14px;
+            background: var(--blogger-orange);
+            color: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .image-settings-box {
+            display: none;
+            margin-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 16px;
+        }
+
+        .preview-wrapper {
+            background: #f1f3f4;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 16px;
+            max-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-wrapper img {
+            max-width: 100%;
+            max-height: 190px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+
+        .modal-footer {
+            padding: 12px 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background: #f8f9fa;
+        }
+
+        .btn-modal-cancel {
+            background: #fff;
+            border: 1px solid #dadce0;
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #3c4043;
+        }
+
+        .btn-modal-submit {
+            background: var(--blogger-orange);
+            color: #fff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* FLOATING TOOLTIP JUDUL GAMBAR KETIKA HOVER/KLIK */
+        #imgFloatingTooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #imgFloatingTooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @media (max-width: 800px) {
+            .sidebar-settings { display: none; }
+        }
+    </style>
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<!-- ELEMENT FLOATING TOOLTIP GAMBAR -->
+    <div id="imgFloatingTooltip"></div>
+
+    <!-- 1. HEADER BAR -->
+    <header class="header-bar">
+        <div class="header-left">
+            <a href="blog.html" class="btn-back" title="Kembali">â†</a>
+            <div class="logo-blogger">B</div>
+        </div>
+        <div class="header-right">
+            <span class="save-status" id="saveStatus">Draft tersimpan</span>
+            <button type="button" class="btn-preview" onclick="previewPost()">ðŸ‘ï¸ Pratinjau</button>
+            <button type="button" class="btn-publish" onclick="publishPost()">
+                <span>âž¤</span> Publikasikan
+            </button>
+        </div>
+    </header>
+
+    <!-- 2. JUDUL ARTIKEL -->
+    <div class="title-container">
+        <input type="text" id="postTitle" class="title-input" placeholder="Judul Artikel...">
+    </div>
+
+    <!-- 3. TOOLBAR FORMATTING -->
+    <div class="toolbar-bar">
+        <select class="mode-select" id="editorModeSelect" onchange="toggleEditorMode(this.value)">
+            <option value="wysiwyg">âœï¸ Tampilan Menulis</option>
+            <option value="html">&lt;&gt; Tampilan HTML</option>
+        </select>
+        <div class="tb-divider"></div>
+
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('undo')" title="Urungkan">â†¶</button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('redo')" title="Ulangi">â†·</button>
+        <div class="tb-divider wysiwyg-only"></div>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('formatBlock', 'h2')" title="Sub-bab Utama (H2)"><b>H2</b></button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('formatBlock', 'h3')" title="Sub-bagian (H3)"><b>H3</b></button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('formatBlock', 'p')" title="Paragraf Biasa">P</button>
+        <div class="tb-divider wysiwyg-only"></div>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('bold')" title="Tebal"><b>B</b></button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('italic')" title="Miring"><i>I</i></button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('underline')" title="Garis Bawah"><u>U</u></button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('strikeThrough')" title="Coret"><s>S</s></button>
+        <div class="tb-divider wysiwyg-only"></div>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="insertLink()" title="Sisipkan Link">ðŸ”—</button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="openImageModal()" title="Upload & Sesuaikan Gambar">ðŸ–¼ï¸ Gambar</button>
+        <div class="tb-divider wysiwyg-only"></div>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('insertUnorderedList')" title="List Bulat">â€¢ List</button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('insertOrderedList')" title="List Angka">1. List</button>
+        <button type="button" class="tb-btn wysiwyg-only" onclick="execCmd('removeFormat')" title="Hapus Format">ðŸ§¹</button>
+    </div>
+
+    <!-- 4. MAIN LAYOUT -->
+    <div class="main-layout">
+        <div class="editor-area">
+            <div class="line-numbers" id="lineNum">1</div>
+            
+            <div id="editorContent" class="content-editable" contenteditable="true"></div>
+            <textarea id="htmlContent" class="html-textarea" placeholder="Paste atau tulis kode HTML lengkap postingan Anda di sini..."></textarea>
+        </div>
+
+        <aside class="sidebar-settings">
+            <div class="sidebar-header">Setelan Postingan & SEO Expert</div>
+
+            <!-- ANALISIS FOKUS KATA KUNCI & SKOR SEO (0-100) -->
+            <div class="accordion-item active">
+                <button type="button" class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>ðŸŽ¯ Analisis SEO & Keyword</span>
+                    <span class="accordion-arrow">â–¼</span>
+                </button>
+                <div class="accordion-body">
+                    <label class="field-label">Focus Keyword / Kata Kunci Utama:</label>
+                    <input type="text" id="focusKeyword" class="sidebar-input" placeholder="Misal: kompres pdf" oninput="runSeoAudit()">
+
+                    <div class="seo-score-box" style="margin-top:10px;">
+                        <div>
+                            <div style="font-weight:700; font-size:12px;">Skor Optimal SEO</div>
+                            <div style="font-size:10px; color:#5f6368;" id="seoScoreStatus">Perlu perbaikan</div>
+                        </div>
+                        <div class="score-circle" id="seoScoreDisplay">0</div>
+                    </div>
+
+                    <ul class="seo-checklist" id="seoChecklist">
+                        <li><span class="icon-fail" id="chkTitle">âœ–</span> Focus keyword ada di Judul</li>
+                        <li><span class="icon-fail" id="chkSlug">âœ–</span> Focus keyword ada di URL Slug</li>
+                        <li><span class="icon-fail" id="chkDesc">âœ–</span> Focus keyword ada di Meta Description</li>
+                        <li><span class="icon-fail" id="chkContent">âœ–</span> Focus keyword ada di Paragraf Pertama</li>
+                        <li><span class="icon-fail" id="chkLength">âœ–</span> Panjang artikel minimal 300 kata</li>
+                        <li><span class="icon-fail" id="chkImage">âœ–</span> Terdapat gambar ber-Alt Text & Title</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PRATINJAU GOOGLE SERP -->
+            <div class="accordion-item active">
+                <button type="button" class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>ðŸ” Pratinjau Google SERP</span>
+                    <span class="accordion-arrow">â–¼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="serp-toggle">
+                        <button type="button" class="serp-btn-mode active" id="btnDesktop" onclick="setSerpMode('desktop')">Desktop</button>
+                        <button type="button" class="serp-btn-mode" id="btnMobile" onclick="setSerpMode('mobile')">Mobile</button>
+                    </div>
+
+                    <div class="serp-preview-card" id="serpCard">
+                        <div class="serp-site-info">
+                            <div class="serp-favicon">P</div>
+                            <div>
+                                <div class="serp-brand-name">PDF Master AI</div>
+                                <div class="serp-url-display" id="serpUrlDisplay">https://pdfmaster.ai â€º blog â€º artikel</div>
+                            </div>
+                        </div>
+                        <div class="serp-title-display" id="serpTitleDisplay">Judul Artikel Akan Muncul di Sini</div>
+                        <div class="serp-desc-display" id="serpDescDisplay">Tulis deskripsi penelusuran di bawah untuk melihat tampilan hasil pencarian Google.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LABELS / KATEGORI -->
+            <div class="accordion-item active">
+                <button type="button" class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>ðŸ·ï¸ Label / Kategori</span>
+                    <span class="accordion-arrow">â–¼</span>
+                </button>
+                <div class="accordion-body">
+                    <input type="text" id="postLabels" class="sidebar-input" placeholder="Tutorial, AI, PDF">
+                </div>
+            </div>
+
+            <!-- PERMALINK SLUG -->
+            <div class="accordion-item active">
+                <button type="button" class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>ðŸ”— Permalink / URL Slug</span>
+                    <span class="accordion-arrow">â–¼</span>
+                </button>
+                <div class="accordion-body">
+                    <input type="text" id="postSlug" class="sidebar-input" placeholder="judul-slug-artikel">
+                </div>
+            </div>
+
+            <!-- DESKRIPSI PENELUSURAN -->
+            <div class="accordion-item active">
+                <button type="button" class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>ðŸ“ Deskripsi Penelusuran (Meta)</span>
+                    <span class="accordion-arrow">â–¼</span>
+                </button>
+                <div class="accordion-body">
+                    <textarea id="searchDesc" class="sidebar-textarea" rows="3" placeholder="Tulis ringkasan SEO (120-160 karakter)..."></textarea>
+                    <div id="descCounter" class="char-counter">0 / 160 Karakter</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 5. MODAL PENYESUAIAN GAMBAR -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Atur & Sisipkan Gambar (SEO Complete)</div>
+                <button type="button" class="modal-close" onclick="closeImageModal()">âœ•</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button type="button" class="modal-tab active" id="tabUploadBtn" onclick="switchModalTab('upload')">ðŸ“ Upload dari Perangkat</button>
+                    <button type="button" class="modal-tab" id="tabUrlBtn" onclick="switchModalTab('url')">ðŸ”— Pakai URL Gambar</button>
+                </div>
+
+                <div class="tab-content active" id="tabUploadContent">
+                    <div class="file-drop-area" onclick="document.getElementById('imageFileInput').click()">
+                        <span class="file-drop-icon">ðŸ“¤</span>
+                        <div class="file-drop-text">Klik untuk memilih foto dari galeri HP atau folder komputer</div>
+                        <span class="file-drop-btn">Pilih File Foto</span>
+                        <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tabUrlContent">
+                    <label class="field-label">URL Gambar (https://):</label>
+                    <input type="url" id="imageUrlInput" class="sidebar-input" placeholder="https://example.com/gambar.jpg" oninput="previewUrlImage()">
+                </div>
+
+                <div class="image-settings-box" id="imageSettingsBox">
+                    <div class="preview-wrapper">
+                        <img id="previewImg" src="" alt="Pratinjau">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label class="field-label">Ukuran Tampilan:</label>
+                            <select id="imgSizeSelect" class="sidebar-select" onchange="updateImagePreviewStyle()">
+                                <option value="100%">Penuh (100% Lebar)</option>
+                                <option value="75%">Sedang (75%)</option>
+                                <option value="50%">Kecil (50%)</option>
+                                <option value="300px">Kustom (300px)</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="field-label">Posisi Alignment:</label>
+                            <select id="imgAlignSelect" class="sidebar-select" onchange="updateImagePreviewStyle()">
+                                <option value="center">Rata Tengah (Center)</option>
+                                <option value="left">Rata Kiri (Left)</option>
+                                <option value="right">Rata Kanan (Right)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label class="field-label">Judul Gambar / Title (Teks Ngambang saat Kursor di atas Foto):</label>
+                        <input type="text" id="imageTitleInput" class="sidebar-input" placeholder="Misal: Tampilan utama fitur kompres PDF">
+                    </div>
+
+                    <div class="form-field" style="margin-top:8px;">
+                        <label class="field-label">Alt Text Gambar (Wajib SEO Google Images & Pembaca Layar):</label>
+                        <input type="text" id="imageAltInput" class="sidebar-input" placeholder="Misal: Ilustrasi cara kompres PDF">
+                    </div>
+
+                    <div class="form-field" style="margin-top:8px;">
+                        <label class="field-label">Keterangan Gambar / Caption (Opsional):</label>
+                        <input type="text" id="imageCaptionInput" class="sidebar-input" placeholder="Misal: Langkah mengecilkan berkas dokumen">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-modal-cancel" onclick="closeImageModal()">Batal</button>
+                <button type="button" class="btn-modal-submit" onclick="confirmInsertImage()">Masukan ke Artikel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        let currentMode = "wysiwyg";
+        let selectedBase64Image = "";
+
+        function toggleEditorMode(mode) {
+            const editorContent = document.getElementById("editorContent");
+            const htmlContent = document.getElementById("htmlContent");
+            const wysiwygButtons = document.querySelectorAll(".wysiwyg-only");
+
+            if (mode === "html") {
+                htmlContent.value = editorContent.innerHTML;
+                editorContent.style.display = "none";
+                htmlContent.style.display = "block";
+                wysiwygButtons.forEach(btn => btn.style.opacity = "0.3");
+                currentMode = "html";
+            } else {
+                editorContent.innerHTML = htmlContent.value;
+                htmlContent.style.display = "none";
+                editorContent.style.display = "block";
+                wysiwygButtons.forEach(btn => btn.style.opacity = "1");
+                currentMode = "wysiwyg";
+                initImageHoverAndSpeech();
+            }
+        }
+
+        function getPostContent() {
+            if (currentMode === "html") {
+                return document.getElementById("htmlContent").value.trim();
+            }
+            return document.getElementById("editorContent").innerHTML.trim();
+        }
+
+        function execCmd(command, value = null) {
+            if (currentMode === "html") return;
+            document.execCommand(command, false, value);
+        }
+
+        function insertLink() {
+            const url = prompt("Masukkan URL Link:", "https://");
+            if (!url) return;
+            if (currentMode === "html") {
+                document.getElementById("htmlContent").value += `<a href="${url}">Teks Link</a>`;
+            } else {
+                execCmd("createLink", url);
+            }
+        }
+
+        /* MODAL & CONTROL SETUP GAMBAR */
+        function openImageModal() {
+            document.getElementById("imageModal").classList.add("active");
+        }
+
+        function closeImageModal() {
+            document.getElementById("imageModal").classList.remove("active");
+            selectedBase64Image = "";
+            document.getElementById("imageFileInput").value = "";
+            document.getElementById("imageUrlInput").value = "";
+            document.getElementById("imageTitleInput").value = "";
+            document.getElementById("imageAltInput").value = "";
+            document.getElementById("imageCaptionInput").value = "";
+            document.getElementById("imageSettingsBox").style.display = "none";
+        }
+
+        function switchModalTab(tab) {
+            const tabUploadBtn = document.getElementById("tabUploadBtn");
+            const tabUrlBtn = document.getElementById("tabUrlBtn");
+            const tabUploadContent = document.getElementById("tabUploadContent");
+            const tabUrlContent = document.getElementById("tabUrlContent");
+
+            if (tab === 'upload') {
+                tabUploadBtn.classList.add("active");
+                tabUrlBtn.classList.remove("active");
+                tabUploadContent.classList.add("active");
+                tabUrlContent.classList.remove("active");
+            } else {
+                tabUrlBtn.classList.add("active");
+                tabUploadBtn.classList.remove("active");
+                tabUrlContent.classList.add("active");
+                tabUploadContent.classList.remove("active");
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith("image/")) {
+                alert("Silakan pilih berkas format foto/gambar!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedBase64Image = e.target.result;
+                document.getElementById("previewImg").src = selectedBase64Image;
+                document.getElementById("imageSettingsBox").style.display = "block";
+                updateImagePreviewStyle();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function previewUrlImage() {
+            const url = document.getElementById("imageUrlInput").value.trim();
+            if (url) {
+                selectedBase64Image = url;
+                document.getElementById("previewImg").src = url;
+                document.getElementById("imageSettingsBox").style.display = "block";
+                updateImagePreviewStyle();
+            }
+        }
+
+        function updateImagePreviewStyle() {
+            const previewImg = document.getElementById("previewImg");
+            const imgSize = document.getElementById("imgSizeSelect").value;
+            const imgAlign = document.getElementById("imgAlignSelect").value;
+
+            previewImg.style.width = imgSize;
+            if (imgAlign === 'center') {
+                previewImg.style.margin = "0 auto";
+                previewImg.style.display = "block";
+            } else if (imgAlign === 'left') {
+                previewImg.style.margin = "0 auto 0 0";
+                previewImg.style.display = "block";
+            } else {
+                previewImg.style.margin = "0 0 0 auto";
+                previewImg.style.display = "block";
+            }
+        }
+
+        /* PROSES PENYISIPAN DENGAN REGULASI LENGKAP + TITLE & ALT */
+        function confirmInsertImage() {
+            if (!selectedBase64Image) {
+                alert("Silakan pilih file foto dari HP/Komputer atau masukkan URL gambar dulu!");
+                return;
+            }
+
+            const imgTitle = document.getElementById("imageTitleInput").value.trim() || "Foto Artikel";
+            const altText = document.getElementById("imageAltInput").value.trim() || imgTitle;
+            const caption = document.getElementById("imageCaptionInput").value.trim();
+            const imgSize = document.getElementById("imgSizeSelect").value;
+            const imgAlign = document.getElementById("imgAlignSelect").value;
+
+            let alignStyle = "display: block; margin: 16px auto;";
+            if (imgAlign === "left") alignStyle = "display: block; margin: 16px auto 16px 0;";
+            if (imgAlign === "right") alignStyle = "display: block; margin: 16px 0 16px auto;";
+
+            let captionHtml = "";
+            if (caption) {
+                captionHtml = `<figcaption style="font-size:12px; color:#5f6368; text-align:center; margin-top:6px;">${caption}</figcaption>`;
+            }
+
+            const imgHtml = `
+<figure style="margin: 16px 0; text-align: ${imgAlign};">
+    <img src="${selectedBase64Image}" alt="${altText}" title="${imgTitle}" style="width:${imgSize}; max-width:100%; height:auto; border-radius:8px; ${alignStyle}" />
+    ${captionHtml}
+</figure>
+            `;
+
+            if (currentMode === "html") {
+                document.getElementById("htmlContent").value += `
+${imgHtml}
+`;
+            } else {
+                document.getElementById("editorContent").focus();
+                document.execCommand("insertHTML", false, imgHtml);
+            }
+
+            closeImageModal();
+            triggerAutoSave();
+            initImageHoverAndSpeech();
+            runSeoAudit();
+        }
+
+        /* PEMBACA LAYAR & FLOATING TOOLTIP TERKONEKSI PADA GAMBAR */
+        const tooltip = document.getElementById("imgFloatingTooltip");
+        const synth = window.speechSynthesis;
+
+        function speakText(text) {
+            if (!text || !synth) return;
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "id-ID";
+            utterance.rate = 1.0;
+            synth.speak(utterance);
+        }
+
+        function initImageHoverAndSpeech() {
+            const images = document.querySelectorAll(".content-editable img");
+            images.forEach(img => {
+                img.addEventListener("mouseenter", (e) => {
+                    const titleText = img.getAttribute("title") || img.getAttribute("alt") || "Gambar Artikel";
+                    tooltip.textContent = titleText;
+                    tooltip.classList.add("visible");
+                });
+
+                img.addEventListener("mousemove", (e) => {
+                    let x = e.clientX + 15;
+                    let y = e.clientY + 15;
+                    if (x + tooltip.offsetWidth > window.innerWidth - 10) x = e.clientX - tooltip.offsetWidth - 10;
+                    if (y + tooltip.offsetHeight > window.innerHeight - 10) y = e.clientY - tooltip.offsetHeight - 10;
+                    tooltip.style.left = `${x}px`;
+                    tooltip.style.top = `${y}px`;
+                });
+
+                img.addEventListener("mouseleave", () => {
+                    tooltip.classList.remove("visible");
+                    synth.cancel();
+                });
+
+                // PEMBACA LAYAR SAAT KLIK KURSOR KE GAMBAR
+                img.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const textToRead = img.getAttribute("title") || img.getAttribute("alt") || "Gambar tanpa judul";
+                    speakText(`Gambar: ${textToRead}`);
+                });
+            });
+        }
+
+        function toggleAccordion(button) {
+            button.parentElement.classList.toggle("active");
+        }
+
+        /* REAL-TIME SEO PREVIEW & AUDIT ENGINE (0-100) */
+        const postTitle = document.getElementById("postTitle");
+        const postSlug = document.getElementById("postSlug");
+        const searchDesc = document.getElementById("searchDesc");
+        const focusKeyword = document.getElementById("focusKeyword");
+        const editorContent = document.getElementById("editorContent");
+        const htmlContent = document.getElementById("htmlContent");
+
+        const serpTitleDisplay = document.getElementById("serpTitleDisplay");
+        const serpUrlDisplay = document.getElementById("serpUrlDisplay");
+        const serpDescDisplay = document.getElementById("serpDescDisplay");
+        const descCounter = document.getElementById("descCounter");
+        const saveStatus = document.getElementById("saveStatus");
+
+        postTitle.addEventListener("input", () => {
+            const titleVal = postTitle.value.trim();
+            serpTitleDisplay.textContent = titleVal || "Judul Artikel Akan Muncul di Sini";
+
+            const generatedSlug = titleVal
+                .toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+
+            postSlug.value = generatedSlug;
+            updateSerpUrl(generatedSlug);
+            triggerAutoSave();
+            runSeoAudit();
+        });
+
+        postSlug.addEventListener("input", () => {
+            updateSerpUrl(postSlug.value.trim());
+            triggerAutoSave();
+            runSeoAudit();
+        });
+
+        function updateSerpUrl(slug) {
+            const cleanSlug = slug || "artikel";
+            serpUrlDisplay.textContent = `https://pdfmaster.ai â€º blog â€º ${cleanSlug}`;
+        }
+
+        searchDesc.addEventListener("input", () => {
+            const descVal = searchDesc.value;
+            const length = descVal.length;
+
+            serpDescDisplay.textContent = descVal.trim() || "Tulis deskripsi penelusuran di bawah untuk melihat tampilan hasil pencarian Google.";
+            descCounter.textContent = `${length} / 160 Karakter (Ideal: 120-160)`;
+
+            if (length > 160) {
+                descCounter.classList.add("warning");
+            } else {
+                descCounter.classList.remove("warning");
+            }
+            triggerAutoSave();
+            runSeoAudit();
+        });
+
+        editorContent.addEventListener("input", () => {
+            triggerAutoSave();
+            initImageHoverAndSpeech();
+            runSeoAudit();
+        });
+
+        htmlContent.addEventListener("input", () => {
+            triggerAutoSave();
+            runSeoAudit();
+        });
+
+        /* REKAP AUDIT CHECKLIST SEO & PEMBOBOTAN SKOR */
+        function runSeoAudit() {
+            const kw = focusKeyword.value.toLowerCase().trim();
+            const title = postTitle.value.toLowerCase();
+            const slug = postSlug.value.toLowerCase();
+            const desc = searchDesc.value.toLowerCase();
+            const contentText = (currentMode === "html" ? htmlContent.value : editorContent.innerText).toLowerCase();
+
+            let score = 0;
+
+            function updateChk(id, pass) {
+                const el = document.getElementById(id);
+                if (pass) {
+                    el.textContent = "âœ”";
+                    el.className = "icon-pass";
+                } else {
+                    el.textContent = "âœ–";
+                    el.className = "icon-fail";
+                }
+            }
+
+            const hasTitleKw = kw !== "" && title.includes(kw);
+            updateChk("chkTitle", hasTitleKw);
+            if (hasTitleKw) score += 20;
+
+            const hasSlugKw = kw !== "" && slug.includes(kw.replace(/\s+/g, '-'));
+            updateChk("chkSlug", hasSlugKw);
+            if (hasSlugKw) score += 15;
+
+            const hasDescKw = kw !== "" && desc.includes(kw);
+            updateChk("chkDesc", hasDescKw);
+            if (hasDescKw) score += 15;
+
+            const first100Words = contentText.slice(0, 500);
+            const hasContentKw = kw !== "" && first100Words.includes(kw);
+            updateChk("chkContent", hasContentKw);
+            if (hasContentKw) score += 20;
+
+            const wordCount = contentText.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const hasLengthPass = wordCount >= 300;
+            updateChk("chkLength", hasLengthPass);
+            if (hasLengthPass) score += 15;
+
+            const images = currentMode === "html" ? htmlContent.value.includes("<img") : editorContent.querySelectorAll("img").length > 0;
+            updateChk("chkImage", images);
+            if (images) score += 15;
+
+            const scoreDisplay = document.getElementById("seoScoreDisplay");
+            const scoreStatus = document.getElementById("seoScoreStatus");
+            scoreDisplay.textContent = score;
+
+            if (score >= 80) {
+                scoreDisplay.style.background = "var(--success-green)";
+                scoreStatus.textContent = "Sangat Baik (SEO Ready)";
+            } else if (score >= 50) {
+                scoreDisplay.style.background = "var(--warning-amber)";
+                scoreStatus.textContent = "Cukup Baik";
+            } else {
+                scoreDisplay.style.background = "var(--danger-red)";
+                scoreStatus.textContent = "Perlu Perbaikan";
+            }
+        }
+
+        function setSerpMode(mode) {
+            const btnDesktop = document.getElementById("btnDesktop");
+            const btnMobile = document.getElementById("btnMobile");
+            const serpCard = document.getElementById("serpCard");
+
+            if (mode === 'mobile') {
+                btnMobile.classList.add("active");
+                btnDesktop.classList.remove("active");
+                serpCard.style.maxWidth = "300px";
+                serpTitleDisplay.style.fontSize = "16px";
+            } else {
+                btnDesktop.classList.add("active");
+                btnMobile.classList.remove("active");
+                serpCard.style.maxWidth = "100%";
+                serpTitleDisplay.style.fontSize = "15px";
+            }
+        }
+
+        /* AUTO-SAVE DRAFT KE LOCALSTORAGE */
+        let autoSaveTimer;
+        function triggerAutoSave() {
+            saveStatus.textContent = "Menyimpan...";
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                const draftData = {
+                    title: postTitle.value,
+                    slug: postSlug.value,
+                    content: getPostContent(),
+                    excerpt: searchDesc.value,
+                    labels: document.getElementById("postLabels").value,
+                    focusKeyword: focusKeyword.value,
+                    mode: currentMode
+                };
+                localStorage.setItem("pdf_master_blog_draft", JSON.stringify(draftData));
+                saveStatus.textContent = "Draft tersimpan otomatis";
+            }, 1000);
+        }
+
+        function loadDraft() {
+            const savedDraft = localStorage.getItem("pdf_master_blog_draft");
+            if (savedDraft) {
+                const data = JSON.parse(savedDraft);
+                postTitle.value = data.title || "";
+                postSlug.value = data.slug || "";
+                editorContent.innerHTML = data.content || "";
+                htmlContent.value = data.content || "";
+                searchDesc.value = data.excerpt || "";
+                document.getElementById("postLabels").value = data.labels || "";
+                focusKeyword.value = data.focusKeyword || "";
+
+                if (data.mode) {
+                    document.getElementById("editorModeSelect").value = data.mode;
+                    toggleEditorMode(data.mode);
+                }
+
+                if (data.title) serpTitleDisplay.textContent = data.title;
+                if (data.slug) updateSerpUrl(data.slug);
+                if (data.excerpt) serpDescDisplay.textContent = data.excerpt;
+            }
+            initImageHoverAndSpeech();
+            runSeoAudit();
+        }
+
+        function previewPost() {
+            const title = postTitle.value || "Tanpa Judul";
+            const content = getPostContent();
+            const win = window.open("", "_blank");
+            win.document.write(`<html><head><title>Pratinjau - ${title}</title><link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head><body style="font-family:sans-serif; padding:40px; max-width:800px; margin:auto;">
+<h1>${title}</h1><hr>${content}</body></html>`);
+        }
+
+        async function publishPost() {
+            const title = postTitle.value.trim();
+            const content = getPostContent();
+            const labels = document.getElementById("postLabels").value.trim();
+            const desc = searchDesc.value.trim();
+            const slug = postSlug.value.trim();
+
+            if (!title || !content) {
+                alert("Judul dan Isi artikel wajib diisi!");
+                return;
+            }
+
+            const token = localStorage.getItem("pdf_master_access_token") || sessionStorage.getItem("pdf_master_access_token");
+
+            const postData = {
+                title: title,
+                slug: slug,
+                content: content,
+                category: labels.split(",")[0] || "Umum",
+                excerpt: desc,
+                status: "published"
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/v1/blog/posts`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(postData)
+                });
+
+                if (response.ok) {
+                    alert("Artikel berhasil dipublikasikan!");
+                    localStorage.removeItem("pdf_master_blog_draft");
+                    window.location.href = "blog.html";
+                } else {
+                    alert("Gagal memublikasikan. Pastikan Anda sudah login sebagai Admin.");
+                }
+            } catch (error) {
+                console.error("PUBLISH ERROR:", error);
+                alert("Terjadi masalah koneksi server.");
+            }
+        }
+
+        loadDraft();
+    </script>
+</body>
+
+</html>
+
+
+

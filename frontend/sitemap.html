@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitemap - PDF Master AI</title>
+<meta name="description" content="Peta situs resmi PDF Master AI. Akses cepat ke seluruh alat pemrosesan PDF, halaman layanan, panduan, dan informasi hukum.">
+
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; outline: none !important; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --p: #5b5cf0;
+  --pd: #4344d6;
+  --pl: #eef0ff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --border: #e2e8f0;
+  --green: #10b981;
+  --red: #ef4444;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 25px -5px rgba(91, 92, 240, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --radius: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+/* Skip Link Pembaca Layar */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--p);
+  color: white;
+  padding: 8px 16px;
+  z-index: 200;
+  transition: top 0.2s;
+  border-radius: 0 0 8px 0;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.skip-link:focus { top: 0; }
+
+.container {
+  width: min(calc(100% - 32px), 1140px);
+  margin: auto;
+}
+
+/* ==================================================
+   HEADER & NAVBAR
+================================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+nav {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  flex-shrink: 0;
+}
+
+.logo-title {
+  font-size: 17px;
+  font-weight: 800;
+  display: block;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.nav-links a:hover { color: var(--p); }
+
+.actions { display: flex; align-items: center; gap: 12px; }
+
+.btn-logout {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.menu-button {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu {
+  display: none;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  padding: 16px 0;
+  box-shadow: var(--shadow-md);
+}
+
+.mobile-menu.active { display: block; }
+.mobile-menu a { display: block; padding: 10px 0; color: var(--text); font-size: 13px; font-weight: 600; }
+
+/* ==================================================
+   HERO
+================================================== */
+main { flex: 1; }
+
+.hero {
+  padding: 56px 0 36px;
+  text-align: center;
+  background: radial-gradient(100% 100% at 50% 0%, #eef0ff 0%, var(--bg) 100%);
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--pl);
+  color: var(--p);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.hero h1 span {
+  color: var(--p);
+}
+
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ==================================================
+   SITEMAP GRID CONTENT
+================================================== */
+.section { padding: 24px 0 60px; }
+
+.sitemap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sitemap-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+}
+
+.sitemap-card h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--pl);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sitemap-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sitemap-links a {
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.sitemap-links a::before {
+  content: "•";
+  color: var(--p);
+  font-weight: bold;
+}
+
+.sitemap-links a:hover {
+  color: var(--p);
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   FOOTER (PRESISI & SANGAT RAPI)
+========================================================= */
+.footer {
+  background: #090e1a;
+  color: #8fa0b5;
+  margin-top: 60px;
+  padding: 50px 0 30px;
+  font-size: 13px;
+}
+
+.footer-inner {
+  width: min(calc(100% - 60px), 1200px);
+  margin: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #151d2a;
+  align-items: start;
+}
+
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.footer-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.footer-brand-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+
+.footer-subtitle {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.footer-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #55657a;
+  max-width: 380px;
+  margin-bottom: 16px;
+}
+
+.footer-email-support {
+  font-size: 12px;
+  color: #8fa0b5;
+  margin-bottom: 20px;
+}
+
+.footer-email-support a {
+  color: #5b5cf0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-socials a {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: #151d2a;
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid #1e293b;
+}
+
+.footer-socials a:hover {
+  background: #5b5cf0;
+  color: #ffffff;
+  border-color: #5b5cf0;
+}
+
+.footer-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.footer-column-title {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+
+.footer-links-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+  width: 100%;
+}
+
+.footer-links-list li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.footer-links-list a {
+  color: #7b8ea5;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links-list a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 25px;
+  font-size: 12px;
+  color: #4a586d;
+}
+
+.footer-bottom strong {
+  color: #cbd5e1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .menu-button { display: inline-flex; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 550px) {
+  .hero { padding: 40px 0 24px; }
+  .sitemap-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Skip Link Pembaca Layar -->
+<a href="#main-content" class="skip-link">Lompat ke Konten Utama</a>
+
+<!-- HEADER LOGGED-IN WORKSPACE -->
+<header role="banner">
+  <nav class="container">
+    <a href="dashboard.html" class="logo" aria-label="Dashboard PDF Master AI">
+      <img src="assets/logo.png" alt="PDF Master AI Logo" class="logo-img">
+      <div>
+        <span class="logo-title">PDF Master AI</span>
+        <span class="logo-sub">Smart PDF Workspace</span>
+      </div>
+    </a>
+
+    <!-- NAVIGASI MEMBER -->
+    <div class="nav-links">
+      <a href="index.html#tools">PDF Tools</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Harga</a>
+    </div>
+
+    <!-- TOMBOL KELUAR -->
+    <div class="actions">
+      <button class="btn-logout" id="logoutTop" type="button">Logout</button>
+      <button type="button" class="menu-button" id="menuButton" aria-label="Buka menu navigasi">☰</button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="container">
+      <a href="index.html#tools">PDF Tools</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Harga</a>
+      <a href="#" id="logoutMobile" style="color:var(--red);">Logout</a>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" role="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="eyebrow">Navigasi Situs</div>
+      <h1 id="hero-title">Peta <span>Situs (Sitemap)</span></h1>
+      <p>Struktur navigasi lengkap untuk mempermudah Anda menemukan seluruh fitur dan halaman di PDF Master AI.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sitemap-grid">
+        
+        <!-- KOLOM 1: PDF TOOLS -->
+        <div class="sitemap-card">
+          <h2>🛠️ PDF Tools</h2>
+          <ul class="sitemap-links">
+            <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+            <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+            <li><a href="pdf-to-word.html">Konversi PDF ke Word</a></li>
+            <li><a href="pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+            <li><a href="index.html#tools">Semua Alat PDF</a></li>
+          </ul>
+        </div>
+
+        <!-- KOLOM 2: HALAMAN UTAMA & AKUN -->
+        <div class="sitemap-card">
+          <h2>🚀 Layanan Utama</h2>
+          <ul class="sitemap-links">
+            <li><a href="index.html">Halaman Depan (Home)</a></li>
+            <li><a href="dashboard.html">Dashboard Pengguna</a></li>
+            <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+            <li><a href="login.html">Login Akun</a></li>
+            <li><a href="register.html">Pendaftaran Akun</a></li>
+          </ul>
+        </div>
+
+        <!-- KOLOM 3: PERUSAHAAN & BANTUAN -->
+        <div class="sitemap-card">
+          <h2>🏢 Perusahaan</h2>
+          <ul class="sitemap-links">
+            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="help.html">Pusat Bantuan (FAQ)</a></li>
+            <li><a href="contact.html">Kontak Support</a></li>
+            <li><a href="blog.html">Panduan &amp; Blog AI</a></li>
+          </ul>
+        </div>
+
+        <!-- KOLOM 4: HUKUM & PRIVASI -->
+        <div class="sitemap-card">
+          <h2>⚖️ Hukum &amp; Privasi</h2>
+          <ul class="sitemap-links">
+            <li><a href="privacy.html">Kebijakan Privasi</a></li>
+            <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+            <li><a href="security.html">Keamanan Data PDF</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER AKSESIBEL & SIMETRIS -->
+<footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+        <div class="footer-grid">
+
+            <!-- Kolom 1: Brand, Support, Socials -->
+            <div class="footer-col-brand">
+                <div class="footer-brand">
+                    <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+                    <span class="footer-brand-title">PDF Master AI</span>
+                </div>
+                <div class="footer-subtitle">Smart PDF Workspace</div>
+                <p class="footer-desc">
+                    Solusi pemrosesan dan pengolahan dokumen PDF berbasis kecerdasan buatan dengan kecepatan tinggi dan keamanan terlindungi.
+                </p>
+                <div class="footer-email-support">
+                    Email Support: <a href="mailto:muhamadruslan5570@gmail.com">muhamadruslan5570@gmail.com</a>
+                </div>
+
+                <div class="footer-socials">
+                    <a href="https://web.facebook.com/mahesa.rendy.1" target="_blank" rel="noopener noreferrer">Facebook</a>
+                    <a href="https://www.instagram.com/justmrboy" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="https://x.com/Ruslan5570" target="_blank" rel="noopener noreferrer">X</a>
+                    <a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                    <a href="https://www.tiktok.com/@justmrboy" target="_blank" rel="noopener noreferrer">TikTok</a>
+                </div>
+            </div>
+
+            <!-- Kolom 2: PDF Tools Populer -->
+            <nav class="footer-col" aria-label="Navigasi Footer PDF Tools Populer">
+                <div class="footer-column-title">PDF TOOLS POPULER</div>
+                <ul class="footer-links-list">
+                    <li><a href="pdf-tools/compress-pdf-target.html">Kompres PDF</a></li>
+                    <li><a href="pdf-tools/merge-pdf.html">Gabung PDF (Merge)</a></li>
+                    <li><a href="pdf-to-word.html">Konversi PDF ke Word</a></li>
+                    <li><a href="pdf-to-jpg.html">Konversi PDF ke Gambar</a></li>
+                </ul>
+            </nav>
+
+            <!-- Kolom 3: Perusahaan -->
+            <nav class="footer-col" aria-label="Navigasi Footer Perusahaan">
+                <div class="footer-column-title">PERUSAHAAN</div>
+                <ul class="footer-links-list">
+                    <li><a href="about.html">Tentang Kami</a></li>
+                    <li><a href="pricing.html">Harga &amp; Langganan</a></li>
+                    <li><a href="help.html">Pusat Bantuan</a></li>
+                    <li><a href="blog.html">Blog &amp; Panduan</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="https://wa.me/628381055378" target="_blank" rel="noopener noreferrer">Kontak Kami</a></li>
+                </ul>
+            </nav>
+
+            <!-- Kolom 4: Hukum & Privasi -->
+            <nav class="footer-col" aria-label="Navigasi Footer Hukum dan Privasi">
+                <div class="footer-column-title">HUKUM &amp; PRIVASI</div>
+                <ul class="footer-links-list">
+                    <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="terms.html">Syarat &amp; Ketentuan</a></li>
+                    <li><a href="security.html">Keamanan Data PDF</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+            <div>
+                © <span id="currentYear">2026</span> <strong>PDF Master AI</strong>. All rights reserved.
+            </div>
+            <div>
+                Smart PDF Workspace Powered by AI
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Set Tahun Dinamis
+document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+// TOGGLE MOBILE MENU
+const menuBtn = document.getElementById("menuButton");
+const mobileNav = document.getElementById("mobileMenu");
+if (menuBtn) {
+  menuBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("active");
+  });
+}
+
+// LOGOUT LOGIC
+function logout(){
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href="login.html";
+}
+
+if(document.getElementById("logoutTop")){
+    document.getElementById("logoutTop").addEventListener("click", logout);
+}
+
+if(document.getElementById("logoutMobile")){
+    document.getElementById("logoutMobile").addEventListener("click", logout);
+}
+</script>
+
+</body>
+</html>

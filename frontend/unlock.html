@@ -1,0 +1,1047 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Unlock PDF - PDF Master AI</title>
+
+<link
+    rel="icon"
+    href="favicon.ico"
+>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    background:#f7f8fc;
+    color:#111827;
+}
+
+.navbar{
+    height:64px;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+}
+
+.nav-inner{
+    width:min(
+        calc(100% - 40px),
+        1100px
+    );
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    text-decoration:none;
+    color:#111827;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+}
+
+.brand-logo{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:#5b5cf0;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.back-button{
+    text-decoration:none;
+    padding:9px 13px;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    color:#374151;
+    font-size:13px;
+    font-weight:700;
+    background:white;
+}
+
+.container{
+    width:min(
+        calc(100% - 40px),
+        900px
+    );
+    margin:auto;
+}
+
+.header{
+    padding:45px 0 25px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:30px;
+}
+
+.header p{
+    margin:0;
+    color:#6b7280;
+}
+
+.card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,.04);
+}
+
+.drop-zone{
+    border:2px dashed #cfd3e1;
+    border-radius:14px;
+    padding:45px 20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.drop-zone:hover{
+    border-color:#5b5cf0;
+    background:#f8f8ff;
+}
+
+.drop-zone.dragover{
+    border-color:#5b5cf0;
+    background:#eef0ff;
+}
+
+.upload-icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.drop-title{
+    font-size:16px;
+    font-weight:800;
+}
+
+.drop-text{
+    margin-top:7px;
+    color:#6b7280;
+    font-size:13px;
+}
+
+#fileInput{
+    display:none;
+}
+
+.selected-file{
+    display:none;
+    margin-top:18px;
+    padding:14px;
+    border-radius:10px;
+    background:#f5f6ff;
+    border:1px solid #e1e3ff;
+}
+
+.selected-file.show{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.file-name{
+    font-weight:800;
+    word-break:break-word;
+}
+
+.file-size{
+    color:#6b7280;
+    font-size:12px;
+}
+
+.password-area{
+    margin-top:22px;
+}
+
+.password-label{
+    display:block;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.password-wrap{
+    position:relative;
+}
+
+.password-wrap input{
+    width:100%;
+    padding:13px 80px 13px 13px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    outline:none;
+    font-size:14px;
+}
+
+.password-wrap input:focus{
+    border-color:#5b5cf0;
+}
+
+.show-password{
+    position:absolute;
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+    border:0;
+    background:#f3f4f6;
+    border-radius:7px;
+    padding:7px 10px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+}
+
+.unlock-button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:0;
+    border-radius:9px;
+    background:#5b5cf0;
+    color:white;
+    font-size:14px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.unlock-button:hover{
+    background:#4c4dd9;
+}
+
+.unlock-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.status{
+    display:none;
+    margin-top:18px;
+    padding:13px;
+    border-radius:9px;
+    font-size:13px;
+}
+
+.status.show{
+    display:block;
+}
+
+.status.loading{
+    background:#eef0ff;
+    color:#3730a3;
+}
+
+.status.success{
+    background:#ecfdf5;
+    color:#047857;
+}
+
+.status.error{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+.download-button{
+    display:none;
+    margin-top:15px;
+    width:100%;
+    padding:13px;
+    border-radius:9px;
+    background:#059669;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    font-weight:900;
+    font-size:14px;
+}
+
+.download-button.show{
+    display:block;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:
+            calc(100% - 24px);
+    }
+
+    .header{
+        padding-top:30px;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+}
+
+</style>
+
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+
+    <div class="nav-inner">
+
+        <a
+            href="dashboard.html"
+            class="brand"
+        >
+    <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+    <div>
+                PDF Master AI
+            </div>
+
+        </a>
+
+        <a
+            href="dashboard.html"
+            class="back-button"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+<div class="container">
+
+    <section class="header">
+
+        <h1>
+            Unlock PDF
+        </h1>
+
+        <p>
+            Buka proteksi password pada file PDF Anda.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <div
+            class="drop-zone"
+            id="dropZone"
+        >
+
+            <div class="upload-icon">
+                🔐
+            </div>
+
+            <div class="drop-title">
+                Pilih PDF yang ingin dibuka
+            </div>
+
+            <div class="drop-text">
+                Klik di sini atau drag & drop file PDF
+            </div>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept="application/pdf,.pdf"
+            >
+
+        </div>
+
+
+        <div
+            class="selected-file"
+            id="selectedFile"
+        >
+
+            <div>
+
+                <div
+                    class="file-name"
+                    id="fileName"
+                ></div>
+
+                <div
+                    class="file-size"
+                    id="fileSize"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="password-area">
+
+            <label
+                class="password-label"
+                for="password"
+            >
+                Password PDF
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Masukkan password PDF"
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    class="show-password"
+                    id="showPassword"
+                >
+                    Tampilkan
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="unlock-button"
+            id="unlockButton"
+        >
+            🔓 Unlock PDF
+        </button>
+
+
+        <div
+            class="status"
+            id="status"
+        ></div>
+
+
+        <a
+            href="#"
+            class="download-button"
+            id="downloadButton"
+            download
+        >
+            ⬇ Download PDF yang Sudah Dibuka
+        </a>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<script>
+
+const API_URL =
+    "http://127.0.0.1:8000";
+
+
+function getToken(){
+
+    return (
+
+        localStorage.getItem(
+            "pdf_master_access_token"
+        ) ||
+
+        sessionStorage.getItem(
+            "pdf_master_access_token"
+        ) ||
+
+        localStorage.getItem(
+            "access_token"
+        ) ||
+
+        localStorage.getItem(
+            "token"
+        ) ||
+
+        sessionStorage.getItem(
+            "access_token"
+        ) ||
+
+        sessionStorage.getItem(
+            "token"
+        ) ||
+
+        ""
+
+    );
+
+}
+
+
+const dropZone =
+    document.getElementById(
+        "dropZone"
+    );
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+const selectedFile =
+    document.getElementById(
+        "selectedFile"
+    );
+
+const fileName =
+    document.getElementById(
+        "fileName"
+    );
+
+const fileSize =
+    document.getElementById(
+        "fileSize"
+    );
+
+const password =
+    document.getElementById(
+        "password"
+    );
+
+const unlockButton =
+    document.getElementById(
+        "unlockButton"
+    );
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+const downloadButton =
+    document.getElementById(
+        "downloadButton"
+    );
+
+const showPassword =
+    document.getElementById(
+        "showPassword"
+    );
+
+
+let selectedFileObject = null;
+
+
+function formatSize(bytes){
+
+    if(bytes < 1024){
+        return bytes + " B";
+    }
+
+    if(bytes < 1024 * 1024){
+
+        return (
+            (bytes / 1024)
+            .toFixed(1) +
+            " KB"
+        );
+
+    }
+
+    return (
+        (bytes / 1024 / 1024)
+        .toFixed(1) +
+        " MB"
+    );
+
+}
+
+
+function showStatus(
+    message,
+    type
+){
+
+    status.textContent =
+        message;
+
+    status.className =
+        "status show " +
+        type;
+
+}
+
+
+function selectFile(file){
+
+    if(!file){
+        return;
+    }
+
+    if(
+        file.type !==
+        "application/pdf" &&
+        !file.name
+            .toLowerCase()
+            .endsWith(".pdf")
+    ){
+
+        showStatus(
+            "File harus berupa PDF.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    selectedFileObject =
+        file;
+
+    fileName.textContent =
+        file.name;
+
+    fileSize.textContent =
+        formatSize(
+            file.size
+        );
+
+    selectedFile.classList.add(
+        "show"
+    );
+
+    status.className =
+        "status";
+
+    downloadButton.classList.remove(
+        "show"
+    );
+
+}
+
+
+dropZone.addEventListener(
+    "click",
+    function(){
+
+        fileInput.click();
+
+    }
+);
+
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        selectFile(
+            this.files[0]
+        );
+
+    }
+);
+
+
+dropZone.addEventListener(
+    "dragover",
+    function(event){
+
+        event.preventDefault();
+
+        dropZone.classList.add(
+            "dragover"
+        );
+
+    }
+);
+
+
+dropZone.addEventListener(
+    "dragleave",
+    function(){
+
+        dropZone.classList.remove(
+            "dragover"
+        );
+
+    }
+);
+
+
+dropZone.addEventListener(
+    "drop",
+    function(event){
+
+        event.preventDefault();
+
+        dropZone.classList.remove(
+            "dragover"
+        );
+
+        selectFile(
+            event.dataTransfer.files[0]
+        );
+
+    }
+);
+
+
+showPassword.addEventListener(
+    "click",
+    function(){
+
+        if(
+            password.type ===
+            "password"
+        ){
+
+            password.type =
+                "text";
+
+            showPassword.textContent =
+                "Sembunyikan";
+
+        }else{
+
+            password.type =
+                "password";
+
+            showPassword.textContent =
+                "Tampilkan";
+
+        }
+
+    }
+);
+
+
+unlockButton.addEventListener(
+    "click",
+    async function(){
+
+        const token =
+            getToken();
+
+        if(!token){
+
+            showStatus(
+                "Silakan login terlebih dahulu.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        if(!selectedFileObject){
+
+            showStatus(
+                "Pilih file PDF terlebih dahulu.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        if(!password.value){
+
+            showStatus(
+                "Masukkan password PDF.",
+                "error"
+            );
+
+            password.focus();
+
+            return;
+
+        }
+
+        unlockButton.disabled =
+            true;
+
+        downloadButton.classList.remove(
+            "show"
+        );
+
+        showStatus(
+            "Memproses PDF...",
+            "loading"
+        );
+
+        try{
+
+            /*
+             * Endpoint Unlock menggunakan
+             * file_id.
+             *
+             * Karena file belum mempunyai
+             * file_id dari database, upload
+             * terlebih dahulu ke storage.
+             */
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "files",
+                selectedFileObject
+            );
+
+
+            const uploadResponse =
+                await fetch(
+                    API_URL +
+                    "/api/v1/storage/upload/multiple",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Authorization":
+                                "Bearer " +
+                                token
+                        },
+
+                        body:formData
+                    }
+                );
+
+
+            if(
+                !uploadResponse.ok
+            ){
+
+                let message =
+                    "Gagal mengupload PDF.";
+
+                try{
+
+                    const data =
+                        await uploadResponse.json();
+
+                    message =
+                        data.detail ||
+                        data.message ||
+                        message;
+
+                }catch(_){}
+
+                throw new Error(
+                    message
+                );
+
+            }
+
+
+            const uploadData =
+                await uploadResponse.json();
+
+
+            let uploadedFile = null;
+
+
+            if(
+                Array.isArray(
+                    uploadData
+                )
+            ){
+
+                uploadedFile =
+                    uploadData[0];
+
+            }else if(
+                uploadData.files &&
+                Array.isArray(
+                    uploadData.files
+                )
+            ){
+
+                uploadedFile =
+                    uploadData.files[0];
+
+            }else if(
+                uploadData.file
+            ){
+
+                uploadedFile =
+                    uploadData.file;
+
+            }
+
+
+            if(
+                !uploadedFile ||
+                !uploadedFile.id
+            ){
+
+                throw new Error(
+                    "Upload berhasil tetapi file_id tidak ditemukan."
+                );
+
+            }
+
+
+            const fileId =
+                uploadedFile.id;
+
+
+            const params =
+                new URLSearchParams();
+
+            params.set(
+                "file_id",
+                fileId
+            );
+
+            params.set(
+                "password",
+                password.value
+            );
+
+
+            const unlockResponse =
+                await fetch(
+                    API_URL +
+                    "/api/v1/pdf/unlock?" +
+                    params.toString(),
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Authorization":
+                                "Bearer " +
+                                token
+                        }
+                    }
+                );
+
+
+            if(
+                !unlockResponse.ok
+            ){
+
+                let message =
+                    "Gagal membuka PDF.";
+
+                try{
+
+                    const data =
+                        await unlockResponse.json();
+
+                    message =
+                        data.detail ||
+                        data.message ||
+                        message;
+
+                }catch(_){}
+
+                throw new Error(
+                    message
+                );
+
+            }
+
+
+            const blob =
+                await unlockResponse.blob();
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            downloadButton.href =
+                url;
+
+            downloadButton.download =
+                selectedFileObject.name
+                    .replace(
+                        /\.pdf$/i,
+                        ""
+                    ) +
+                    "_unlocked.pdf";
+
+
+            downloadButton.classList.add(
+                "show"
+            );
+
+
+            showStatus(
+                "PDF berhasil dibuka. Silakan download hasilnya.",
+                "success"
+            );
+
+        }catch(error){
+
+            console.error(
+                "UNLOCK ERROR:",
+                error
+            );
+
+            showStatus(
+                error.message ||
+                "Gagal membuka PDF.",
+                "error"
+            );
+
+        }finally{
+
+            unlockButton.disabled =
+                false;
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
+
+
+

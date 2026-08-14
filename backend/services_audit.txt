@@ -1,0 +1,7221 @@
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\ai\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\archive\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\forgot_password_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Forgot Password Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import ForgotPasswordRequest
+
+from core.jwt import create_reset_password_token
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# FORGOT PASSWORD SERVICE
+# ----------------------------------------------------------
+
+class ForgotPasswordService:
+
+    """
+    Forgot Password Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        email: str
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.email == email
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # GENERATE TOKEN
+    # ------------------------------------------------------
+
+    def generate_token(
+
+        self,
+
+        user: User
+
+    ) -> str:
+
+        return create_reset_password_token(
+
+            {
+
+                "user_id": user.id,
+
+                "email": user.email
+
+            }
+
+        )
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: ForgotPasswordRequest
+
+    ) -> dict:
+
+        user = self.get_user(
+
+            data.email
+
+        )
+
+        if user is None:
+
+            raise RecordNotFoundException(
+
+                "User"
+
+            )
+
+        token = self.generate_token(
+
+            user
+
+        )
+
+        info(
+
+            f"Forgot password: {user.email}"
+
+        )
+
+        return {
+
+            "email": user.email,
+
+            "reset_token": token
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\login_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Login Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import LoginRequest
+
+from core.security import verify_password
+
+from core.jwt import (
+
+    create_access_token,
+
+    create_refresh_token
+
+)
+
+from core.logger import info
+
+from exceptions.auth import (
+
+    InvalidCredentialsException,
+
+    AccountDisabledException
+
+)
+
+# ----------------------------------------------------------
+# LOGIN SERVICE
+# ----------------------------------------------------------
+
+class LoginService:
+
+    """
+    User Login Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        email: str
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.email == email
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # VERIFY USER
+    # ------------------------------------------------------
+
+    def verify_user(
+
+        self,
+
+        user: User,
+
+        password: str
+
+    ) -> None:
+
+        if not verify_password(
+
+            password,
+
+            user.password_hash
+
+        ):
+
+            raise InvalidCredentialsException()
+
+        if not user.is_active:
+
+            raise AccountDisabledException()
+
+    # ------------------------------------------------------
+    # GENERATE TOKEN
+    # ------------------------------------------------------
+
+    def generate_tokens(
+
+        self,
+
+        user: User
+
+    ) -> dict:
+
+        access_token = create_access_token(
+
+            {
+
+                "user_id": user.id,
+
+                "email": user.email,
+
+                "role": user.role
+
+            }
+
+        )
+
+        refresh_token = create_refresh_token(
+
+            {
+
+                "user_id": user.id
+
+            }
+
+        )
+
+        return {
+
+            "access_token": access_token,
+
+            "refresh_token": refresh_token,
+
+            "token_type": "bearer"
+
+        }
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: LoginRequest
+
+    ) -> dict:
+
+        user = self.get_user(
+
+            data.email
+
+        )
+
+        if user is None:
+
+            raise InvalidCredentialsException()
+
+        self.verify_user(
+
+            user,
+
+            data.password
+
+        )
+
+        tokens = self.generate_tokens(
+
+            user
+
+        )
+
+        info(
+
+            f"User login: {user.email}"
+
+        )
+
+        return tokens
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\refresh_token_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Refresh Token Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import RefreshTokenRequest
+
+from core.jwt import (
+
+    verify_token,
+
+    create_access_token,
+
+    create_refresh_token
+
+)
+
+from core.logger import info
+
+from exceptions.auth import (
+
+    InvalidTokenException,
+
+    AccountDisabledException
+
+)
+
+# ----------------------------------------------------------
+# REFRESH TOKEN SERVICE
+# ----------------------------------------------------------
+
+class RefreshTokenService:
+
+    """
+    Refresh JWT Token Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        user_id: int
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.id == user_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # VERIFY REFRESH TOKEN
+    # ------------------------------------------------------
+
+    def verify_refresh_token(
+
+        self,
+
+        refresh_token: str
+
+    ) -> dict:
+
+        payload = verify_token(
+
+            refresh_token
+
+        )
+
+        if payload is None:
+
+            raise InvalidTokenException()
+
+        if payload.get(
+
+            "type"
+
+        ) != "refresh":
+
+            raise InvalidTokenException()
+
+        return payload
+
+    # ------------------------------------------------------
+    # GENERATE TOKEN
+    # ------------------------------------------------------
+
+    def generate_tokens(
+
+        self,
+
+        user: User
+
+    ) -> dict:
+
+        access_token = create_access_token(
+
+            {
+
+                "user_id": user.id,
+
+                "email": user.email,
+
+                "role": user.role
+
+            }
+
+        )
+
+        refresh_token = create_refresh_token(
+
+            {
+
+                "user_id": user.id
+
+            }
+
+        )
+
+        return {
+
+            "access_token": access_token,
+
+            "refresh_token": refresh_token,
+
+            "token_type": "bearer"
+
+        }
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: RefreshTokenRequest
+
+    ) -> dict:
+
+        payload = self.verify_refresh_token(
+
+            data.refresh_token
+
+        )
+
+        user = self.get_user(
+
+            payload["user_id"]
+
+        )
+
+        if user is None:
+
+            raise InvalidTokenException()
+
+        if not user.is_active:
+
+            raise AccountDisabledException()
+
+        tokens = self.generate_tokens(
+
+            user
+
+        )
+
+        info(
+
+            f"Refresh token: {user.email}"
+
+        )
+
+        return tokens
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\register_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Register Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import RegisterRequest
+
+from core.security import hash_password
+
+from core.logger import info
+
+from exceptions.database import (
+
+    DuplicateRecordException
+
+)
+
+# ----------------------------------------------------------
+# REGISTER SERVICE
+# ----------------------------------------------------------
+
+class RegisterService:
+
+    """
+    User Registration Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # CHECK EMAIL
+    # ------------------------------------------------------
+
+    def email_exists(
+
+        self,
+
+        email: str
+
+    ) -> bool:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.email == email
+
+            )
+
+            .first()
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # CHECK USERNAME
+    # ------------------------------------------------------
+
+    def username_exists(
+
+        self,
+
+        username: str
+
+    ) -> bool:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.username == username
+
+            )
+
+            .first()
+
+            is not None
+
+        )
+
+    # ------------------------------------------------------
+    # CREATE USER
+    # ------------------------------------------------------
+
+    def create_user(
+
+        self,
+
+        data: RegisterRequest
+
+    ) -> User:
+
+        user = User(
+
+            full_name=data.full_name,
+
+            username=data.username,
+
+            email=data.email,
+
+            password_hash=hash_password(
+
+                data.password
+
+            ),
+
+            role="user",
+
+            is_active=True,
+
+            is_verified=False,
+
+            is_admin=False
+
+        )
+
+        self.db.add(
+
+            user
+
+        )
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            user
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: RegisterRequest
+
+    ) -> User:
+
+        """
+        Register new user.
+        """
+
+        if self.email_exists(
+
+            data.email
+
+        ):
+
+            raise DuplicateRecordException(
+
+                "Email"
+
+            )
+
+        if self.username_exists(
+
+            data.username
+
+        ):
+
+            raise DuplicateRecordException(
+
+                "Username"
+
+            )
+
+        user = self.create_user(
+
+            data
+
+        )
+
+        info(
+
+            f"New user registered: {user.email}"
+
+        )
+
+        return user
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\reset_password_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Reset Password Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import ResetPasswordRequest
+
+from core.jwt import verify_token
+
+from core.security import hash_password
+
+from core.logger import info
+
+from exceptions.auth import (
+
+    InvalidTokenException,
+
+    AccountDisabledException
+
+)
+
+# ----------------------------------------------------------
+# RESET PASSWORD SERVICE
+# ----------------------------------------------------------
+
+class ResetPasswordService:
+
+    """
+    Reset Password Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        user_id: int
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.id == user_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # VERIFY TOKEN
+    # ------------------------------------------------------
+
+    def verify_reset_token(
+
+        self,
+
+        token: str
+
+    ) -> dict:
+
+        payload = verify_token(
+
+            token
+
+        )
+
+        if payload is None:
+
+            raise InvalidTokenException()
+
+        if payload.get(
+
+            "type"
+
+        ) != "reset_password":
+
+            raise InvalidTokenException()
+
+        return payload
+
+    # ------------------------------------------------------
+    # UPDATE PASSWORD
+    # ------------------------------------------------------
+
+    def update_password(
+
+        self,
+
+        user: User,
+
+        password: str
+
+    ) -> User:
+
+        user.password_hash = hash_password(
+
+            password
+
+        )
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            user
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: ResetPasswordRequest
+
+    ) -> User:
+
+        payload = self.verify_reset_token(
+
+            data.token
+
+        )
+
+        user = self.get_user(
+
+            payload["user_id"]
+
+        )
+
+        if user is None:
+
+            raise InvalidTokenException()
+
+        if not user.is_active:
+
+            raise AccountDisabledException()
+
+        user = self.update_password(
+
+            user,
+
+            data.new_password
+
+        )
+
+        info(
+
+            f"Password changed: {user.email}"
+
+        )
+
+        return user
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\auth\verify_email_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Verify Email Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from schemas.auth import VerifyEmailRequest
+
+from core.jwt import verify_token
+
+from core.logger import info
+
+from exceptions.auth import (
+
+    InvalidTokenException,
+
+    EmailNotVerifiedException
+
+)
+
+# ----------------------------------------------------------
+# VERIFY EMAIL SERVICE
+# ----------------------------------------------------------
+
+class VerifyEmailService:
+
+    """
+    Verify User Email Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        user_id: int
+
+    ) -> User | None:
+
+        return (
+
+            self.db.query(User)
+
+            .filter(
+
+                User.id == user_id
+
+            )
+
+            .first()
+
+        )
+
+    # ------------------------------------------------------
+    # VERIFY TOKEN
+    # ------------------------------------------------------
+
+    def verify_email_token(
+
+        self,
+
+        token: str
+
+    ) -> dict:
+
+        payload = verify_token(
+
+            token
+
+        )
+
+        if payload is None:
+
+            raise InvalidTokenException()
+
+        if payload.get(
+
+            "type"
+
+        ) != "verify_email":
+
+            raise InvalidTokenException()
+
+        return payload
+
+    # ------------------------------------------------------
+    # ACTIVATE USER
+    # ------------------------------------------------------
+
+    def activate_user(
+
+        self,
+
+        user: User
+
+    ) -> User:
+
+        user.is_verified = True
+
+        self.db.commit()
+
+        self.db.refresh(
+
+            user
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        data: VerifyEmailRequest
+
+    ) -> User:
+
+        payload = self.verify_email_token(
+
+            data.token
+
+        )
+
+        user = self.get_user(
+
+            payload["user_id"]
+
+        )
+
+        if user is None:
+
+            raise InvalidTokenException()
+
+        if user.is_verified:
+
+            return user
+
+        user = self.activate_user(
+
+            user
+
+        )
+
+        info(
+
+            f"Email verified: {user.email}"
+
+        )
+
+        return user
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\convert\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\email\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\image\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\notification\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\office\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\payment\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\base_pdf_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Base PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from repositories.file_repository import FileRepository
+
+from repositories.history_repository import HistoryRepository
+
+from models.file import File
+
+from models.history import History
+
+from utils.file import (
+
+    file_exists
+
+)
+
+from utils.pdf import (
+
+    is_pdf
+
+)
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# BASE PDF SERVICE
+# ----------------------------------------------------------
+
+class BasePdfService:
+
+    """
+    Base PDF Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+        self.file_repository = FileRepository(
+
+            db
+
+        )
+
+        self.history_repository = HistoryRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE
+    # ------------------------------------------------------
+
+    def get_file(
+
+        self,
+
+        file_id: int
+
+    ) -> File:
+
+        file = self.file_repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return file
+
+    # ------------------------------------------------------
+    # VALIDATE PDF
+    # ------------------------------------------------------
+
+    def validate_pdf(
+
+        self,
+
+        file: File
+
+    ) -> None:
+
+        if not file_exists(
+
+            file.file_path
+
+        ):
+
+            raise FileNotFoundError(
+
+                file.file_path
+
+            )
+
+        if not is_pdf(
+
+            file.file_path
+
+        ):
+
+            raise ValueError(
+
+                "Invalid PDF file."
+
+            )
+
+    # ------------------------------------------------------
+    # SAVE HISTORY
+    # ------------------------------------------------------
+
+    def save_history(
+
+        self,
+
+        user_id: int,
+
+        file_id: int,
+
+        action: str
+
+    ) -> None:
+
+        history = History(
+
+            user_id=user_id,
+
+            file_id=file_id,
+
+            action=action
+
+        )
+
+        self.history_repository.create(
+
+            history
+
+        )
+
+    # ------------------------------------------------------
+    # LOG
+    # ------------------------------------------------------
+
+    def log(
+
+        self,
+
+        message: str
+
+    ) -> None:
+
+        info(
+
+            message
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\compress_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Compress PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from utils.file import get_file_size
+
+from core.logger import info
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# COMPRESS SERVICE
+# ----------------------------------------------------------
+
+class CompressService(
+
+    BasePdfService
+
+):
+
+    """
+    PDF Compression Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db
+
+    ):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # COMPRESS
+    # ------------------------------------------------------
+
+    def compress(
+
+        self,
+
+        input_path: str,
+
+        output_path: str,
+
+        quality: str = "medium"
+
+    ) -> str:
+
+        """
+        TODO
+
+        Ghostscript
+
+        PyMuPDF
+
+        pikepdf
+        """
+
+        return output_path
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_path: str,
+
+        quality: str = "medium"
+
+    ) -> dict:
+
+        file = self.get_file(
+
+            file_id
+
+        )
+
+        self.validate_pdf(
+
+            file
+
+        )
+
+        before_size = get_file_size(
+
+            file.file_path
+
+        )
+
+        result = self.compress(
+
+            file.file_path,
+
+            output_path,
+
+            quality
+
+        )
+
+        after_size = get_file_size(
+
+            result
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "compress_pdf"
+
+        )
+
+        self.log(
+
+            f"Compressed PDF: {file.filename}"
+
+        )
+
+        return {
+
+            "input": file.file_path,
+
+            "output": result,
+
+            "before_size": before_size,
+
+            "after_size": after_size,
+
+            "saved_bytes": before_size - after_size
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\extract_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Extract Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+import fitz
+
+from pypdf import PdfReader
+from pypdf import PdfWriter
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# EXTRACT SERVICE
+# ----------------------------------------------------------
+
+class ExtractService(BasePdfService):
+
+    """
+    PDF Extract Service.
+    """
+
+    def __init__(self, db):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # TEXT
+    # ------------------------------------------------------
+
+    def extract_text(
+
+        self,
+
+        input_path: str
+
+    ) -> str:
+
+        document = fitz.open(input_path)
+
+        text = ""
+
+        for page in document:
+
+            text += page.get_text()
+
+        document.close()
+
+        return text
+
+    # ------------------------------------------------------
+    # IMAGES
+    # ------------------------------------------------------
+
+    def extract_images(
+
+        self,
+
+        input_path: str,
+
+        output_directory: str
+
+    ) -> list[str]:
+
+        Path(output_directory).mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        document = fitz.open(input_path)
+
+        images = []
+
+        for page_index in range(len(document)):
+
+            page = document.load_page(page_index)
+
+            image_list = page.get_images(full=True)
+
+            for image_number, image in enumerate(image_list):
+
+                xref = image[0]
+
+                pix = fitz.Pixmap(
+
+                    document,
+
+                    xref
+
+                )
+
+                output = (
+
+                    Path(output_directory)
+
+                    / f"page_{page_index+1}_{image_number+1}.png"
+
+                )
+
+                if pix.n < 5:
+
+                    pix.save(output)
+
+                else:
+
+                    rgb = fitz.Pixmap(
+
+                        fitz.csRGB,
+
+                        pix
+
+                    )
+
+                    rgb.save(output)
+
+                    rgb = None
+
+                pix = None
+
+                images.append(
+
+                    str(output)
+
+                )
+
+        document.close()
+
+        return images
+
+    # ------------------------------------------------------
+    # LINKS
+    # ------------------------------------------------------
+
+    def extract_links(
+
+        self,
+
+        input_path: str
+
+    ) -> list:
+
+        document = fitz.open(input_path)
+
+        links = []
+
+        for page in document:
+
+            links.extend(
+
+                page.get_links()
+
+            )
+
+        document.close()
+
+        return links
+
+    # ------------------------------------------------------
+    # FONTS
+    # ------------------------------------------------------
+
+    def extract_fonts(
+
+        self,
+
+        input_path: str
+
+    ) -> list:
+
+        document = fitz.open(input_path)
+
+        fonts = []
+
+        for page in document:
+
+            fonts.extend(
+
+                page.get_fonts()
+
+            )
+
+        document.close()
+
+        return fonts
+
+    # ------------------------------------------------------
+    # ATTACHMENTS
+    # ------------------------------------------------------
+
+    def extract_attachments(
+
+        self,
+
+        input_path: str
+
+    ) -> list:
+
+        reader = PdfReader(input_path)
+
+        attachments = []
+
+        try:
+
+            for name in reader.attachments:
+
+                attachments.append(name)
+
+        except Exception:
+
+            pass
+
+        return attachments
+
+    # ------------------------------------------------------
+    # PAGES
+    # ------------------------------------------------------
+
+    def extract_pages(
+
+        self,
+
+        input_path: str,
+
+        output_directory: str
+
+    ) -> list[str]:
+
+        Path(output_directory).mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        reader = PdfReader(input_path)
+
+        outputs = []
+
+        for index, page in enumerate(reader.pages):
+
+            writer = PdfWriter()
+
+            writer.add_page(page)
+
+            output = (
+
+                Path(output_directory)
+
+                / f"page_{index+1}.pdf"
+
+            )
+
+            with open(output, "wb") as pdf:
+
+                writer.write(pdf)
+
+            outputs.append(
+
+                str(output)
+
+            )
+
+        return outputs
+
+    # ------------------------------------------------------
+    # ANNOTATIONS
+    # ------------------------------------------------------
+
+    def extract_annotations(
+
+        self,
+
+        input_path: str
+
+    ) -> list:
+
+        document = fitz.open(input_path)
+
+        annotations = []
+
+        for page in document:
+
+            annotation = page.first_annot
+
+            while annotation:
+
+                annotations.append(
+
+                    annotation.info
+
+                )
+
+                annotation = annotation.next
+
+        document.close()
+
+        return annotations
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_directory: str
+
+    ) -> dict:
+
+        file = self.get_file(file_id)
+
+        self.validate_pdf(file)
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "extract_pdf"
+
+        )
+
+        self.log(
+
+            f"Extract PDF: {file.filename}"
+
+        )
+
+        return {
+
+            "text": self.extract_text(
+
+                file.file_path
+
+            ),
+
+            "images": self.extract_images(
+
+                file.file_path,
+
+                output_directory
+
+            ),
+
+            "links": self.extract_links(
+
+                file.file_path
+
+            ),
+
+            "fonts": self.extract_fonts(
+
+                file.file_path
+
+            ),
+
+            "attachments": self.extract_attachments(
+
+                file.file_path
+
+            ),
+
+            "pages": self.extract_pages(
+
+                file.file_path,
+
+                output_directory
+
+            ),
+
+            "annotations": self.extract_annotations(
+
+                file.file_path
+
+            )
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\merge_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Merge PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from pypdf import PdfWriter
+
+from repositories.file_repository import FileRepository
+
+from repositories.history_repository import HistoryRepository
+
+from models.file import File
+
+from models.history import History
+
+from utils.file import (
+
+    file_exists
+
+)
+
+from utils.pdf import (
+
+    is_pdf
+
+)
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# MERGE SERVICE
+# ----------------------------------------------------------
+
+class MergeService:
+
+    """
+    PDF Merge Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.file_repository = FileRepository(
+
+            db
+
+        )
+
+        self.history_repository = HistoryRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE
+    # ------------------------------------------------------
+
+    def get_file(
+
+        self,
+
+        file_id: int
+
+    ) -> File:
+
+        file = self.file_repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return file
+
+    # ------------------------------------------------------
+    # VALIDATE
+    # ------------------------------------------------------
+
+    def validate(
+
+        self,
+
+        files: list[File]
+
+    ) -> None:
+
+        for file in files:
+
+            if not file_exists(
+
+                file.file_path
+
+            ):
+
+                raise FileNotFoundError(
+
+                    file.file_path
+
+                )
+
+            if not is_pdf(
+
+                file.file_path
+
+            ):
+
+                raise ValueError(
+
+                    "Invalid PDF."
+
+                )
+
+    # ------------------------------------------------------
+    # MERGE PDF
+    # ------------------------------------------------------
+
+    def merge(
+
+        self,
+
+        files: list[File],
+
+        output_path: str
+
+    ) -> str:
+
+        writer = PdfWriter()
+
+        for file in files:
+
+            writer.append(
+
+                file.file_path
+
+            )
+
+        with open(
+
+            output_path,
+
+            "wb"
+
+        ) as pdf:
+
+            writer.write(
+
+                pdf
+
+            )
+
+        writer.close()
+
+        return output_path
+
+    # ------------------------------------------------------
+    # SAVE HISTORY
+    # ------------------------------------------------------
+
+    def save_history(
+
+        self,
+
+        user_id: int,
+
+        file_id: int
+
+    ):
+
+        history = History(
+
+            user_id=user_id,
+
+            file_id=file_id,
+
+            action="merge_pdf"
+
+        )
+
+        self.history_repository.create(
+
+            history
+
+        )
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_ids: list[int],
+
+        output_path: str
+
+    ) -> str:
+
+        files = [
+
+            self.get_file(
+
+                file_id
+
+            )
+
+            for file_id in file_ids
+
+        ]
+
+        self.validate(
+
+            files
+
+        )
+
+        result = self.merge(
+
+            files,
+
+            output_path
+
+        )
+
+        self.save_history(
+
+            files[0].user_id,
+
+            files[0].id
+
+        )
+
+        info(
+
+            f"Merged {len(files)} PDF files."
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\metadata_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Metadata Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+from pypdf import PdfReader
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# METADATA SERVICE
+# ----------------------------------------------------------
+
+class MetadataService(BasePdfService):
+
+    """
+    PDF Metadata Service.
+    """
+
+    def __init__(self, db):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # DOCUMENT INFO
+    # ------------------------------------------------------
+
+    def get_document_info(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> dict:
+
+        meta = reader.metadata or {}
+
+        return {
+
+            "title": meta.get("/Title"),
+
+            "author": meta.get("/Author"),
+
+            "subject": meta.get("/Subject"),
+
+            "keywords": meta.get("/Keywords"),
+
+            "creator": meta.get("/Creator"),
+
+            "producer": meta.get("/Producer"),
+
+            "creation_date": meta.get("/CreationDate"),
+
+            "modification_date": meta.get("/ModDate")
+
+        }
+
+    # ------------------------------------------------------
+    # FILE INFO
+    # ------------------------------------------------------
+
+    def get_file_info(
+
+        self,
+
+        input_path: str
+
+    ) -> dict:
+
+        path = Path(input_path)
+
+        stat = path.stat()
+
+        return {
+
+            "filename": path.name,
+
+            "extension": path.suffix,
+
+            "directory": str(path.parent),
+
+            "size_bytes": stat.st_size
+
+        }
+
+    # ------------------------------------------------------
+    # PAGE INFO
+    # ------------------------------------------------------
+
+    def get_page_info(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> dict:
+
+        pages = len(reader.pages)
+
+        widths = []
+
+        heights = []
+
+        for page in reader.pages:
+
+            box = page.mediabox
+
+            widths.append(float(box.width))
+
+            heights.append(float(box.height))
+
+        return {
+
+            "total_pages": pages,
+
+            "page_width": widths,
+
+            "page_height": heights
+
+        }
+
+    # ------------------------------------------------------
+    # SECURITY
+    # ------------------------------------------------------
+
+    def get_security_info(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> dict:
+
+        return {
+
+            "encrypted": reader.is_encrypted
+
+        }
+
+    # ------------------------------------------------------
+    # PERMISSIONS
+    # ------------------------------------------------------
+
+    def get_permissions(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> dict:
+
+        permissions = {}
+
+        if hasattr(reader, "decode_permissions"):
+
+            try:
+
+                permissions = reader.decode_permissions()
+
+            except Exception:
+
+                permissions = {}
+
+        return permissions
+
+    # ------------------------------------------------------
+    # FONTS
+    # ------------------------------------------------------
+
+    def get_fonts(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> list:
+
+        fonts = set()
+
+        for page in reader.pages:
+
+            resources = page.get("/Resources")
+
+            if not resources:
+
+                continue
+
+            font_dict = resources.get("/Font")
+
+            if not font_dict:
+
+                continue
+
+            for font in font_dict.keys():
+
+                fonts.add(str(font))
+
+        return sorted(list(fonts))
+
+    # ------------------------------------------------------
+    # IMAGES
+    # ------------------------------------------------------
+
+    def get_images(
+
+        self,
+
+        reader: PdfReader
+
+    ) -> int:
+
+        total = 0
+
+        for page in reader.pages:
+
+            resources = page.get("/Resources")
+
+            if not resources:
+
+                continue
+
+            xobject = resources.get("/XObject")
+
+            if not xobject:
+
+                continue
+
+            for obj in xobject.values():
+
+                try:
+
+                    if obj.get("/Subtype") == "/Image":
+
+                        total += 1
+                except Exception:
+
+                    pass
+
+        return total
+
+    # ------------------------------------------------------
+    # BOOKMARKS
+    # ------------------------------------------------------
+
+    def get_bookmarks(
+
+        self,
+
+        reader: PdfReader
+
+    ):
+
+        try:
+
+            return reader.outline
+
+        except Exception:
+
+            return []
+
+    # ------------------------------------------------------
+    # XMP
+    # ------------------------------------------------------
+
+    def get_xmp_metadata(
+
+        self,
+
+        reader: PdfReader
+
+    ):
+
+        try:
+
+            return reader.xmp_metadata
+
+        except Exception:
+
+            return None
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int
+
+    ) -> dict:
+
+        file = self.get_file(file_id)
+
+        self.validate_pdf(file)
+
+        reader = PdfReader(file.file_path)
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "metadata_pdf"
+
+        )
+
+        self.log(
+
+            f"Metadata PDF: {file.filename}"
+
+        )
+
+        return {
+
+            "document": self.get_document_info(reader),
+
+            "file": self.get_file_info(file.file_path),
+
+            "pages": self.get_page_info(reader),
+
+            "security": self.get_security_info(reader),
+
+            "permissions": self.get_permissions(reader),
+
+            "fonts": self.get_fonts(reader),
+
+            "images": self.get_images(reader),
+
+            "bookmarks": self.get_bookmarks(reader),
+
+            "xmp": self.get_xmp_metadata(reader)
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\protect_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Protect PDF Service
+# ==========================================================
+
+from pypdf import PdfReader
+from pypdf import PdfWriter
+
+from services.pdf.base_pdf_service import BasePdfService
+
+
+class ProtectService(BasePdfService):
+
+    """
+    PDF Protect Service.
+    """
+
+    def __init__(self, db):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+
+    def protect(
+
+        self,
+
+        input_path: str,
+
+        output_path: str,
+
+        password: str
+
+    ) -> str:
+
+        reader = PdfReader(input_path)
+
+        writer = PdfWriter()
+
+        for page in reader.pages:
+
+            writer.add_page(page)
+
+        writer.encrypt(password)
+
+        with open(output_path, "wb") as pdf:
+
+            writer.write(pdf)
+
+        return output_path
+
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_path: str,
+
+        password: str
+
+    ) -> str:
+
+        file = self.get_file(file_id)
+
+        self.validate_pdf(file)
+
+        result = self.protect(
+
+            file.file_path,
+
+            output_path,
+
+            password
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "protect_pdf"
+
+        )
+
+        self.log(
+
+            f"Protect PDF: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\rotate_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Rotate PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pypdf import PdfReader
+from pypdf import PdfWriter
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# ROTATE SERVICE
+# ----------------------------------------------------------
+
+class RotateService(
+
+    BasePdfService
+
+):
+
+    """
+    PDF Rotate Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db
+
+    ):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # ROTATE
+    # ------------------------------------------------------
+
+    def rotate(
+
+        self,
+
+        input_path: str,
+
+        output_path: str,
+
+        angle: int = 90
+
+    ) -> str:
+
+        reader = PdfReader(
+
+            input_path
+
+        )
+
+        writer = PdfWriter()
+
+        for page in reader.pages:
+
+            page.rotate(
+
+                angle
+
+            )
+
+            writer.add_page(
+
+                page
+
+            )
+
+        with open(
+
+            output_path,
+
+            "wb"
+
+        ) as pdf:
+
+            writer.write(
+
+                pdf
+
+            )
+
+        return output_path
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_path: str,
+
+        angle: int = 90
+
+    ) -> str:
+
+        file = self.get_file(
+
+            file_id
+
+        )
+
+        self.validate_pdf(
+
+            file
+
+        )
+
+        result = self.rotate(
+
+            file.file_path,
+
+            output_path,
+
+            angle
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "rotate_pdf"
+
+        )
+
+        self.log(
+
+            f"Rotate PDF: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\split_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Split PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+from sqlalchemy.orm import Session
+
+from pypdf import (
+
+    PdfReader,
+
+    PdfWriter
+
+)
+
+from repositories.file_repository import FileRepository
+
+from repositories.history_repository import HistoryRepository
+
+from models.file import File
+
+from models.history import History
+
+from utils.file import (
+
+    create_directory,
+
+    file_exists
+
+)
+
+from utils.pdf import (
+
+    is_pdf
+
+)
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# SPLIT SERVICE
+# ----------------------------------------------------------
+
+class SplitService:
+
+    """
+    PDF Split Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.file_repository = FileRepository(
+
+            db
+
+        )
+
+        self.history_repository = HistoryRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE
+    # ------------------------------------------------------
+
+    def get_file(
+
+        self,
+
+        file_id: int
+
+    ) -> File:
+
+        file = self.file_repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return file
+
+    # ------------------------------------------------------
+    # VALIDATE
+    # ------------------------------------------------------
+
+    def validate(
+
+        self,
+
+        file: File
+
+    ) -> None:
+
+        if not file_exists(
+
+            file.file_path
+
+        ):
+
+            raise FileNotFoundError(
+
+                file.file_path
+
+            )
+
+        if not is_pdf(
+
+            file.file_path
+
+        ):
+
+            raise ValueError(
+
+                "Invalid PDF file."
+
+            )
+
+    # ------------------------------------------------------
+    # SPLIT
+    # ------------------------------------------------------
+
+    def split(
+
+        self,
+
+        input_path: str,
+
+        output_directory: str
+
+    ) -> list[str]:
+
+        create_directory(
+
+            output_directory
+
+        )
+
+        reader = PdfReader(
+
+            input_path
+
+        )
+
+        outputs = []
+
+        stem = Path(
+
+            input_path
+
+        ).stem
+
+        for index, page in enumerate(
+
+            reader.pages,
+
+            start=1
+
+        ):
+
+            writer = PdfWriter()
+
+            writer.add_page(page)
+
+            output_file = (
+
+                Path(output_directory)
+
+                / f"{stem}_page_{index}.pdf"
+
+            )
+
+            with open(
+
+                output_file,
+
+                "wb"
+
+            ) as pdf:
+
+                writer.write(
+
+                    pdf
+
+                )
+
+            outputs.append(
+
+                str(output_file)
+
+            )
+
+        return outputs
+
+    # ------------------------------------------------------
+    # SAVE HISTORY
+    # ------------------------------------------------------
+
+    def save_history(
+
+        self,
+
+        user_id: int,
+
+        file_id: int
+
+    ):
+
+        history = History(
+
+            user_id=user_id,
+
+            file_id=file_id,
+
+            action="split_pdf"
+
+        )
+
+        self.history_repository.create(
+
+            history
+
+        )
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_directory: str
+
+    ) -> list[str]:
+
+        file = self.get_file(
+
+            file_id
+
+        )
+
+        self.validate(
+
+            file
+
+        )
+
+        result = self.split(
+
+            file.file_path,
+
+            output_directory
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id
+
+        )
+
+        info(
+
+            f"Split PDF: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\thumbnail_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Thumbnail PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+import fitz
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# THUMBNAIL SERVICE
+# ----------------------------------------------------------
+
+class ThumbnailService(BasePdfService):
+
+    """
+    PDF Thumbnail Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db
+
+    ):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # GENERATE PAGE THUMBNAIL
+    # ------------------------------------------------------
+
+    def generate_thumbnail(
+
+        self,
+
+        input_path: str,
+
+        output_image: str,
+
+        page_number: int = 0,
+
+        zoom: float = 2.0
+
+    ) -> str:
+
+        document = fitz.open(input_path)
+
+        page = document.load_page(page_number)
+
+        matrix = fitz.Matrix(
+
+            zoom,
+
+            zoom
+
+        )
+
+        pixmap = page.get_pixmap(
+
+            matrix=matrix,
+
+            alpha=False
+
+        )
+
+        Path(output_image).parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        pixmap.save(
+
+            output_image
+
+        )
+
+        document.close()
+
+        return output_image
+
+    # ------------------------------------------------------
+    # GENERATE ALL THUMBNAILS
+    # ------------------------------------------------------
+
+    def generate_all(
+
+        self,
+
+        input_path: str,
+
+        output_directory: str,
+
+        zoom: float = 2.0
+
+    ) -> list[str]:
+
+        document = fitz.open(input_path)
+
+        Path(output_directory).mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        outputs = []
+
+        matrix = fitz.Matrix(
+
+            zoom,
+
+            zoom
+
+        )
+
+        for page_number in range(
+
+            len(document)
+
+        ):
+
+            page = document.load_page(
+
+                page_number
+
+            )
+
+            pixmap = page.get_pixmap(
+
+                matrix=matrix,
+
+                alpha=False
+
+            )
+
+            output = (
+
+                Path(output_directory)
+
+                / f"page_{page_number + 1}.png"
+
+            )
+
+            pixmap.save(
+
+                output
+
+            )
+
+            outputs.append(
+
+                str(output)
+
+            )
+
+        document.close()
+
+        return outputs
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_directory: str,
+
+        page_number: int = 0,
+
+        all_pages: bool = False
+
+    ):
+
+        file = self.get_file(
+
+            file_id
+
+        )
+
+        self.validate_pdf(
+
+            file
+
+        )
+
+        if all_pages:
+
+            result = self.generate_all(
+
+                file.file_path,
+
+                output_directory
+
+            )
+
+        else:
+
+            output = (
+
+                Path(output_directory)
+
+                / "thumbnail.png"
+
+            )
+
+            result = self.generate_thumbnail(
+
+                file.file_path,
+
+                str(output),
+
+                page_number
+
+            )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "thumbnail_pdf"
+
+        )
+
+        self.log(
+
+            f"Thumbnail created: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\unlock_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Unlock PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pypdf import PdfReader
+from pypdf import PdfWriter
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# UNLOCK SERVICE
+# ----------------------------------------------------------
+
+class UnlockService(BasePdfService):
+
+    """
+    PDF Unlock Service.
+    """
+
+    def __init__(self, db):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # UNLOCK PDF
+    # ------------------------------------------------------
+
+    def unlock(
+
+        self,
+
+        input_path: str,
+
+        output_path: str,
+
+        password: str
+
+    ) -> str:
+
+        reader = PdfReader(input_path)
+
+        if reader.is_encrypted:
+
+            result = reader.decrypt(password)
+
+            if result == 0:
+
+                raise ValueError("Invalid PDF password.")
+
+        writer = PdfWriter()
+
+        for page in reader.pages:
+
+            writer.add_page(page)
+
+        with open(output_path, "wb") as pdf:
+
+            writer.write(pdf)
+
+        writer.close()
+
+        return output_path
+
+    # ------------------------------------------------------
+    # CHECK ENCRYPTED
+    # ------------------------------------------------------
+
+    def is_encrypted(
+
+        self,
+
+        input_path: str
+
+    ) -> bool:
+
+        reader = PdfReader(input_path)
+
+        return reader.is_encrypted
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        output_path: str,
+
+        password: str
+
+    ) -> str:
+
+        file = self.get_file(file_id)
+
+        self.validate_pdf(file)
+
+        result = self.unlock(
+
+            file.file_path,
+
+            output_path,
+
+            password
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "unlock_pdf"
+
+        )
+
+        self.log(
+
+            f"Unlocked PDF: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\pdf\watermark_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Watermark PDF Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pypdf import PdfReader
+from pypdf import PdfWriter
+
+from services.pdf.base_pdf_service import BasePdfService
+
+# ----------------------------------------------------------
+# WATERMARK SERVICE
+# ----------------------------------------------------------
+
+class WatermarkService(BasePdfService):
+
+    """
+    PDF Watermark Service.
+    """
+
+    def __init__(self, db):
+
+        super().__init__(db)
+
+    # ------------------------------------------------------
+    # APPLY WATERMARK
+    # ------------------------------------------------------
+
+    def apply_watermark(
+
+        self,
+
+        input_path: str,
+
+        watermark_path: str,
+
+        output_path: str,
+
+        first_page_only: bool = False
+
+    ) -> str:
+
+        reader = PdfReader(input_path)
+
+        watermark_reader = PdfReader(watermark_path)
+
+        watermark_page = watermark_reader.pages[0]
+
+        writer = PdfWriter()
+
+        for index, page in enumerate(reader.pages):
+
+            if not first_page_only or index == 0:
+
+                page.merge_page(watermark_page)
+
+            writer.add_page(page)
+
+        with open(output_path, "wb") as pdf:
+
+            writer.write(pdf)
+
+        writer.close()
+
+        return output_path
+
+    # ------------------------------------------------------
+    # EXECUTE
+    # ------------------------------------------------------
+
+    def execute(
+
+        self,
+
+        file_id: int,
+
+        watermark_path: str,
+
+        output_path: str,
+
+        first_page_only: bool = False
+
+    ) -> str:
+
+        file = self.get_file(file_id)
+
+        self.validate_pdf(file)
+
+        result = self.apply_watermark(
+
+            file.file_path,
+
+            watermark_path,
+
+            output_path,
+
+            first_page_only
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "watermark_pdf"
+
+        )
+
+        self.log(
+
+            f"Watermark added: {file.filename}"
+
+        )
+
+        return result
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\base_storage_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Base Storage Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+from sqlalchemy.orm import Session
+
+from repositories.file_repository import FileRepository
+
+from repositories.history_repository import HistoryRepository
+
+from models.file import File
+
+from models.history import History
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# BASE STORAGE SERVICE
+# ----------------------------------------------------------
+
+class BaseStorageService:
+
+    """
+    Base Storage Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.db = db
+
+        self.file_repository = FileRepository(
+
+            db
+
+        )
+
+        self.history_repository = HistoryRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE
+    # ------------------------------------------------------
+
+    def get_file(
+
+        self,
+
+        file_id: int
+
+    ) -> File:
+
+        file = self.file_repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return file
+
+    # ------------------------------------------------------
+    # FILE EXISTS
+    # ------------------------------------------------------
+
+    def exists(
+
+        self,
+
+        path: str
+
+    ) -> bool:
+
+        return Path(path).exists()
+
+    # ------------------------------------------------------
+    # CREATE DIRECTORY
+    # ------------------------------------------------------
+
+    def create_directory(
+
+        self,
+
+        directory: str
+
+    ) -> Path:
+
+        path = Path(directory)
+
+        path.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        return path
+
+    # ------------------------------------------------------
+    # DELETE FILE
+    # ------------------------------------------------------
+
+    def delete_file(
+
+        self,
+
+        path: str
+
+    ) -> bool:
+
+        file = Path(path)
+
+        if file.exists():
+
+            file.unlink()
+
+            return True
+
+        return False
+
+    # ------------------------------------------------------
+    # FILE SIZE
+    # ------------------------------------------------------
+
+    def file_size(
+
+        self,
+
+        path: str
+
+    ) -> int:
+
+        return Path(path).stat().st_size
+
+    # ------------------------------------------------------
+    # FILE NAME
+    # ------------------------------------------------------
+
+    def filename(
+
+        self,
+
+        path: str
+
+    ) -> str:
+
+        return Path(path).name
+
+    # ------------------------------------------------------
+    # EXTENSION
+    # ------------------------------------------------------
+
+    def extension(
+
+        self,
+
+        path: str
+
+    ) -> str:
+
+        return Path(path).suffix.lower()
+
+    # ------------------------------------------------------
+    # SAVE HISTORY
+    # ------------------------------------------------------
+
+    def save_history(
+
+        self,
+
+        user_id: int,
+
+        file_id: int,
+
+        action: str
+
+    ) -> None:
+
+        history = History(
+
+            user_id=user_id,
+
+            file_id=file_id,
+
+            action=action
+
+        )
+
+        self.history_repository.create(
+
+            history
+
+        )
+
+    # ------------------------------------------------------
+    # LOG
+    # ------------------------------------------------------
+
+    def log(
+
+        self,
+
+        message: str
+
+    ) -> None:
+
+        info(
+
+            message
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\delete_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Delete Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from repositories.file_repository import FileRepository
+
+from services.storage.local_storage_service import (
+    LocalStorageService
+)
+
+from exceptions.database import (
+    RecordNotFoundException
+)
+
+# ----------------------------------------------------------
+# DELETE SERVICE
+# ----------------------------------------------------------
+
+class DeleteService(LocalStorageService):
+
+    """
+    Delete Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(db)
+
+        self.repository = FileRepository(db)
+
+    # ------------------------------------------------------
+    # GET FILE
+    # ------------------------------------------------------
+
+    def get(
+
+        self,
+
+        file_id: int
+
+    ):
+
+        file = self.repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return file
+
+    # ------------------------------------------------------
+    # SOFT DELETE
+    # ------------------------------------------------------
+
+    def soft_delete(
+
+        self,
+
+        file_id: int
+
+    ):
+
+        file = self.get(
+
+            file_id
+
+        )
+
+        if hasattr(
+
+            file,
+
+            "is_deleted"
+
+        ):
+
+            file.is_deleted = True
+
+            file = self.repository.update(
+
+                file
+
+            )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "soft_delete"
+
+        )
+
+        self.log(
+
+            f"Soft delete: {file.filename}"
+
+        )
+
+        return file
+
+    # ------------------------------------------------------
+    # HARD DELETE
+    # ------------------------------------------------------
+
+    def hard_delete(
+
+        self,
+
+        file_id: int
+
+    ) -> bool:
+
+        file = self.get(
+
+            file_id
+
+        )
+
+        if self.exists(
+
+            file.file_path
+
+        ):
+
+            self.remove(
+
+                file.file_path
+
+            )
+
+        self.repository.delete(
+
+            file
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "hard_delete"
+
+        )
+
+        self.log(
+
+            f"Hard delete: {file.filename}"
+
+        )
+
+        return True
+
+    # ------------------------------------------------------
+    # DELETE FILE ONLY
+    # ------------------------------------------------------
+
+    def delete_storage(
+
+        self,
+
+        file_id: int
+
+    ) -> bool:
+
+        file = self.get(
+
+            file_id
+
+        )
+
+        if not self.exists(
+
+            file.file_path
+
+        ):
+
+            return False
+
+        self.remove(
+
+            file.file_path
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "delete_storage"
+
+        )
+
+        self.log(
+
+            f"Delete storage: {file.filename}"
+
+        )
+
+        return True
+
+    # ------------------------------------------------------
+    # DELETE DATABASE ONLY
+    # ------------------------------------------------------
+
+    def delete_database(
+
+        self,
+
+        file_id: int
+
+    ) -> bool:
+
+        file = self.get(
+
+            file_id
+
+        )
+
+        self.repository.delete(
+
+            file
+
+        )
+
+        self.log(
+
+            f"Delete database: {file.filename}"
+
+        )
+
+        return True
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\download_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Download Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+from fastapi.responses import FileResponse
+
+from sqlalchemy.orm import Session
+
+from repositories.file_repository import FileRepository
+
+from services.storage.local_storage_service import (
+    LocalStorageService
+)
+
+from exceptions.database import (
+    RecordNotFoundException
+)
+
+# ----------------------------------------------------------
+# DOWNLOAD SERVICE
+# ----------------------------------------------------------
+
+class DownloadService(LocalStorageService):
+
+    """
+    Download Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(db)
+
+        self.repository = FileRepository(db)
+
+    # ------------------------------------------------------
+    # DOWNLOAD
+    # ------------------------------------------------------
+
+    def download(
+
+        self,
+
+        file_id: int
+
+    ) -> FileResponse:
+
+        file = self.repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        if not self.exists(
+
+            file.file_path
+
+        ):
+
+            raise FileNotFoundError(
+
+                file.file_path
+
+            )
+
+        self.repository.increase_download(
+
+            file
+
+        )
+
+        self.save_history(
+
+            file.user_id,
+
+            file.id,
+
+            "download"
+
+        )
+
+        self.log(
+
+            f"Downloaded: {file.filename}"
+
+        )
+
+        return FileResponse(
+
+            path=file.file_path,
+
+            filename=file.original_filename,
+
+            media_type=file.mime_type
+
+        )
+
+    # ------------------------------------------------------
+    # DOWNLOAD PATH
+    # ------------------------------------------------------
+
+    def download_path(
+
+        self,
+
+        path: str
+
+    ) -> FileResponse:
+
+        file = Path(path)
+
+        if not file.exists():
+
+            raise FileNotFoundError(
+
+                path
+
+            )
+
+        return FileResponse(
+
+            path=str(file),
+
+            filename=file.name
+
+        )
+
+    # ------------------------------------------------------
+    # FILE INFO
+    # ------------------------------------------------------
+
+    def info(
+
+        self,
+
+        file_id: int
+
+    ) -> dict:
+
+        file = self.repository.get_by_id(
+
+            file_id
+
+        )
+
+        if file is None:
+
+            raise RecordNotFoundException(
+
+                "File"
+
+            )
+
+        return {
+
+            "id": file.id,
+
+            "filename": file.filename,
+
+            "original_filename": file.original_filename,
+
+            "mime_type": file.mime_type,
+
+            "size": file.file_size,
+
+            "downloads": getattr(
+
+                file,
+
+                "download_count",
+
+                0
+
+            ),
+
+            "status": file.status
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\file_manager_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# File Manager Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+import shutil
+
+from pathlib import Path
+
+from services.storage.local_storage_service import (
+    LocalStorageService
+)
+
+# ----------------------------------------------------------
+# FILE MANAGER SERVICE
+# ----------------------------------------------------------
+
+class FileManagerService(LocalStorageService):
+
+    """
+    File Manager Service.
+    """
+
+    # ------------------------------------------------------
+    # CREATE DIRECTORY
+    # ------------------------------------------------------
+
+    def create_directory(
+
+        self,
+
+        directory: str
+
+    ) -> str:
+
+        path = Path(directory)
+
+        path.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        return str(path)
+
+    # ------------------------------------------------------
+    # LIST FILES
+    # ------------------------------------------------------
+
+    def list_files(
+
+        self,
+
+        directory: str,
+
+        recursive: bool = False
+
+    ) -> list[str]:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return []
+
+        if recursive:
+
+            return [
+
+                str(file)
+
+                for file in path.rglob("*")
+
+                if file.is_file()
+
+            ]
+
+        return [
+
+            str(file)
+
+            for file in path.iterdir()
+
+            if file.is_file()
+
+        ]
+
+    # ------------------------------------------------------
+    # LIST DIRECTORIES
+    # ------------------------------------------------------
+
+    def list_directories(
+
+        self,
+
+        directory: str
+
+    ) -> list[str]:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return []
+
+        return [
+
+            str(folder)
+
+            for folder in path.iterdir()
+
+            if folder.is_dir()
+
+        ]
+
+    # ------------------------------------------------------
+    # SEARCH
+    # ------------------------------------------------------
+
+    def search(
+
+        self,
+
+        directory: str,
+
+        keyword: str
+
+    ) -> list[str]:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return []
+
+        return [
+
+            str(file)
+
+            for file in path.rglob("*")
+
+            if keyword.lower() in file.name.lower()
+
+        ]
+
+    # ------------------------------------------------------
+    # COPY
+    # ------------------------------------------------------
+
+    def copy(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ) -> str:
+
+        destination = Path(destination)
+
+        destination.parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        shutil.copy2(
+
+            source,
+
+            destination
+
+        )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # MOVE
+    # ------------------------------------------------------
+
+    def move(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ) -> str:
+
+        destination = Path(destination)
+
+        destination.parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        shutil.move(
+
+            source,
+
+            destination
+
+        )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # RENAME
+    # ------------------------------------------------------
+
+    def rename(
+
+        self,
+
+        source: str,
+
+        new_name: str
+
+    ) -> str:
+
+        source = Path(source)
+
+        destination = source.parent / new_name
+
+        source.rename(
+
+            destination
+
+        )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # DIRECTORY SIZE
+    # ------------------------------------------------------
+
+    def directory_size(
+
+        self,
+
+        directory: str
+
+    ) -> int:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return 0
+
+        total = 0
+
+        for file in path.rglob("*"):
+
+            if file.is_file():
+
+                total += file.stat().st_size
+
+        return total
+
+    # ------------------------------------------------------
+    # FILE COUNT
+    # ------------------------------------------------------
+
+    def file_count(
+
+        self,
+
+        directory: str
+
+    ) -> int:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return 0
+
+        return len(
+
+            [
+
+                file
+
+                for file in path.rglob("*")
+
+                if file.is_file()
+
+            ]
+
+        )
+
+    # ------------------------------------------------------
+    # CLEAN DIRECTORY
+    # ------------------------------------------------------
+
+    def clean(
+
+        self,
+
+        directory: str
+
+    ) -> int:
+
+        path = Path(directory)
+
+        if not path.exists():
+
+            return 0
+
+        deleted = 0
+
+        for file in path.rglob("*"):
+
+            if file.is_file():
+
+                file.unlink()
+
+                deleted += 1
+
+        return deleted
+
+    # ------------------------------------------------------
+    # STORAGE INFO
+    # ------------------------------------------------------
+
+    def storage_info(
+
+        self,
+
+        directory: str
+
+    ) -> dict:
+
+        return {
+
+            "directory": directory,
+
+            "files": self.file_count(
+
+                directory
+
+            ),
+
+            "size": self.directory_size(
+
+                directory
+
+            )
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\local_storage_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Local Storage Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+import shutil
+
+from pathlib import Path
+
+from fastapi import UploadFile
+
+from services.storage.base_storage_service import BaseStorageService
+
+# ----------------------------------------------------------
+# LOCAL STORAGE SERVICE
+# ----------------------------------------------------------
+
+class LocalStorageService(BaseStorageService):
+
+    """
+    Local Storage Service.
+    """
+
+    # ------------------------------------------------------
+    # SAVE FILE
+    # ------------------------------------------------------
+
+    def save(
+
+        self,
+
+        upload_file: UploadFile,
+
+        destination: str
+
+    ) -> str:
+
+        destination = Path(destination)
+
+        destination.parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        with destination.open("wb") as buffer:
+
+            shutil.copyfileobj(
+
+                upload_file.file,
+
+                buffer
+
+            )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # COPY FILE
+    # ------------------------------------------------------
+
+    def copy(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ) -> str:
+
+        source = Path(source)
+
+        destination = Path(destination)
+
+        destination.parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        shutil.copy2(
+
+            source,
+
+            destination
+
+        )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # MOVE FILE
+    # ------------------------------------------------------
+
+    def move(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ) -> str:
+
+        source = Path(source)
+
+        destination = Path(destination)
+
+        destination.parent.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        shutil.move(
+
+            str(source),
+
+            str(destination)
+
+        )
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # RENAME FILE
+    # ------------------------------------------------------
+
+    def rename(
+
+        self,
+
+        source: str,
+
+        new_name: str
+
+    ) -> str:
+
+        source = Path(source)
+
+        destination = source.parent / new_name
+
+        source.rename(destination)
+
+        return str(destination)
+
+    # ------------------------------------------------------
+    # DELETE FILE
+    # ------------------------------------------------------
+
+    def remove(
+
+        self,
+
+        path: str
+
+    ) -> bool:
+
+        file = Path(path)
+
+        if file.exists():
+
+            file.unlink()
+
+            return True
+
+        return False
+
+    # ------------------------------------------------------
+    # CREATE DIRECTORY
+    # ------------------------------------------------------
+
+    def create_folder(
+
+        self,
+
+        directory: str
+
+    ) -> str:
+
+        path = Path(directory)
+
+        path.mkdir(
+
+            parents=True,
+
+            exist_ok=True
+
+        )
+
+        return str(path)
+
+    # ------------------------------------------------------
+    # LIST FILES
+    # ------------------------------------------------------
+
+    def list_files(
+
+        self,
+
+        directory: str
+
+    ) -> list[str]:
+
+        directory = Path(directory)
+
+        if not directory.exists():
+
+            return []
+
+        return [
+
+            str(file)
+
+            for file in directory.iterdir()
+
+            if file.is_file()
+
+        ]
+
+    # ------------------------------------------------------
+    # FILE INFO
+    # ------------------------------------------------------
+
+    def info(
+
+        self,
+
+        path: str
+
+    ) -> dict:
+
+        file = Path(path)
+
+        stat = file.stat()
+
+        return {
+
+            "filename": file.name,
+
+            "extension": file.suffix,
+
+            "directory": str(file.parent),
+
+            "size": stat.st_size,
+
+            "created": stat.st_ctime,
+
+            "modified": stat.st_mtime
+
+        }
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\minio_storage_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# MinIO Storage Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+from minio import Minio
+from minio.error import S3Error
+
+from services.storage.base_storage_service import (
+    BaseStorageService
+)
+
+# ----------------------------------------------------------
+# MINIO STORAGE SERVICE
+# ----------------------------------------------------------
+
+class MinioStorageService(BaseStorageService):
+
+    """
+    MinIO Storage Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db,
+
+        endpoint: str,
+
+        access_key: str,
+
+        secret_key: str,
+
+        bucket: str,
+
+        secure: bool = False
+
+    ):
+
+        super().__init__(db)
+
+        self.bucket = bucket
+
+        self.client = Minio(
+
+            endpoint,
+
+            access_key=access_key,
+
+            secret_key=secret_key,
+
+            secure=secure
+
+        )
+
+    # ------------------------------------------------------
+    # CREATE BUCKET
+    # ------------------------------------------------------
+
+    def create_bucket(self):
+
+        if not self.client.bucket_exists(
+
+            self.bucket
+
+        ):
+
+            self.client.make_bucket(
+
+                self.bucket
+
+            )
+
+    # ------------------------------------------------------
+    # UPLOAD FILE
+    # ------------------------------------------------------
+
+    def upload_file(
+
+        self,
+
+        local_file: str,
+
+        object_name: str | None = None
+
+    ) -> str:
+
+        if object_name is None:
+
+            object_name = Path(
+
+                local_file
+
+            ).name
+
+        self.client.fput_object(
+
+            self.bucket,
+
+            object_name,
+
+            local_file
+
+        )
+
+        return object_name
+
+    # ------------------------------------------------------
+    # UPLOAD BYTES
+    # ------------------------------------------------------
+
+    def upload_bytes(
+
+        self,
+
+        data: bytes,
+
+        object_name: str,
+
+        content_type: str = "application/octet-stream"
+
+    ):
+
+        from io import BytesIO
+
+        stream = BytesIO(data)
+
+        self.client.put_object(
+
+            self.bucket,
+
+            object_name,
+
+            stream,
+
+            length=len(data),
+
+            content_type=content_type
+
+        )
+
+    # ------------------------------------------------------
+    # DOWNLOAD FILE
+    # ------------------------------------------------------
+
+    def download_file(
+
+        self,
+
+        object_name: str,
+
+        destination: str
+
+    ) -> str:
+
+        self.client.fget_object(
+
+            self.bucket,
+
+            object_name,
+
+            destination
+
+        )
+
+        return destination
+
+    # ------------------------------------------------------
+    # DELETE FILE
+    # ------------------------------------------------------
+
+    def delete_file(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        self.client.remove_object(
+
+            self.bucket,
+
+            object_name
+
+        )
+
+    # ------------------------------------------------------
+    # FILE EXISTS
+    # ------------------------------------------------------
+
+    def file_exists(
+
+        self,
+
+        object_name: str
+
+    ) -> bool:
+
+        try:
+
+            self.client.stat_object(
+
+                self.bucket,
+
+                object_name
+
+            )
+
+            return True
+
+        except S3Error:
+
+            return False
+
+    # ------------------------------------------------------
+    # LIST FILES
+    # ------------------------------------------------------
+
+    def list_files(
+
+        self,
+
+        prefix: str = ""
+
+    ) -> list[str]:
+
+        return [
+
+            obj.object_name
+
+            for obj in self.client.list_objects(
+
+                self.bucket,
+
+                prefix=prefix,
+
+                recursive=True
+
+            )
+
+        ]
+
+    # ------------------------------------------------------
+    # GET METADATA
+    # ------------------------------------------------------
+
+    def get_metadata(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        return self.client.stat_object(
+
+            self.bucket,
+
+            object_name
+
+        )
+
+    # ------------------------------------------------------
+    # COPY FILE
+    # ------------------------------------------------------
+
+    def copy_file(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ):
+
+        from minio.commonconfig import CopySource
+
+        self.client.copy_object(
+
+            self.bucket,
+
+            destination,
+
+            CopySource(
+
+                self.bucket,
+
+                source
+
+            )
+
+        )
+
+    # ------------------------------------------------------
+    # MOVE FILE
+    # ------------------------------------------------------
+
+    def move_file(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ):
+
+        self.copy_file(
+
+            source,
+
+            destination
+
+        )
+
+        self.delete_file(
+
+            source
+
+        )
+
+    # ------------------------------------------------------
+    # PRESIGNED URL
+    # ------------------------------------------------------
+
+    def generate_presigned_url(
+
+        self,
+
+        object_name: str,
+
+        expires: int = 3600
+
+    ):
+
+        from datetime import timedelta
+
+        return self.client.presigned_get_object(
+
+            self.bucket,
+
+            object_name,
+
+            expires=timedelta(
+
+                seconds=expires
+
+            )
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\r2_storage_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Cloudflare R2 Storage Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+import boto3
+
+from botocore.client import Config
+
+from services.storage.base_storage_service import BaseStorageService
+
+# ----------------------------------------------------------
+# R2 STORAGE SERVICE
+# ----------------------------------------------------------
+
+class R2StorageService(BaseStorageService):
+
+    """
+    Cloudflare R2 Storage Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db,
+
+        endpoint_url: str,
+
+        access_key: str,
+
+        secret_key: str,
+
+        bucket_name: str
+
+    ):
+
+        super().__init__(db)
+
+        self.bucket = bucket_name
+
+        self.client = boto3.client(
+
+            "s3",
+
+            endpoint_url=endpoint_url,
+
+            aws_access_key_id=access_key,
+
+            aws_secret_access_key=secret_key,
+
+            config=Config(
+
+                signature_version="s3v4"
+
+            )
+
+        )
+
+    # ------------------------------------------------------
+    # UPLOAD
+    # ------------------------------------------------------
+
+    def upload(
+
+        self,
+
+        local_file: str,
+
+        object_name: str
+
+    ):
+
+        self.client.upload_file(
+
+            local_file,
+
+            self.bucket,
+
+            object_name
+
+        )
+
+        return object_name
+
+    # ------------------------------------------------------
+    # DOWNLOAD
+    # ------------------------------------------------------
+
+    def download(
+
+        self,
+
+        object_name: str,
+
+        destination: str
+
+    ):
+
+        self.client.download_file(
+
+            self.bucket,
+
+            object_name,
+
+            destination
+
+        )
+
+        return destination
+
+    # ------------------------------------------------------
+    # DELETE
+    # ------------------------------------------------------
+
+    def delete(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        self.client.delete_object(
+
+            Bucket=self.bucket,
+
+            Key=object_name
+
+        )
+
+    # ------------------------------------------------------
+    # URL
+    # ------------------------------------------------------
+
+    def url(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        return f"{self.bucket}/{object_name}"
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\s3_storage_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Amazon S3 Storage Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+
+import boto3
+
+from botocore.exceptions import ClientError
+
+from services.storage.base_storage_service import (
+    BaseStorageService
+)
+
+# ----------------------------------------------------------
+# S3 STORAGE SERVICE
+# ----------------------------------------------------------
+
+class S3StorageService(BaseStorageService):
+
+    """
+    Amazon S3 Storage Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db,
+
+        bucket: str,
+
+        region: str,
+
+        access_key: str,
+
+        secret_key: str
+
+    ):
+
+        super().__init__(db)
+
+        self.bucket = bucket
+
+        self.client = boto3.client(
+
+            "s3",
+
+            region_name=region,
+
+            aws_access_key_id=access_key,
+
+            aws_secret_access_key=secret_key
+
+        )
+
+    # ------------------------------------------------------
+    # CREATE BUCKET
+    # ------------------------------------------------------
+
+    def create_bucket(self):
+
+        try:
+
+            self.client.head_bucket(
+
+                Bucket=self.bucket
+
+            )
+
+        except ClientError:
+
+            self.client.create_bucket(
+
+                Bucket=self.bucket
+
+            )
+
+    # ------------------------------------------------------
+    # UPLOAD FILE
+    # ------------------------------------------------------
+
+    def upload_file(
+
+        self,
+
+        local_file: str,
+
+        object_name: str | None = None
+
+    ) -> str:
+
+        if object_name is None:
+
+            object_name = Path(local_file).name
+
+        self.client.upload_file(
+
+            local_file,
+
+            self.bucket,
+
+            object_name
+
+        )
+
+        return object_name
+
+    # ------------------------------------------------------
+    # UPLOAD BYTES
+    # ------------------------------------------------------
+
+    def upload_bytes(
+
+        self,
+
+        data: bytes,
+
+        object_name: str
+
+    ):
+
+        self.client.put_object(
+
+            Bucket=self.bucket,
+
+            Key=object_name,
+
+            Body=data
+
+        )
+
+    # ------------------------------------------------------
+    # DOWNLOAD FILE
+    # ------------------------------------------------------
+
+    def download_file(
+
+        self,
+
+        object_name: str,
+
+        destination: str
+
+    ):
+
+        self.client.download_file(
+
+            self.bucket,
+
+            object_name,
+
+            destination
+
+        )
+
+        return destination
+
+    # ------------------------------------------------------
+    # DELETE FILE
+    # ------------------------------------------------------
+
+    def delete_file(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        self.client.delete_object(
+
+            Bucket=self.bucket,
+
+            Key=object_name
+
+        )
+
+    # ------------------------------------------------------
+    # FILE EXISTS
+    # ------------------------------------------------------
+
+    def file_exists(
+
+        self,
+
+        object_name: str
+
+    ) -> bool:
+
+        try:
+
+            self.client.head_object(
+
+                Bucket=self.bucket,
+
+                Key=object_name
+
+            )
+
+            return True
+
+        except ClientError:
+
+            return False
+
+    # ------------------------------------------------------
+    # LIST FILES
+    # ------------------------------------------------------
+
+    def list_files(
+
+        self,
+
+        prefix: str = ""
+
+    ) -> list:
+
+        response = self.client.list_objects_v2(
+
+            Bucket=self.bucket,
+
+            Prefix=prefix
+
+        )
+
+        return [
+
+            obj["Key"]
+
+            for obj in response.get(
+
+                "Contents",
+
+                []
+
+            )
+
+        ]
+
+    # ------------------------------------------------------
+    # METADATA
+    # ------------------------------------------------------
+
+    def get_metadata(
+
+        self,
+
+        object_name: str
+
+    ):
+
+        return self.client.head_object(
+
+            Bucket=self.bucket,
+
+            Key=object_name
+
+        )
+
+    # ------------------------------------------------------
+    # COPY
+    # ------------------------------------------------------
+
+    def copy_file(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ):
+
+        self.client.copy_object(
+
+            Bucket=self.bucket,
+
+            CopySource=f"{self.bucket}/{source}",
+
+            Key=destination
+
+        )
+
+    # ------------------------------------------------------
+    # MOVE
+    # ------------------------------------------------------
+
+    def move_file(
+
+        self,
+
+        source: str,
+
+        destination: str
+
+    ):
+
+        self.copy_file(
+
+            source,
+
+            destination
+
+        )
+
+        self.delete_file(
+
+            source
+
+        )
+
+    # ------------------------------------------------------
+    # PRESIGNED URL
+    # ------------------------------------------------------
+
+    def generate_presigned_url(
+
+        self,
+
+        object_name: str,
+
+        expires: int = 3600
+
+    ) -> str:
+
+        return self.client.generate_presigned_url(
+
+            "get_object",
+
+            Params={
+
+                "Bucket": self.bucket,
+
+                "Key": object_name
+
+            },
+
+            ExpiresIn=expires
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\storage\upload_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Upload Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from pathlib import Path
+from uuid import uuid4
+
+from fastapi import UploadFile
+from sqlalchemy.orm import Session
+
+from models.file import File
+
+from repositories.file_repository import FileRepository
+
+from services.storage.local_storage_service import (
+    LocalStorageService
+)
+
+from core.logger import info
+
+# ----------------------------------------------------------
+# UPLOAD SERVICE
+# ----------------------------------------------------------
+
+class UploadService(LocalStorageService):
+
+    """
+    Upload Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        super().__init__(db)
+
+        self.repository = FileRepository(db)
+
+    # ------------------------------------------------------
+    # GENERATE NAME
+    # ------------------------------------------------------
+
+    def generate_filename(
+
+        self,
+
+        filename: str
+
+    ) -> str:
+
+        extension = Path(filename).suffix.lower()
+
+        return f"{uuid4().hex}{extension}"
+
+    # ------------------------------------------------------
+    # UPLOAD
+    # ------------------------------------------------------
+
+    def upload(
+
+        self,
+
+        upload_file: UploadFile,
+
+        upload_directory: str,
+
+        user_id: int
+
+    ) -> File:
+
+        self.create_folder(
+
+            upload_directory
+
+        )
+
+        filename = self.generate_filename(
+
+            upload_file.filename
+
+        )
+
+        destination = (
+
+            Path(upload_directory)
+
+            / filename
+
+        )
+
+        self.save(
+
+            upload_file,
+
+            str(destination)
+
+        )
+
+        file = File(
+
+            user_id=user_id,
+
+            filename=filename,
+
+            original_filename=upload_file.filename,
+
+            file_path=str(destination),
+
+            file_type=destination.suffix.lower(),
+
+            mime_type=upload_file.content_type,
+
+            file_size=destination.stat().st_size,
+
+            status="uploaded"
+
+        )
+
+        file = self.repository.create(
+
+            file
+
+        )
+
+        self.save_history(
+
+            user_id,
+
+            file.id,
+
+            "upload"
+
+        )
+
+        self.log(
+
+            f"Uploaded: {filename}"
+
+        )
+
+        return file
+
+    # ------------------------------------------------------
+    # MULTIPLE UPLOAD
+    # ------------------------------------------------------
+
+    def upload_multiple(
+
+        self,
+
+        files: list[UploadFile],
+
+        upload_directory: str,
+
+        user_id: int
+
+    ) -> list[File]:
+
+        uploaded = []
+
+        for file in files:
+
+            uploaded.append(
+
+                self.upload(
+
+                    file,
+
+                    upload_directory,
+
+                    user_id
+
+                )
+
+            )
+
+        return uploaded
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\user\__init__.py
+=======================================================
+
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\user\api_key_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# API Key Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+import secrets
+
+from sqlalchemy.orm import Session
+
+from repositories.api_key_repository import ApiKeyRepository
+
+from repositories.user_repository import UserRepository
+
+from models.api_key import ApiKey
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# API KEY SERVICE
+# ----------------------------------------------------------
+
+class ApiKeyService:
+
+    """
+    User API Key Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.api_repository = ApiKeyRepository(
+
+            db
+
+        )
+
+        self.user_repository = UserRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        user_id: int
+
+    ):
+
+        user = self.user_repository.get_by_id(
+
+            user_id
+
+        )
+
+        if user is None:
+
+            raise RecordNotFoundException(
+
+                "User"
+
+            )
+
+        return user
+
+    # ------------------------------------------------------
+    # GENERATE KEY
+    # ------------------------------------------------------
+
+    def generate_key(
+
+        self
+
+    ) -> str:
+
+        return secrets.token_urlsafe(
+
+            48
+
+        )
+
+    # ------------------------------------------------------
+    # CREATE
+    # ------------------------------------------------------
+
+    def create(
+
+        self,
+
+        user_id: int,
+
+        name: str = "Default API Key"
+
+    ) -> ApiKey:
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        api_key = ApiKey(
+
+            user_id=user_id,
+
+            name=name,
+
+            api_key=self.generate_key(),
+
+            is_active=True
+
+        )
+
+        api_key = self.api_repository.create(
+
+            api_key
+
+        )
+
+        info(
+
+            f"API Key created: {user_id}"
+
+        )
+
+        return api_key
+
+    # ------------------------------------------------------
+    # GET USER KEYS
+    # ------------------------------------------------------
+
+    def get_keys(
+
+        self,
+
+        user_id: int
+
+    ):
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        return self.api_repository.get_user_keys(
+
+            user_id
+
+        )
+
+    # ------------------------------------------------------
+    # REGENERATE
+    # ------------------------------------------------------
+
+    def regenerate(
+
+        self,
+
+        key_id: int
+
+    ) -> ApiKey:
+
+        api_key = self.api_repository.get_by_id(
+
+            key_id
+
+        )
+
+        if api_key is None:
+
+            raise RecordNotFoundException(
+
+                "API Key"
+
+            )
+
+        api_key.api_key = self.generate_key()
+
+        api_key = self.api_repository.update(
+
+            api_key
+
+        )
+
+        info(
+
+            f"API Key regenerated: {key_id}"
+
+        )
+
+        return api_key
+
+    # ------------------------------------------------------
+    # ACTIVATE
+    # ------------------------------------------------------
+
+    def activate(
+
+        self,
+
+        key_id: int
+
+    ) -> ApiKey:
+
+        api_key = self.api_repository.get_by_id(
+
+            key_id
+
+        )
+
+        if api_key is None:
+
+            raise RecordNotFoundException(
+
+                "API Key"
+
+            )
+
+        return self.api_repository.activate(
+
+            api_key
+
+        )
+
+    # ------------------------------------------------------
+    # DEACTIVATE
+    # ------------------------------------------------------
+
+    def deactivate(
+
+        self,
+
+        key_id: int
+
+    ) -> ApiKey:
+
+        api_key = self.api_repository.get_by_id(
+
+            key_id
+
+        )
+
+        if api_key is None:
+
+            raise RecordNotFoundException(
+
+                "API Key"
+
+            )
+
+        return self.api_repository.deactivate(
+
+            api_key
+
+        )
+
+    # ------------------------------------------------------
+    # DELETE
+    # ------------------------------------------------------
+
+    def delete(
+
+        self,
+
+        key_id: int
+
+    ) -> None:
+
+        api_key = self.api_repository.get_by_id(
+
+            key_id
+
+        )
+
+        if api_key is None:
+
+            raise RecordNotFoundException(
+
+                "API Key"
+
+            )
+
+        self.api_repository.delete(
+
+            api_key
+
+        )
+
+        info(
+
+            f"API Key deleted: {key_id}"
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\user\history_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# History Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from repositories.history_repository import HistoryRepository
+
+from repositories.user_repository import UserRepository
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+# ----------------------------------------------------------
+# HISTORY SERVICE
+# ----------------------------------------------------------
+
+class HistoryService:
+
+    """
+    User History Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.history_repository = HistoryRepository(
+
+            db
+
+        )
+
+        self.user_repository = UserRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get_user(
+
+        self,
+
+        user_id: int
+
+    ):
+
+        user = self.user_repository.get_by_id(
+
+            user_id
+
+        )
+
+        if user is None:
+
+            raise RecordNotFoundException(
+
+                "User"
+
+            )
+
+        return user
+
+    # ------------------------------------------------------
+    # GET HISTORY
+    # ------------------------------------------------------
+
+    def get_history(
+
+        self,
+
+        user_id: int
+
+    ):
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        return self.history_repository.get_by_user(
+
+            user_id
+
+        )
+
+    # ------------------------------------------------------
+    # GET ACTION
+    # ------------------------------------------------------
+
+    def get_action(
+
+        self,
+
+        user_id: int,
+
+        action: str
+
+    ):
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        return self.history_repository.get_user_action(
+
+            user_id,
+
+            action
+
+        )
+
+    # ------------------------------------------------------
+    # GET FILE HISTORY
+    # ------------------------------------------------------
+
+    def get_file_history(
+
+        self,
+
+        file_id: int
+
+    ):
+
+        return self.history_repository.get_by_file(
+
+            file_id
+
+        )
+
+    # ------------------------------------------------------
+    # DELETE HISTORY
+    # ------------------------------------------------------
+
+    def delete_history(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        return self.history_repository.delete_by_user(
+
+            user_id
+
+        )
+
+    # ------------------------------------------------------
+    # TOTAL HISTORY
+    # ------------------------------------------------------
+
+    def total_history(
+
+        self,
+
+        user_id: int
+
+    ) -> int:
+
+        self.get_user(
+
+            user_id
+
+        )
+
+        return self.history_repository.count_by_user(
+
+            user_id
+
+        )
+
+    # ------------------------------------------------------
+    # TOTAL ACTION
+    # ------------------------------------------------------
+
+    def total_action(
+
+        self,
+
+        action: str
+
+    ) -> int:
+
+        return self.history_repository.count_by_action(
+
+            action
+
+        )
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\user\profile_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# Profile Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from repositories.user_repository import UserRepository
+
+from schemas.user import (
+
+    ProfileUpdate,
+
+    ChangePassword
+
+)
+
+from core.security import (
+
+    hash_password,
+
+    verify_password
+
+)
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException
+
+)
+
+from exceptions.auth import (
+
+    InvalidCredentialsException
+
+)
+
+# ----------------------------------------------------------
+# PROFILE SERVICE
+# ----------------------------------------------------------
+
+class ProfileService:
+
+    """
+    User Profile Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.repository = UserRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET PROFILE
+    # ------------------------------------------------------
+
+    def get_profile(
+
+        self,
+
+        user_id: int
+
+    ):
+
+        user = self.repository.get_by_id(
+
+            user_id
+
+        )
+
+        if user is None:
+
+            raise RecordNotFoundException(
+
+                "User"
+
+            )
+
+        return user
+
+    # ------------------------------------------------------
+    # UPDATE PROFILE
+    # ------------------------------------------------------
+
+    def update_profile(
+
+        self,
+
+        user_id: int,
+
+        data: ProfileUpdate
+
+    ):
+
+        user = self.get_profile(
+
+            user_id
+
+        )
+
+        update_data = data.model_dump(
+
+            exclude_none=True,
+
+            exclude_unset=True
+
+        )
+
+        for field, value in update_data.items():
+
+            if hasattr(
+
+                user,
+
+                field
+
+            ):
+
+                setattr(
+
+                    user,
+
+                    field,
+
+                    value
+
+                )
+
+        user = self.repository.update(
+
+            user
+
+        )
+
+        info(
+
+            f"Profile updated: {user.email}"
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # CHANGE PASSWORD
+    # ------------------------------------------------------
+
+    def change_password(
+
+        self,
+
+        user_id: int,
+
+        data: ChangePassword
+
+    ):
+
+        user = self.get_profile(
+
+            user_id
+
+        )
+
+        if not verify_password(
+
+            data.old_password,
+
+            user.password_hash
+
+        ):
+
+            raise InvalidCredentialsException()
+
+        user.password_hash = hash_password(
+
+            data.new_password
+
+        )
+
+        user = self.repository.update(
+
+            user
+
+        )
+
+        info(
+
+            f"Password changed: {user.email}"
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # UPDATE AVATAR
+    # ------------------------------------------------------
+
+    def update_avatar(
+
+        self,
+
+        user_id: int,
+
+        avatar: str
+
+    ):
+
+        user = self.get_profile(
+
+            user_id
+
+        )
+
+        user.profile_image = avatar
+
+        user = self.repository.update(
+
+            user
+
+        )
+
+        info(
+
+            f"Avatar updated: {user.email}"
+
+        )
+
+        return user
+
+
+
+=======================================================
+FILE : C:\M R\PDF Master AI\pdf-master\backend\services\user\user_service.py
+=======================================================
+
+# ==========================================================
+# PDF MASTER AI
+# User Service
+# ==========================================================
+
+# ----------------------------------------------------------
+# IMPORT
+# ----------------------------------------------------------
+
+from sqlalchemy.orm import Session
+
+from models.user import User
+
+from repositories.user_repository import UserRepository
+
+from schemas.user import (
+
+    UserCreate,
+
+    UserUpdate
+
+)
+
+from core.security import hash_password
+
+from core.logger import info
+
+from exceptions.database import (
+
+    RecordNotFoundException,
+
+    DuplicateRecordException
+
+)
+
+# ----------------------------------------------------------
+# USER SERVICE
+# ----------------------------------------------------------
+
+class UserService:
+
+    """
+    User Management Service.
+    """
+
+    def __init__(
+
+        self,
+
+        db: Session
+
+    ):
+
+        self.repository = UserRepository(
+
+            db
+
+        )
+
+    # ------------------------------------------------------
+    # GET USER
+    # ------------------------------------------------------
+
+    def get(
+
+        self,
+
+        user_id: int
+
+    ) -> User:
+
+        user = self.repository.get_by_id(
+
+            user_id
+
+        )
+
+        if user is None:
+
+            raise RecordNotFoundException(
+
+                "User"
+
+            )
+
+        return user
+
+    # ------------------------------------------------------
+    # GET ALL
+    # ------------------------------------------------------
+
+    def get_all(
+
+        self
+
+    ) -> list[User]:
+
+        return self.repository.get_all()
+
+    # ------------------------------------------------------
+    # CREATE
+    # ------------------------------------------------------
+
+    def create(
+
+        self,
+
+        data: UserCreate
+
+    ) -> User:
+
+        if self.repository.email_exists(
+
+            data.email
+
+        ):
+
+            raise DuplicateRecordException(
+
+                "Email"
+
+            )
+
+        if self.repository.username_exists(
+
+            data.username
+
+        ):
+
+            raise DuplicateRecordException(
+
+                "Username"
+
+            )
+
+        user = User(
+
+            full_name=data.full_name,
+
+            username=data.username,
+
+            email=data.email,
+
+            password_hash=hash_password(
+
+                data.password
+
+            ),
+
+            role="user",
+
+            is_active=True,
+
+            is_verified=False,
+
+            is_admin=False
+
+        )
+
+        user = self.repository.create(
+
+            user
+
+        )
+
+        info(
+
+            f"User created: {user.email}"
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # UPDATE
+    # ------------------------------------------------------
+
+    def update(
+
+        self,
+
+        user_id: int,
+
+        data: UserUpdate
+
+    ) -> User:
+
+        user = self.get(
+
+            user_id
+
+        )
+
+        update_data = data.model_dump(
+
+            exclude_unset=True,
+
+            exclude_none=True
+
+        )
+
+        for field, value in update_data.items():
+
+            if field == "password":
+
+                user.password_hash = hash_password(
+
+                    value
+
+                )
+
+            elif hasattr(user, field):
+
+                setattr(
+
+                    user,
+
+                    field,
+
+                    value
+
+                )
+
+        user = self.repository.update(
+
+            user
+
+        )
+
+        info(
+
+            f"User updated: {user.email}"
+
+        )
+
+        return user
+
+    # ------------------------------------------------------
+    # DELETE
+    # ------------------------------------------------------
+
+    def delete(
+
+        self,
+
+        user_id: int
+
+    ) -> None:
+
+        user = self.get(
+
+            user_id
+
+        )
+
+        self.repository.delete(
+
+            user
+
+        )
+
+        info(
+
+            f"User deleted: {user.email}"
+
+        )
+
+    # ------------------------------------------------------
+    # ACTIVATE
+    # ------------------------------------------------------
+
+    def activate(
+
+        self,
+
+        user_id: int
+
+    ) -> User:
+
+        user = self.get(
+
+            user_id
+
+        )
+
+        return self.repository.activate(
+
+            user
+
+        )
+
+    # ------------------------------------------------------
+    # DEACTIVATE
+    # ------------------------------------------------------
+
+    def deactivate(
+
+        self,
+
+        user_id: int
+
+    ) -> User:
+
+        user = self.get(
+
+            user_id
+
+        )
+
+        return self.repository.deactivate(
+
+            user
+
+        )
+
+

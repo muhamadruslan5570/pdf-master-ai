@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+
+  # ========================================================
+  # FASTAPI BACKEND
+  # ========================================================
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: pdf-master-backend
+
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - backend/.env
+
+    volumes:
+      - ./backend:/app
+      - ./logs:/app/logs
+      - ./temp:/app/temp
+
+    depends_on:
+      - postgres
+
+    networks:
+      - pdf-master-network
+
+
+
+  # ========================================================
+  # POSTGRESQL
+  # ========================================================
+
+  postgres:
+
+    image: postgres:16
+
+    container_name: pdf-master-postgres
+
+    restart: unless-stopped
+
+    environment:
+
+      POSTGRES_DB: pdf_master
+
+      POSTGRES_USER: postgres
+
+      POSTGRES_PASSWORD: password
+
+    ports:
+
+      - "5432:5432"
+
+    volumes:
+
+      - postgres-data:/var/lib/postgresql/data
+
+    networks:
+
+      - pdf-master-network
+
+
+
+# ==========================================================
+# VOLUMES
+# ==========================================================
+
+volumes:
+
+  postgres-data:
+
+
+
+# ==========================================================
+# NETWORK
+# ==========================================================
+
+networks:
+
+  pdf-master-network:
+
+    driver: bridge

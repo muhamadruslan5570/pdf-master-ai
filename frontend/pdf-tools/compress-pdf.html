@@ -1,0 +1,2020 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kompres PDF Online | PDF Master AI</title>
+
+<meta name="description"
+      content="Kompres PDF dengan mudah menggunakan PDF Master AI. Kurangi ukuran file PDF tanpa proses yang rumit.">
+
+<meta name="robots" content="index, follow">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+    --primary:#5b5cf0;
+    --primary-dark:#4748d7;
+    --secondary:#7c3aed;
+    --text:#111827;
+    --soft:#374151;
+    --muted:#6b7280;
+    --bg:#f7f8fc;
+    --white:#fff;
+    --border:#e5e7eb;
+    --success:#16a34a;
+    --danger:#dc2626;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",
+    Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+}
+
+button,input{font:inherit}
+
+button{cursor:pointer}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:min(calc(100% - 40px),1180px);
+    margin:auto;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.site-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+}
+
+.navbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+}
+
+.logo-title{
+    display:block;
+    font-size:17px;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.logo-sub{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    color:var(--soft);
+    font-size:13px;
+}
+
+.nav-links a:hover{
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:9px;
+}
+
+.btn{
+    min-height:40px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    color:var(--text);
+    font-size:12px;
+    font-weight:750;
+    transition:.2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.menu-button{
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    font-size:20px;
+}
+
+.mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:#fff;
+    padding:14px 0 20px;
+}
+
+.mobile-menu.active{
+    display:block;
+}
+
+.mobile-menu a{
+    display:block;
+    padding:11px 0;
+    color:var(--soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero{
+    padding:62px 0 42px;
+    text-align:center;
+    background:linear-gradient(135deg,#eef0ff,#f7f8fc 55%,#f0eaff);
+}
+
+.eyebrow{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:850;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:9px;
+}
+
+.hero h1{
+    font-size:clamp(32px,5vw,50px);
+    line-height:1.1;
+    letter-spacing:-1.8px;
+    margin-bottom:13px;
+}
+
+.hero h1 span{
+    color:var(--primary);
+}
+
+.hero p{
+    max-width:680px;
+    margin:auto;
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ==========================================================
+   TOOL
+========================================================== */
+
+.tool-section{
+    padding:35px 0 75px;
+}
+
+.tool-layout{
+    display:grid;
+    grid-template-columns:minmax(0,760px) 280px;
+    gap:22px;
+    align-items:start;
+    justify-content:center;
+}
+
+.tool-card,
+.info-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:0 8px 28px rgba(17,24,39,.05);
+}
+
+.tool-card{
+    padding:24px;
+}
+
+.drop-zone{
+    position:relative;
+    min-height:270px;
+    border:2px dashed #cfd2f5;
+    border-radius:14px;
+    background:#fafaff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    transition:.2s ease;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover{
+    border-color:var(--primary);
+    background:#f4f4ff;
+}
+
+.upload-icon{
+    width:64px;
+    height:64px;
+    border-radius:16px;
+    background:#eef0ff;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    font-weight:900;
+    margin-bottom:15px;
+}
+
+.drop-zone h2{
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+.drop-zone p{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:16px;
+}
+
+.file-input{
+    display:none;
+}
+
+.select-file{
+    min-height:43px;
+    padding:0 20px;
+    border:0;
+    border-radius:9px;
+    background:var(--primary);
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+}
+
+.select-file:hover{
+    background:var(--primary-dark);
+}
+
+.file-limit{
+    margin-top:11px;
+    color:#9ca3af;
+    font-size:9px;
+}
+
+/* FILE PREVIEW */
+
+.file-preview{
+    display:none;
+    margin-top:18px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    padding:14px;
+    background:#fafafa;
+}
+
+.file-preview.show{
+    display:block;
+}
+
+.file-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.pdf-icon{
+    width:42px;
+    height:42px;
+    border-radius:8px;
+    background:#fee2e2;
+    color:#dc2626;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:900;
+}
+
+.file-info{
+    min-width:0;
+    flex:1;
+}
+
+.file-name{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:11px;
+    font-weight:750;
+}
+
+.file-size{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
+
+.remove-file{
+    width:34px;
+    height:34px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:#fff;
+    color:var(--danger);
+    font-weight:900;
+}
+
+/* OPTIONS */
+
+.options{
+    margin-top:20px;
+}
+
+.options-title{
+    font-size:12px;
+    font-weight:850;
+    margin-bottom:11px;
+}
+
+.compression-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.option{
+    position:relative;
+}
+
+.option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.option label{
+    display:block;
+    min-height:92px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#fff;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.option label:hover{
+    border-color:#bfc2f5;
+}
+
+.option input:checked + label{
+    border-color:var(--primary);
+    background:#f3f3ff;
+    box-shadow:0 0 0 2px rgba(91,92,240,.08);
+}
+
+.option-name{
+    display:block;
+    font-size:11px;
+    font-weight:850;
+    margin-bottom:4px;
+}
+
+.option-desc{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* ACTION */
+
+.action-area{
+    margin-top:20px;
+}
+
+.compress-button{
+    width:100%;
+    min-height:48px;
+    border:0;
+    border-radius:9px;
+    background:var(--primary);
+    color:#fff;
+    font-size:12px;
+    font-weight:850;
+    transition:.2s ease;
+}
+
+.compress-button:hover:not(:disabled){
+    background:var(--primary-dark);
+}
+
+.compress-button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* PROGRESS */
+
+.progress-box{
+    display:none;
+    margin-top:20px;
+    padding:17px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:#fafafa;
+}
+
+.progress-box.show{
+    display:block;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:9px;
+    font-size:10px;
+    font-weight:750;
+}
+
+.progress-percent{
+    color:var(--primary);
+}
+
+.progress-track{
+    height:8px;
+    border-radius:20px;
+    background:#e5e7eb;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+    transition:width .25s ease;
+}
+
+.progress-message{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:8px;
+}
+
+/* RESULT */
+
+.result-box{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border:1px solid #bbf7d0;
+    border-radius:12px;
+    background:#f0fdf4;
+}
+
+.result-box.show{
+    display:block;
+}
+
+.result-title{
+    color:#166534;
+    font-size:14px;
+    font-weight:850;
+    margin-bottom:13px;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.result-item{
+    padding:11px;
+    border-radius:8px;
+    background:#fff;
+    border:1px solid #dcfce7;
+}
+
+.result-label{
+    color:var(--muted);
+    font-size:8px;
+    display:block;
+    margin-bottom:3px;
+}
+
+.result-value{
+    font-size:12px;
+    font-weight:850;
+}
+
+.saved{
+    color:var(--success);
+}
+
+.result-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.download-button,
+.new-file-button{
+    flex:1;
+    min-height:42px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.download-button{
+    border:0;
+    background:var(--success);
+    color:#fff;
+}
+
+.new-file-button{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+}
+
+/* ERROR */
+
+.error-box{
+    display:none;
+    margin-top:15px;
+    padding:12px 14px;
+    border:1px solid #fecaca;
+    border-radius:9px;
+    background:#fef2f2;
+    color:#991b1b;
+    font-size:10px;
+}
+
+.error-box.show{
+    display:block;
+}
+
+/* INFO SIDE */
+
+.info-card{
+    padding:20px;
+}
+
+.info-card h3{
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.info-list{
+    list-style:none;
+    display:grid;
+    gap:11px;
+}
+
+.info-list li{
+    position:relative;
+    padding-left:21px;
+    color:var(--soft);
+    font-size:10px;
+}
+
+.info-list li::before{
+    content:"âœ“";
+    position:absolute;
+    left:0;
+    top:0;
+    color:var(--success);
+    font-weight:900;
+}
+
+.info-divider{
+    height:1px;
+    background:var(--border);
+    margin:18px 0;
+}
+
+.info-card p{
+    color:var(--muted);
+    font-size:9px;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.footer{
+    background:#111827;
+    color:#fff;
+    padding:35px 0 22px;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:20px;
+    color:#d1d5db;
+    font-size:10px;
+}
+
+.footer-links a:hover{
+    color:#fff;
+}
+
+.footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding-top:20px;
+    border-top:1px solid #374151;
+    color:#6b7280;
+    font-size:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .nav-links,
+    .nav-actions{
+        display:none;
+    }
+
+    .menu-button{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .tool-layout{
+        grid-template-columns:1fr;
+        max-width:760px;
+        margin:auto;
+    }
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:calc(100% - 28px);
+    }
+
+    .hero{
+        padding:45px 0 35px;
+    }
+
+    .tool-section{
+        padding:25px 0 55px;
+    }
+
+    .tool-card{
+        padding:16px;
+    }
+
+    .drop-zone{
+        min-height:230px;
+        padding:20px;
+    }
+
+    .compression-options{
+        grid-template-columns:1fr;
+    }
+
+    .result-grid{
+        grid-template-columns:1fr;
+    }
+
+    .result-actions{
+        flex-direction:column;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+}
+</style>
+<link rel="icon" type="image/png" href="../assets/logo.png">
+</head>
+
+<body>
+<header class="site-header">
+
+<nav class="navbar container">
+
+<a href="index.html" class="logo">
+<div class="logo-icon">P</div>
+<div>
+<span class="logo-title">PDF Master AI</span>
+<span class="logo-sub">Smart PDF Workspace</span>
+</div>
+</a>
+
+<div class="nav-links">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+</div>
+
+<div class="nav-actions">
+<a href="login.html" class="btn">Login</a>
+<a href="register.html" class="btn btn-primary">Daftar Gratis</a>
+</div>
+
+<button
+    type="button"
+    class="menu-button"
+    id="menuButton"
+    aria-expanded="false"
+    aria-label="Buka menu">
+    â˜°
+</button>
+
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+<div class="container">
+<a href="index.html#tools">PDF Tools</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="pricing.html">Harga</a>
+<a href="profile.html">Profil</a>
+<a href="login.html">Login</a>
+<a href="register.html">Daftar Gratis</a>
+</div>
+</div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+<div class="container">
+
+<div class="eyebrow">
+PDF Compressor
+</div>
+
+<h1>
+Kompres <span>PDF</span> dengan Mudah
+</h1>
+
+<p>
+Kurangi ukuran file PDF agar lebih mudah disimpan, dikirim,
+dan dibagikan tanpa proses yang rumit.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="tool-section">
+
+<div class="container">
+
+<div class="tool-layout">
+
+
+<div class="tool-card">
+
+<div
+    class="drop-zone"
+    id="dropZone">
+
+<div class="upload-icon">
+PDF
+</div>
+
+<h2>
+Upload file PDF
+</h2>
+
+<p>
+Tarik dan letakkan file PDF di sini,
+atau pilih file dari perangkat Anda.
+</p>
+
+<input
+    type="file"
+    id="fileInput"
+    class="file-input"
+    accept="application/pdf,.pdf">
+
+<button
+    type="button"
+    class="select-file"
+    id="selectFileButton">
+Pilih File PDF
+</button>
+
+<div class="file-limit">
+Format: PDF Â· Maksimal 100 MB
+</div>
+
+</div>
+
+
+<div
+    class="file-preview"
+    id="filePreview">
+
+<div class="file-row">
+
+<div class="pdf-icon">
+PDF
+</div>
+
+<div class="file-info">
+
+<div
+    class="file-name"
+    id="fileName">
+-
+</div>
+
+<div
+    class="file-size"
+    id="fileSize">
+-
+</div>
+
+</div>
+
+<button
+    type="button"
+    class="remove-file"
+    id="removeFileButton"
+    aria-label="Hapus file">
+Ã—
+</button>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<div class="options-title">
+Pilih tingkat kompresi
+</div>
+
+<div class="compression-options">
+
+<div class="option">
+
+<input
+    type="radio"
+    id="extreme"
+    name="compression"
+    value="extreme">
+
+<label for="extreme">
+
+<span class="option-name">
+Extreme
+</span>
+
+<span class="option-desc">
+Ukuran paling kecil dengan kompresi lebih tinggi.
+</span>
+
+</label>
+
+</div>
+
+
+<div class="option">
+
+<input
+    type="radio"
+    id="recommended"
+    name="compression"
+    value="recommended"
+    checked>
+
+<label for="recommended">
+
+<span class="option-name">
+Recommended
+</span>
+
+<span class="option-desc">
+Keseimbangan antara ukuran file dan kualitas.
+</span>
+
+</label>
+
+</div>
+
+
+<div class="option">
+
+<input
+    type="radio"
+    id="less"
+    name="compression"
+    value="less">
+
+<label for="less">
+
+<span class="option-name">
+Less
+</span>
+
+<span class="option-desc">
+Kompresi ringan dengan mempertahankan kualitas lebih tinggi.
+</span>
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="action-area">
+
+<button
+    type="button"
+    class="compress-button"
+    id="compressButton"
+    disabled>
+Kompres PDF
+</button>
+
+</div>
+
+
+<div
+    class="error-box"
+    id="errorBox">
+</div>
+
+
+<div
+    class="progress-box"
+    id="progressBox">
+
+<div class="progress-header">
+
+<span id="progressTitle">
+Memproses PDF...
+</span>
+
+<span
+    class="progress-percent"
+    id="progressPercent">
+0%
+</span>
+
+</div>
+
+<div class="progress-track">
+
+<div
+    class="progress-bar"
+    id="progressBar">
+</div>
+
+</div>
+
+<div
+    class="progress-message"
+    id="progressMessage">
+Menyiapkan file...
+</div>
+
+</div>
+
+
+<div
+    class="result-box"
+    id="resultBox">
+
+<div class="result-title">
+âœ“ PDF berhasil dikompres
+</div>
+
+<div class="result-grid">
+
+<div class="result-item">
+<span class="result-label">Ukuran awal</span>
+<span
+    class="result-value"
+    id="originalSize">
+-
+</span>
+</div>
+
+<div class="result-item">
+<span class="result-label">Ukuran hasil</span>
+<span
+    class="result-value"
+    id="compressedSize">
+-
+</span>
+</div>
+
+<div class="result-item">
+<span class="result-label">Penghematan</span>
+<span
+    class="result-value saved"
+    id="savedSize">
+-
+</span>
+</div>
+
+</div>
+
+<div class="result-actions">
+
+<a
+    href="#"
+    class="download-button"
+    id="downloadButton"
+    download>
+Download PDF
+</a>
+
+<button
+    type="button"
+    class="new-file-button"
+    id="newFileButton">
+Kompres File Lain
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<aside class="info-card">
+
+<h3>
+Tentang Kompres PDF
+</h3>
+
+<ul class="info-list">
+
+<li>
+Upload satu file PDF.
+</li>
+
+<li>
+Pilih tingkat kompresi sesuai kebutuhan.
+</li>
+
+<li>
+Klik tombol Kompres PDF.
+</li>
+
+<li>
+Tunggu proses pemrosesan selesai.
+</li>
+
+<li>
+Download file PDF hasil kompresi.
+</li>
+
+</ul>
+
+<div class="info-divider"></div>
+
+<h3>
+Tips
+</h3>
+
+<p>
+Gunakan mode Recommended untuk penggunaan umum.
+Gunakan Extreme jika prioritas utama Anda adalah ukuran file yang
+lebih kecil.
+</p>
+
+<div class="info-divider"></div>
+
+<h3>
+Keamanan
+</h3>
+
+<p>
+File diproses melalui backend PDF Master AI sesuai konfigurasi
+penyimpanan dan pemrosesan yang diterapkan pada server.
+</p>
+
+</aside>
+
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-links">
+<a href="about.html">Tentang Kami</a>
+<a href="pricing.html">Harga</a>
+<a href="contact.html">Kontak</a>
+<a href="privacy-policy.html">Privacy Policy</a>
+<a href="terms-of-service.html">Terms of Service</a>
+</div>
+
+<div class="footer-bottom">
+<span>Â© 2026 PDF Master AI. All rights reserved.</span>
+<span>Smart PDF Workspace</span>
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+
+/*
+ * ==========================================================
+ * PDF MASTER AI - COMPRESS PDF
+ * ==========================================================
+ *
+ * Endpoint backend yang digunakan:
+ *
+ * POST /api/v1/pdf/compress
+ *
+ * Field multipart yang dikirim:
+ *
+ * file
+ * compression
+ *
+ * CATATAN:
+ * Jika nama endpoint atau nama field di backend berbeda,
+ * ubah API_ENDPOINT / FormData di bagian bawah.
+ * ==========================================================
+ */
+
+
+/* ==========================================================
+   CONFIG
+========================================================== */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
+const API_ENDPOINT =
+    API_BASE_URL +
+    "/api/v1/pdf/compress";
+
+const MAX_FILE_SIZE =
+    100 * 1024 * 1024;
+
+
+/* ==========================================================
+   ELEMENTS
+========================================================== */
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const dropZone =
+    document.getElementById("dropZone");
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const selectFileButton =
+    document.getElementById("selectFileButton");
+
+const filePreview =
+    document.getElementById("filePreview");
+
+const fileName =
+    document.getElementById("fileName");
+
+const fileSize =
+    document.getElementById("fileSize");
+
+const removeFileButton =
+    document.getElementById("removeFileButton");
+
+const compressButton =
+    document.getElementById("compressButton");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const progressBox =
+    document.getElementById("progressBox");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const progressMessage =
+    document.getElementById("progressMessage");
+
+const resultBox =
+    document.getElementById("resultBox");
+
+const originalSize =
+    document.getElementById("originalSize");
+
+const compressedSize =
+    document.getElementById("compressedSize");
+
+const savedSize =
+    document.getElementById("savedSize");
+
+const downloadButton =
+    document.getElementById("downloadButton");
+
+const newFileButton =
+    document.getElementById("newFileButton");
+
+
+let selectedFile = null;
+
+
+/* ==========================================================
+   MOBILE MENU
+========================================================== */
+
+menuButton.addEventListener(
+    "click",
+    function(){
+
+        const active =
+            mobileMenu.classList.toggle(
+                "active"
+            );
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            active ? "true" : "false"
+        );
+
+        menuButton.textContent =
+            active ? "Ã—" : "â˜°";
+
+    }
+);
+
+
+/* ==========================================================
+   FILE SELECT
+========================================================== */
+
+selectFileButton.addEventListener(
+    "click",
+    function(){
+
+        fileInput.click();
+
+    }
+);
+
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        if(this.files && this.files.length){
+
+            handleFile(
+                this.files[0]
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   DRAG & DROP
+========================================================== */
+
+[
+    "dragenter",
+    "dragover"
+].forEach(
+    function(eventName){
+
+        dropZone.addEventListener(
+            eventName,
+            function(event){
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                dropZone.classList.add(
+                    "dragover"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+[
+    "dragleave",
+    "drop"
+].forEach(
+    function(eventName){
+
+        dropZone.addEventListener(
+            eventName,
+            function(event){
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                dropZone.classList.remove(
+                    "dragover"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+dropZone.addEventListener(
+    "drop",
+    function(event){
+
+        const files =
+            event.dataTransfer.files;
+
+        if(
+            files &&
+            files.length
+        ){
+
+            handleFile(
+                files[0]
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   FILE HANDLING
+========================================================== */
+
+function handleFile(file){
+
+    clearError();
+
+    resultBox.classList.remove(
+        "show"
+    );
+
+    if(
+        file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")
+    ){
+
+        showError(
+            "File yang dipilih bukan PDF. Silakan pilih file dengan format .pdf."
+        );
+
+        resetFile();
+
+        return;
+
+    }
+
+
+    if(
+        file.size > MAX_FILE_SIZE
+    ){
+
+        showError(
+            "Ukuran file terlalu besar. Maksimal ukuran file adalah 100 MB."
+        );
+
+        resetFile();
+
+        return;
+
+    }
+
+
+    selectedFile = file;
+
+    fileName.textContent =
+        file.name;
+
+    fileSize.textContent =
+        formatBytes(file.size);
+
+    filePreview.classList.add(
+        "show"
+    );
+
+    compressButton.disabled =
+        false;
+
+}
+
+
+/* ==========================================================
+   REMOVE FILE
+========================================================== */
+
+removeFileButton.addEventListener(
+    "click",
+    function(){
+
+        resetFile();
+
+    }
+);
+
+
+newFileButton.addEventListener(
+    "click",
+    function(){
+
+        resetFile();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+function resetFile(){
+
+    selectedFile = null;
+
+    fileInput.value = "";
+
+    filePreview.classList.remove(
+        "show"
+    );
+
+    compressButton.disabled =
+        true;
+
+    progressBox.classList.remove(
+        "show"
+    );
+
+    resultBox.classList.remove(
+        "show"
+    );
+
+    clearError();
+
+}
+
+
+/* ==========================================================
+   COMPRESS
+========================================================== */
+
+compressButton.addEventListener(
+    "click",
+    async function(){
+
+        if(!selectedFile){
+
+            showError(
+                "Silakan pilih file PDF terlebih dahulu."
+            );
+
+            return;
+
+        }
+
+
+        clearError();
+
+        resultBox.classList.remove(
+            "show"
+        );
+
+        progressBox.classList.add(
+            "show"
+        );
+
+        compressButton.disabled =
+            true;
+
+        setProgress(
+            10,
+            "Menyiapkan file..."
+        );
+
+
+        const compression =
+            document.querySelector(
+                'input[name="compression"]:checked'
+            )?.value ||
+            "recommended";
+
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "file",
+            selectedFile
+        );
+
+        formData.append(
+            "compression",
+            compression
+        );
+
+
+        try{
+
+            setProgress(
+                25,
+                "Mengunggah PDF ke server..."
+            );
+
+
+            const response =
+                await fetch(
+                    API_ENDPOINT,
+                    {
+                        method:"POST",
+                        body:formData
+                    }
+                );
+
+
+            setProgress(
+                60,
+                "Server sedang memproses PDF..."
+            );
+
+
+            if(!response.ok){
+
+                let message =
+                    "Gagal memproses PDF.";
+
+                try{
+
+                    const data =
+                        await response.json();
+
+                    message =
+                        data.detail ||
+                        data.message ||
+                        message;
+
+                }catch(_){}
+
+                throw new Error(
+                    message
+                );
+
+            }
+
+
+            /*
+             * Backend dapat mengembalikan:
+             *
+             * 1. File PDF langsung
+             * 2. JSON berisi URL download
+             *
+             * Kode di bawah menangani keduanya.
+             */
+
+            const contentType =
+                response.headers.get(
+                    "content-type"
+                ) || "";
+
+
+            if(
+                contentType.includes(
+                    "application/json"
+                )
+            ){
+
+                const data =
+                    await response.json();
+
+                setProgress(
+                    90,
+                    "Menyiapkan hasil..."
+                );
+
+                handleJsonResult(
+                    data
+                );
+
+            }else{
+
+                const blob =
+                    await response.blob();
+
+                setProgress(
+                    90,
+                    "Menyiapkan file hasil..."
+                );
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+                const compressedBytes =
+                    blob.size;
+
+                showResult(
+                    selectedFile.size,
+                    compressedBytes,
+                    url
+                );
+
+            }
+
+
+            setProgress(
+                100,
+                "Selesai."
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Compress PDF error:",
+                error
+            );
+
+            progressBox.classList.remove(
+                "show"
+            );
+
+            showError(
+                error.message ||
+                "Terjadi kesalahan saat mengompres PDF."
+            );
+
+        }finally{
+
+            compressButton.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   JSON RESULT
+========================================================== */
+
+function handleJsonResult(data){
+
+    /*
+     * Mendukung beberapa kemungkinan nama field.
+     */
+
+    const downloadUrl =
+        data.download_url ||
+        data.url ||
+        data.file_url ||
+        data.result_url;
+
+
+    const compressedBytes =
+        Number(
+            data.compressed_size ||
+            data.output_size ||
+            data.size ||
+            0
+        );
+
+
+    if(!downloadUrl){
+
+        throw new Error(
+            "Server berhasil merespons, tetapi URL file hasil tidak ditemukan."
+        );
+
+    }
+
+
+    showResult(
+        selectedFile.size,
+        compressedBytes,
+        downloadUrl
+    );
+
+}
+
+
+/* ==========================================================
+   SHOW RESULT
+========================================================== */
+
+function showResult(
+    originalBytes,
+    compressedBytes,
+    downloadUrl
+){
+
+    const safeCompressed =
+        compressedBytes > 0
+            ? compressedBytes
+            : originalBytes;
+
+
+    const savedBytes =
+        Math.max(
+            originalBytes -
+            safeCompressed,
+            0
+        );
+
+
+    const percentage =
+        originalBytes > 0
+            ? (
+                savedBytes /
+                originalBytes *
+                100
+            )
+            : 0;
+
+
+    originalSize.textContent =
+        formatBytes(
+            originalBytes
+        );
+
+
+    compressedSize.textContent =
+        formatBytes(
+            safeCompressed
+        );
+
+
+    savedSize.textContent =
+        formatBytes(
+            savedBytes
+        ) +
+        " (" +
+        percentage.toFixed(1) +
+        "%)";
+
+
+    downloadButton.href =
+        downloadUrl;
+
+    downloadButton.download =
+        createOutputName(
+            selectedFile?.name ||
+            "compressed.pdf"
+        );
+
+
+    resultBox.classList.add(
+        "show"
+    );
+
+}
+
+
+/* ==========================================================
+   PROGRESS
+========================================================== */
+
+function setProgress(
+    percentage,
+    message
+){
+
+    progressBar.style.width =
+        percentage + "%";
+
+    progressPercent.textContent =
+        percentage + "%";
+
+    progressMessage.textContent =
+        message;
+
+}
+
+
+/* ==========================================================
+   ERROR
+========================================================== */
+
+function showError(message){
+
+    errorBox.textContent =
+        message;
+
+    errorBox.classList.add(
+        "show"
+    );
+
+}
+
+
+function clearError(){
+
+    errorBox.textContent =
+        "";
+
+    errorBox.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* ==========================================================
+   FORMAT BYTES
+========================================================== */
+
+function formatBytes(bytes){
+
+    if(!bytes || bytes <= 0){
+        return "0 B";
+    }
+
+    const units = [
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+    const index =
+        Math.floor(
+            Math.log(bytes) /
+            Math.log(1024)
+        );
+
+    const safeIndex =
+        Math.min(
+            index,
+            units.length - 1
+        );
+
+    return (
+        bytes /
+        Math.pow(
+            1024,
+            safeIndex
+        )
+    ).toFixed(
+        safeIndex === 0 ? 0 : 2
+    ) +
+    " " +
+    units[safeIndex];
+
+}
+
+
+/* ==========================================================
+   OUTPUT NAME
+========================================================== */
+
+function createOutputName(name){
+
+    const cleanName =
+        name.replace(
+            /\.pdf$/i,
+            ""
+        );
+
+    return (
+        cleanName +
+        "-compressed.pdf"
+    );
+
+}
+
+
+/* ==========================================================
+   ESCAPE
+========================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            mobileMenu.classList.remove(
+                "active"
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuButton.textContent =
+                "â˜°";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+
+
+

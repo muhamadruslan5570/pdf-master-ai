@@ -1,0 +1,1211 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <!-- ==================================================
+         SEO & METADATA
+    ================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Riwayat Aktivitas PDF - PDF Master AI</title>
+    <meta name="description" content="Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan. Pantau riwayat aktivitas Anda di sini.">
+    <meta name="keywords" content="PDF Master AI, riwayat PDF, compress PDF, merge PDF, split PDF, kelola PDF">
+    <meta name="author" content="PDF Master AI">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Riwayat Aktivitas PDF - PDF Master AI">
+    <meta property="og:description" content="Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan.">
+    <meta property="og:site_name" content="PDF Master AI">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Riwayat Aktivitas PDF - PDF Master AI">
+    <meta name="twitter:description" content="Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan.">
+
+    <link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5b5cf0;
+            --primary-dark: #4546d8;
+            --primary-soft: #eef0ff;
+            --bg: #f7f8fc;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --danger: #dc2626;
+            --danger-soft: #fef2f2;
+            --success: #059669;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ==================================================
+           HEADER / NAVBAR
+        ================================================== */
+
+        .header-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-inner {
+            width: min(calc(100% - 40px), 1100px);
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(91, 92, 240, 0.35);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .back-button {
+            padding: 9px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-button:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+        }
+
+        /* ==================================================
+           CONTAINER & MAIN CONTENT
+        ================================================== */
+
+        main {
+            flex: 1;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), 1100px);
+            margin: auto;
+            padding-bottom: 40px;
+        }
+
+        /* ==================================================
+           PAGE TITLE
+        ================================================== */
+
+        .page-header {
+            padding: 36px 0 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ==================================================
+           TOOLBAR
+        ================================================== */
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .search input {
+            width: 100%;
+            height: 42px;
+            padding: 0 14px 0 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            outline: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(91, 92, 240, 0.15);
+        }
+
+        .filter {
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            color: #374151;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .filter:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-action {
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-action:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-action.btn-danger-soft:hover {
+            background: var(--danger-soft);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* ==================================================
+           HISTORY CARD & TABLE
+        ================================================== */
+
+        .history-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .history-header {
+            min-height: 60px;
+            padding: 0 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+        }
+
+        .history-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .history-count {
+            color: var(--muted);
+            font-size: 12px;
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .history-columns {
+            display: grid;
+            grid-template-columns: minmax(250px, 2fr) 150px 170px 120px;
+            gap: 15px;
+            padding: 12px 22px;
+            background: #f9fafb;
+            border-bottom: 1px solid var(--border);
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .history-row {
+            display: grid;
+            grid-template-columns: minmax(250px, 2fr) 150px 170px 120px;
+            gap: 15px;
+            align-items: center;
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            transition: background 0.15s;
+        }
+
+        .history-row:hover {
+            background: #fdfdfd;
+        }
+
+        .history-row:last-child {
+            border-bottom: 0;
+        }
+
+        .history-file {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .history-icon {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .file-info {
+            min-width: 0;
+        }
+
+        .file-name {
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-sub {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: capitalize;
+        }
+
+        .history-action {
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .history-date {
+            color: var(--muted);
+        }
+
+        .status {
+            display: inline-flex;
+            width: max-content;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            background: #ecfdf5;
+            color: var(--success);
+            border: 1px solid #a7f3d0;
+        }
+
+        .status.failed {
+            background: #fef2f2;
+            color: var(--danger);
+            border-color: #fecaca;
+        }
+
+        /* STATES (LOADING, EMPTY, ERROR) */
+
+        .loading {
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty {
+            display: none;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty.show {
+            display: block;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .empty-text {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .error-box {
+            display: none;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-md);
+            background: #fef2f2;
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
+        .error-box.show {
+            display: block;
+        }
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            background: #111827;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================================================
+           FOOTER (Dark Style Sesuai Referensi)
+        ================================================== */
+
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            margin-top: auto;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 30px;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 40px), 1100px);
+            margin: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .footer-brand .logo-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        .footer-subtitle {
+            color: #cbd5e1;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .footer-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .footer-email-support {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .footer-email-support a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .footer-column-title {
+            color: #f8fafc;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links-list a {
+            color: #94a3b8;
+            font-size: 12px;
+            transition: color 0.2s;
+        }
+
+        .footer-links-list a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #64748b;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-bottom strong {
+            color: #cbd5e1;
+        }
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media(max-width:900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .container,
+            .nav-inner,
+            .footer-inner {
+                width: calc(100% - 32px);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .history-columns {
+                display: none;
+            }
+
+            .history-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 16px;
+            }
+
+            .history-action,
+            .history-date {
+                margin-left: 50px;
+            }
+
+        }
+
+        @media(max-width:600px) {
+
+            .toolbar {
+                flex-wrap: wrap;
+            }
+
+            .search {
+                flex-basis: 100%;
+            }
+
+            .filter {
+                flex: 1;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+        }
+    </style>
+
+<link rel="icon" type="image/png" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png"><link rel="apple-touch-icon" href="assets/logo.png">
+<style id="logo-custom-style">
+.brand-logo-img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); flex-shrink: 0; }
+.footer-logo-img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+</style>
+</head>
+
+<body>
+<!-- ==================================================
+         HEADER / NAVBAR
+    ================================================== -->
+    <header class="header-nav">
+        <div class="nav-inner">
+            <a href="dashboard.html" class="brand">
+    <img src="assets/logo.png" alt="PDF Master AI Logo" class="brand-logo-img">
+    <div>PDF Master AI</div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="my-files.html" class="nav-link">My Files</a>
+                <a href="history.html" class="nav-link active">History</a>
+            </nav>
+
+            <a href="dashboard.html" class="back-button">
+                ← Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <!-- ==================================================
+                 HEADER TITLE
+            ================================================== -->
+            <section class="page-header">
+                <div>
+                    <h1>Riwayat Aktivitas</h1>
+                    <p>Lihat dan pantau seluruh riwayat pemrosesan dokumen PDF Anda secara real-time.</p>
+                </div>
+            </section>
+
+            <!-- ==================================================
+                 ERROR BOX
+            ================================================== -->
+            <div class="error-box" id="errorBox" role="alert"></div>
+
+            <!-- ==================================================
+                 TOOLBAR
+            ================================================== -->
+            <div class="toolbar">
+                <div class="search">
+                    <span class="search-icon">🔍</span>
+                    <input type="search" id="searchInput" placeholder="Cari nama file atau aktivitas..." autocomplete="off" aria-label="Cari riwayat">
+                </div>
+
+                <select class="filter" id="actionFilter" aria-label="Filter berdasarkan aktivitas">
+                    <option value="all">Semua Aktivitas</option>
+                    <option value="compress">Compress</option>
+                    <option value="merge">Merge</option>
+                    <option value="split">Split</option>
+                    <option value="rotate">Rotate</option>
+                    <option value="unlock">Unlock</option>
+                    <option value="delete">Delete</option>
+                    <option value="upload">Upload</option>
+                </select>
+
+                <button class="btn-action" id="exportCsvButton" title="Ekspor ke CSV">
+                    📥 Export CSV
+                </button>
+
+                <button class="btn-action btn-danger-soft" id="clearHistoryButton" title="Hapus Riwayat">
+                    🗑️ Clear History
+                </button>
+
+                <button class="btn-action" id="refreshButton" title="Refresh Data" aria-label="Refresh Data">
+                    ↻ Refresh
+                </button>
+            </div>
+
+            <!-- ==================================================
+                 HISTORY TABLE CARD
+            ================================================== -->
+            <section class="history-card">
+
+                <div class="history-header">
+                    <div class="history-title">Daftar Aktivitas</div>
+                    <div class="history-count" id="historyCount">0 aktivitas</div>
+                </div>
+
+                <div class="history-columns">
+                    <div>FILE</div>
+                    <div>AKTIVITAS</div>
+                    <div>WAKTU</div>
+                    <div>STATUS</div>
+                </div>
+
+                <div class="loading" id="loading">
+                    Memuat data riwayat...
+                </div>
+
+                <div id="historyList"></div>
+
+                <div class="empty" id="empty">
+                    <div class="empty-icon">🕒</div>
+                    <div class="empty-title">Belum Ada Riwayat</div>
+                    <div class="empty-text">Aktivitas pemrosesan file PDF Anda akan dicatat secara otomatis di sini.</div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ==================================================
+         FOOTER (Sesuai Struktur Eksak yang Anda Minta)
+    ================================================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Brand Info -->
+                <div>
+                    <div class="footer-brand">
+    <img src="assets/logo.png" alt="PDF Master AI Logo" class="footer-logo-img">
+    <span>PDF Master AI</span>
+                    </div>
+                    <div class="footer-subtitle">Smart PDF Workspace</div>
+                    <div class="footer-desc">
+                        Solusi manajemen dan pemrosesan dokumen PDF berbasis AI dengan kecepatan tinggi dan keamanan tingkat lanjutan.
+                    </div>
+                    <div class="footer-email-support">
+                        Email Support: <a href="mailto:support@pdfmaster.ai">support@pdfmaster.ai</a>
+                    </div>
+                </div>
+
+                <!-- PDF Tools Populer -->
+                <div>
+                    <div class="footer-column-title">PDF Tools Populer</div>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Kompres PDF</a></li>
+                        <li><a href="#">Gabung PDF (Merge)</a></li>
+                        <li><a href="#">Konversi PDF ke Word</a></li>
+                        <li><a href="#">Konversi PDF ke Gambar</a></li>
+                        <li><a href="#">Lihat Semua PDF Tools</a></li>
+                    </ul>
+                </div>
+
+                <!-- Perusahaan -->
+                <div>
+                    <div class="footer-column-title">Perusahaan</div>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Harga & Langganan</a></li>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Kontak Kami</a></li>
+                        <li><a href="#">Panduan & Blog AI</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
+
+                <!-- Hukum & Privasi -->
+                <div>
+                    <div class="footer-column-title">Hukum & Privasi</div>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="#">Keamanan Data PDF</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <div>
+                    © 2026 <strong>PDF Master AI</strong>. All rights reserved.
+                </div>
+                <div>
+                    Smart PDF Workspace Powered by AI
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+        /* ==================================================
+           CONFIG & TOKEN
+        ================================================== */
+        const API_URL = "http://127.0.0.1:8000";
+
+        function getToken() {
+            return (
+                localStorage.getItem("pdf_master_access_token") ||
+                sessionStorage.getItem("pdf_master_access_token") ||
+                localStorage.getItem("access_token") ||
+                localStorage.getItem("token") ||
+                sessionStorage.getItem("access_token") ||
+                sessionStorage.getItem("token") ||
+                ""
+            );
+        }
+
+        /* ==================================================
+           ELEMENTS
+        ================================================== */
+        const historyList = document.getElementById("historyList");
+        const loading = document.getElementById("loading");
+        const empty = document.getElementById("empty");
+        const historyCount = document.getElementById("historyCount");
+        const searchInput = document.getElementById("searchInput");
+        const actionFilter = document.getElementById("actionFilter");
+        const refreshButton = document.getElementById("refreshButton");
+        const clearHistoryButton = document.getElementById("clearHistoryButton");
+        const exportCsvButton = document.getElementById("exportCsvButton");
+        const errorBox = document.getElementById("errorBox");
+        const toast = document.getElementById("toast");
+
+        let allHistory = [];
+
+        /* ==================================================
+           HELPERS
+        ================================================== */
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function showError(message) {
+            errorBox.textContent = message;
+            errorBox.classList.add("show");
+        }
+
+        function hideError() {
+            errorBox.classList.remove("show");
+        }
+
+        function formatDate(value) {
+            if (!value) return "-";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return String(value);
+
+            return date.toLocaleString("id-ID", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        function actionLabel(action) {
+            const value = String(action || "").toLowerCase();
+            const labels = {
+                compress_pdf: "Compress",
+                compress: "Compress",
+                merge_pdf: "Merge",
+                merge: "Merge",
+                split_pdf: "Split",
+                split: "Split",
+                rotate_pdf: "Rotate",
+                rotate: "Rotate",
+                unlock_pdf: "Unlock",
+                unlock: "Unlock",
+                upload: "Upload",
+                upload_file: "Upload",
+                hard_delete: "Delete",
+                delete: "Delete"
+            };
+            return labels[value] || action || "Aktivitas";
+        }
+
+        function actionMatches(action, filter) {
+            if (filter === "all") return true;
+            const value = String(action || "").toLowerCase();
+            return value.includes(filter);
+        }
+
+        function getFileName(item) {
+            return (
+                item.file_name ||
+                item.filename ||
+                item.original_name ||
+                item.name ||
+                item.file?.original_name ||
+                item.file?.filename ||
+                "File PDF"
+            );
+        }
+
+        function getAction(item) {
+            return item.action || item.action_name || "Aktivitas";
+        }
+
+        function getStatus(item) {
+            return String(item.status || "completed").toLowerCase();
+        }
+
+        function normalizeHistory(data) {
+            if (Array.isArray(data)) return data;
+            if (Array.isArray(data.history)) return data.history;
+            if (Array.isArray(data.histories)) return data.histories;
+            if (Array.isArray(data.items)) return data.items;
+            if (Array.isArray(data.data)) return data.data;
+            return [];
+        }
+
+        /* ==================================================
+           RENDER HISTORY
+        ================================================== */
+        function renderHistory() {
+            const query = searchInput.value.trim().toLowerCase();
+            const filter = actionFilter.value;
+
+            const filtered = allHistory.filter(item => {
+                const name = getFileName(item).toLowerCase();
+                const action = String(getAction(item)).toLowerCase();
+
+                const matchesSearch = !query || name.includes(query) || action.includes(query);
+                const matchesFilter = actionMatches(action, filter);
+
+                return matchesSearch && matchesFilter;
+            });
+
+            historyCount.textContent = filtered.length + " aktivitas";
+            historyList.innerHTML = "";
+
+            if (!filtered.length) {
+                empty.classList.add("show");
+                return;
+            }
+
+            empty.classList.remove("show");
+
+            filtered.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "history-row";
+
+                const fileName = getFileName(item);
+                const action = getAction(item);
+                const status = getStatus(item);
+                const created = item.created_at || item.updated_at || item.created || item.date;
+                const failed = status === "failed" || status === "error";
+
+                row.innerHTML = `
+                    <div class="history-file">
+                        <div class="history-icon">PDF</div>
+                        <div class="file-info">
+                            <div class="file-name" title="${escapeHtml(fileName)}">
+                                ${escapeHtml(fileName)}
+                            </div>
+                            <div class="file-sub">
+                                ${escapeHtml(item.category || "storage")}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="history-action">
+                        ${escapeHtml(actionLabel(action))}
+                    </div>
+
+                    <div class="history-date">
+                        ${escapeHtml(formatDate(created))}
+                    </div>
+
+                    <div>
+                        <span class="status ${failed ? "failed" : ""}">
+                            ${escapeHtml(failed ? "Gagal" : "Berhasil")}
+                        </span>
+                    </div>
+                `;
+
+                historyList.appendChild(row);
+            });
+        }
+
+        /* ==================================================
+           LOAD HISTORY FROM API
+        ================================================== */
+        async function loadHistory() {
+            const token = getToken();
+
+            if (!token) {
+                loading.style.display = "none";
+                showError("Silakan login terlebih dahulu untuk melihat riwayat.");
+                return;
+            }
+
+            loading.style.display = "block";
+            historyList.innerHTML = "";
+            empty.classList.remove("show");
+            hideError();
+
+            try {
+                const response = await fetch(API_URL + "/api/v1/history/my-history", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                if (!response.ok) {
+                    let message = "Gagal mengambil riwayat.";
+                    try {
+                        const data = await response.json();
+                        message = data.detail || data.message || message;
+                    } catch (_) {}
+                    throw new Error(message);
+                }
+
+                const data = await response.json();
+                allHistory = normalizeHistory(data);
+                renderHistory();
+
+            } catch (error) {
+                console.error("HISTORY ERROR:", error);
+                allHistory = [];
+                historyList.innerHTML = "";
+                showError(error.message || "Gagal mengambil riwayat.");
+            } finally {
+                loading.style.display = "none";
+            }
+        }
+
+        /* ==================================================
+           EXPORT CSV & CLEAR HISTORY
+        ================================================== */
+        function exportToCSV() {
+            if (!allHistory.length) {
+                showToast("Tidak ada data untuk diekspor.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,File,Aktivitas,Waktu,Status\n";
+
+            allHistory.forEach(item => {
+                const fileName = `"${getFileName(item).replace(/"/g, '""')}"`;
+                const action = `"${actionLabel(getAction(item))}"`;
+                const date = `"${formatDate(item.created_at || item.created || item.date)}"`;
+                const status = `"${getStatus(item) === 'failed' ? 'Gagal' : 'Berhasil'}"`;
+
+                csvContent += `${fileName},${action},${date},${status}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `PDF_Master_AI_History_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast("Data berhasil diekspor ke CSV.");
+        }
+
+        async function clearHistory() {
+            if (!allHistory.length) {
+                showToast("Riwayat sudah kosong.");
+                return;
+            }
+
+            if (!confirm("Apakah Anda yakin ingin menghapus seluruh riwayat aktivitas?")) {
+                return;
+            }
+
+            const token = getToken();
+            try {
+                const response = await fetch(API_URL + "/api/v1/history/clear", {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                if (response.ok) {
+                    allHistory = [];
+                    renderHistory();
+                    showToast("Seluruh riwayat berhasil dihapus.");
+                } else {
+                    allHistory = [];
+                    renderHistory();
+                    showToast("Riwayat lokal dibersihkan.");
+                }
+            } catch (error) {
+                allHistory = [];
+                renderHistory();
+                showToast("Riwayat lokal dibersihkan.");
+            }
+        }
+
+        /* ==================================================
+           EVENT LISTENERS
+        ================================================== */
+        searchInput.addEventListener("input", renderHistory);
+        actionFilter.addEventListener("change", renderHistory);
+        exportCsvButton.addEventListener("click", exportToCSV);
+        clearHistoryButton.addEventListener("click", clearHistory);
+
+        refreshButton.addEventListener("click", async function() {
+            refreshButton.disabled = true;
+            try {
+                await loadHistory();
+                showToast("Riwayat diperbarui.");
+            } finally {
+                refreshButton.disabled = false;
+            }
+        });
+
+        /* ==================================================
+           INIT
+        ================================================== */
+        loadHistory();
+    </script>
+
+</body>
+
+</html>
+
+
