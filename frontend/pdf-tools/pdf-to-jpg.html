@@ -1017,9 +1017,9 @@ main { flex: 1; }
 </footer>
 
 <script>
-const API_ENDPOINT="http://127.0.0.1:8000/api/v1/pdf/to-jpg";
-const UPLOAD_ENDPOINT="http://127.0.0.1:8000/api/v1/storage/upload";
-const DOWNLOAD_ENDPOINT="http://127.0.0.1:8000/api/v1/storage/download/";
+const API_ENDPOINT="${API_BASE_URL}/api/v1/pdf/to-jpg";
+const UPLOAD_ENDPOINT="${API_BASE_URL}/api/v1/storage/upload";
+const DOWNLOAD_ENDPOINT="${API_BASE_URL}/api/v1/storage/download/";
 
 document.getElementById("currentYear").textContent = new Date().getFullYear();
 

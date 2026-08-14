@@ -924,7 +924,7 @@
 <script src="../assets/js/i18n.js"></script>
 
 <script>
-const API_ENDPOINT="http://127.0.0.1:8000/api/v1/pdf/compress";
+const API_ENDPOINT="${API_BASE_URL}/api/v1/pdf/compress";
 const MAX=100*1024*1024;
 let selectedFile=null,targetKB=null,selectedProfile="recommended";
 const $=id=>document.getElementById(id);
@@ -1128,7 +1128,7 @@ compress.onclick=async()=>{
         const uploadForm = new FormData();
         uploadForm.append("file", selectedFile);
 
-        const uploadResponse = await fetch("http://127.0.0.1:8000/api/v1/storage/upload", {
+        const uploadResponse = await fetch("${API_BASE_URL}/api/v1/storage/upload", {
             method:"POST",
             headers:{ "Authorization":"Bearer "+token },
             body:uploadForm
@@ -1149,7 +1149,7 @@ compress.onclick=async()=>{
 
         setProgress(40, isEn ? "Analyzing PDF..." : "Menganalisis PDF...");
 
-        const compressUrl = "http://127.0.0.1:8000/api/v1/pdf/compress" +
+        const compressUrl = "${API_BASE_URL}/api/v1/pdf/compress" +
             "?file_id=" + encodeURIComponent(fileId) +
             "&target_size_kb=" + encodeURIComponent(Math.round(targetKB)) +
             "&profile=" + encodeURIComponent(selectedProfile);
@@ -1188,7 +1188,7 @@ compress.onclick=async()=>{
         $("after").textContent = bytes(afterSize);
         $("saving").textContent = saving.toFixed(1) + "%";
 
-        const downloadUrl = "http://127.0.0.1:8000/api/v1/pdf/download-compressed" +
+        const downloadUrl = "${API_BASE_URL}/api/v1/pdf/download-compressed" +
             "?file_id=" + encodeURIComponent(fileId) +
             "&target_size_kb=" + encodeURIComponent(Math.round(targetKB)) +
             "&profile=" + encodeURIComponent(selectedProfile);

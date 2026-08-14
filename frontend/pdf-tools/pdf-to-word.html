@@ -871,8 +871,8 @@ main { flex: 1; }
 </footer>
 
 <script>
-const API_ENDPOINT = "http://127.0.0.1:8000/api/v1/pdf/to-word";
-const UPLOAD_ENDPOINT = "http://127.0.0.1:8000/api/v1/storage/upload";
+const API_ENDPOINT = "${API_BASE_URL}/api/v1/pdf/to-word";
+const UPLOAD_ENDPOINT = "${API_BASE_URL}/api/v1/storage/upload";
 
 const $ = id => document.getElementById(id);
 const input = $("input");
@@ -1095,7 +1095,7 @@ convert.onclick = async () => {
         /* ------------------------------------------
            DOWNLOAD PREPARATION
         ------------------------------------------ */
-        const downloadUrl = "http://127.0.0.1:8000/api/v1/storage/download/" + encodeURIComponent(output.id);
+        const downloadUrl = "${API_BASE_URL}/api/v1/storage/download/" + encodeURIComponent(output.id);
 
         setProgress(100, "Selesai. File Word berhasil dibuat.");
 
