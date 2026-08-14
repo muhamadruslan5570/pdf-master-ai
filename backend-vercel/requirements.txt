@@ -1,0 +1,12 @@
+﻿fastapi
+uvicorn
+pydantic
+pydantic-settings
+python-dotenv
+python-multipart
+pypdf
+Pillow
+reportlab
+requests
+httpx
+python-slugify
