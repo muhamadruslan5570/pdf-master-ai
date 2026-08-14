@@ -1,5 +1,5 @@
 ﻿param (
-    [int]$IntervalSeconds = 10
+    [int]$IntervalSeconds = 30
 )
 
 Write-Host "==========================================" -ForegroundColor Green
